@@ -1,0 +1,18 @@
+{
+  "name": "TabInfoCopy",
+  "version": "0.62",
+  "matches": ["http://*/*", "https://*/*", "file:///*", "ftp://*/*"], 
+  "description": "Copy Tab Titles and URLs to Clipboard",
+  "icons": { 
+		"16": "i/icon_16x16.png",
+		"48": "i/icon_48x48.png",
+		"128": "i/icon_128x128.png" },
+  "background_page": "bg.html",
+  "page_action": {
+    "default_icon": "i/icon_16x16.png"
+  },  
+  "permissions": [
+    "clipboardWrite",
+    "tabs"
+  ]
+}
