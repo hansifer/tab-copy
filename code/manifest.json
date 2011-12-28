@@ -1,6 +1,6 @@
 {
   "name": "TabInfoCopy",
-  "version": "0.62",
+  "version": "0.63",
   "matches": ["http://*/*", "https://*/*", "file:///*", "ftp://*/*"], 
   "description": "Copy Tab Titles and URLs to Clipboard",
   "icons": { 
