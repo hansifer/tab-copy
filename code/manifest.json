@@ -1,16 +1,24 @@
 {
+  "version": "1.2",
   "name": "TabInfoCopy",
-  "version": "0.63",
-  "matches": ["http://*/*", "https://*/*", "file:///*", "ftp://*/*"], 
   "description": "Copy Tab Titles and URLs to Clipboard",
-  "icons": { 
-		"16": "i/icon_16x16.png",
-		"48": "i/icon_48x48.png",
-		"128": "i/icon_128x128.png" },
-  "background_page": "bg.html",
-  "page_action": {
-    "default_icon": "i/icon_16x16.png"
+  "manifest_version": 2,
+  "background": {
+    "page": "bg.html" 
+  },
+ "icons": { 
+    "16": "i/icon16.png",
+		"48": "i/icon48.png",
+		"128": "i/icon128.png" 
+  },
+  "page_action": {  
+    "default_icon": {                  
+      "19": "i/icon19.png",           
+      "38": "i/icon38.png"            
+    },
+    "default_title": "single click: copy selected tab\ndouble click: copy tabs in window\ntriple click: copy tabs in session"
   },  
+  "content_security_policy": "script-src 'self'; object-src 'self'",
   "permissions": [
     "clipboardWrite",
     "tabs"
