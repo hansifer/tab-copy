@@ -100,11 +100,11 @@ function buffer_appendTabInfo(t){
 }
 
 function getTabInfoText(t){
+    url = decodeURI(t.url);
     if (t.title.trim()) {
-        return t.title + '\n' + t.url;
-    } else {
-        return t.url;       
+        url = t.title + '\n' + url;
     }
+    return url;
 }
 
 // function notifyRunning(t){
