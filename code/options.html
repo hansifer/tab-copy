@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>TabCopy Options</title>
+    <style type="text/css">
+    select,
+    input {
+        background-color: #E4F2FF;
+        color: #2B9DFF;
+        border: none;
+        margin-left: 10px;
+        padding: 0 10px;
+        font-size: 18px;
+        height: 33px;
+    }
+    </style>
+</head>
+
+<body style="font-size:18px;display:none;margin:30px 0;">
+    <div style="text-align:center;">
+        <img src="img/icon48.png" style="vertical-align:middle;">
+        <span style="vertical-align:middle;font-size:28px;margin-left:10px;">TabCopy Options</span>
+    </div>
+    <div style="text-align:center;margin-top:80px;">
+        <span>Tab format:</span>
+        <select id="format">
+            <option value="txt2Lines">Two lines</option>
+            <option value="txt1Line">One line</option>
+            <option value="txtUrlOnly">URL only</option>
+            <option value="markdown">Markdown</option>
+            <option value="bbcode">BB Code</option>
+            <option value="json">JSON</option>
+            <option value="html">HTML</option>
+        </select>
+    </div>
+    <div id="delimiterBox" style="text-align:center;margin-top:20px;visibility:hidden;">
+        <span>Delimiter:</span>
+        <input id="delimiter" type="text" style="width:50px;">
+    </div>
+    <div style="text-align:center;padding:40px;background:#eee;margin-top:40px;">
+        <span style="white-space:pre;text-align:left;display:inline-block;font-family:monospace;" id="preview"></span> </div>
+    <script src="options.js"></script>
+</body>
+
+</html>

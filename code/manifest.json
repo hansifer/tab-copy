@@ -1,26 +1,29 @@
 {
-  "version": "1.3",
+  "version": "2",
+  "minimum_chrome_version": "42",
   "name": "TabCopy",
   "description": "Copy Tab Titles and URLs to Clipboard",
   "manifest_version": 2,
   "background": {
-    "page": "bg.html" 
+    "page": "bg.html"
   },
- "icons": { 
-    "16": "i/icon16.png",
-		"48": "i/icon48.png",
-		"128": "i/icon128.png" 
+  "icons": {
+    "16": "img/icon16.png",
+    "48": "img/icon48.png",
+    "128": "img/icon128.png"
   },
-  "page_action": {  
-    "default_icon": {                  
-      "19": "i/icon19.png",           
-      "38": "i/icon38.png"            
+  "page_action": {
+    "default_icon": {
+      "19": "img/icon19.png",
+      "38": "img/icon38.png"
     },
-    "default_title": "single click: copy selected tab\ndouble click: copy tabs in window\ntriple click: copy tabs in session"
-  },  
+    "default_title": "single click: copy selected tab\ndouble click: copy tabs in window\ntriple click: copy all tabs"
+  },
+  "options_page": "options.html",
   "content_security_policy": "script-src 'self'; object-src 'self'",
   "permissions": [
     "clipboardWrite",
-    "tabs"
+    "tabs",
+    "contextMenus"
   ]
 }
