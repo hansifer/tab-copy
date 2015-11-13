@@ -14,10 +14,53 @@
         font-size: 18px;
         height: 33px;
     }
+    
+    #template-key > div {
+        white-space: nowrap;
+        text-align: left;
+    }
+    
+    #template-key > div > span:first-child {
+        width: 170px;
+        display: inline-block;
+    }
+    
+    .token {
+        color: hsl(208, 100%, 58%);
+        font-weight: 500;
+    }
+    
+    #open-template-key {
+        vertical-align: middle;
+        cursor: pointer;
+        background-color: hsl(0, 0%, 95%);
+        color: hsl(0, 0%, 35%);
+        border: none;
+        padding: 0 10px;
+        font-size: 18px;
+        height: 33px;
+        outline: none;
+    }
+    
+    #close-template-key {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 40px;
+        height: 40px;
+        background-image: url(img/x.png);
+        background-position: 50% 50%;
+        background-repeat: no-repeat;
+    }
+    
+    #close-template-key:hover {
+        cursor: pointer;
+        background-color: hsla(0, 0%, 0%, 0.05);
+    }
     </style>
 </head>
 
-<body style="font-size:18px;display:none;margin:30px 0;">
+<body style="font-size:18px;display:none;margin-top:30px;">
     <div style="text-align:center;">
         <img src="img/icon48.png" style="vertical-align:middle;">
         <span style="vertical-align:middle;font-size:28px;margin-left:10px;">TabCopy Options</span>
@@ -29,17 +72,39 @@
             <option value="txt1Line">One line</option>
             <option value="txtUrlOnly">URL only</option>
             <option value="markdown">Markdown</option>
-            <option value="bbcode">BB Code</option>
+            <option value="bbcode">BB code</option>
             <option value="json">JSON</option>
             <option value="html">HTML</option>
+            <option value="custom">Custom</option>
         </select>
     </div>
-    <div id="delimiterBox" style="text-align:center;margin-top:20px;visibility:hidden;">
-        <span>Delimiter:</span>
-        <input id="delimiter" type="text" style="width:50px;">
+    <div style="height:33px;padding:20px 0;">
+        <div id="delimiterBox" style="text-align:center;margin-top:20px;display:none;">
+            <span>Delimiter:</span>
+            <input id="delimiter" type="text" style="width:50px;">
+        </div>
+        <div id="templateBox" style="text-align:center;margin-top:20px;display:none;">
+            <span style="vertical-align:middle;">Template:</span>
+            <input spellcheck="false" id="template" type="text" style="width:400px;vertical-align:middle;">
+            <div style="position:relative;display:inline-block;margin-left:10px;">
+                <button id="open-template-key">?</button>
+                <div id="template-key" style="position:absolute;bottom:0;left:0;background-color:hsl(0,0%,95%);color:hsl(0,0%,35%);padding:15px;font-weight:300;display:none;">
+                    <div><span>tab title:</span><span><span class="token">[title]</span></span>
+                    </div>
+                    <div><span>tab url:</span><span><span class="token">[url]</span></span>
+                    </div>
+                    <div><span>newline character:</span><span><span class="token">\n</span> or <span class="token">[newline]</span></span>
+                    </div>
+                    <div><span>tab character:</span><span><span class="token">\t</span> or <span class="token">[tab]</span></span>
+                    </div>
+                    <div id="close-template-key"></div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div style="text-align:center;padding:40px;background:#eee;margin-top:40px;">
+    <div style="text-align:center;padding:40px;background:hsl(0,0%,96%);margin-top:40px;">
         <span style="white-space:pre;text-align:left;display:inline-block;font-family:monospace;" id="preview"></span> </div>
+    <script src="common.js"></script>
     <script src="options.js"></script>
 </body>
 

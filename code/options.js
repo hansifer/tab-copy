@@ -1,18 +1,6 @@
 (function(doc) {
-	var delimiterDefault = ':  ',
-		previews = {
-			txt2Lines: 'Google\nhttps://www.google.com/',
-			txt1Line: 'Google{{delimiter}}https://www.google.com/',
-			txtUrlOnly: 'https://www.google.com/',
-			markdown: '[Google](https://www.google.com/)',
-			bbcode: '[url=https://www.google.com/]Google[/url]',
-			json: '{ \n   "title": "Google", \n   "url": "https://www.google.com/" \n}',
-			html: '<a href="https://www.google.com/" target="_blank">Google</a>'
-		},
-		format = doc.getElementById('format'),
-		delimiter = doc.getElementById('delimiter'),
-		delimiterBox = doc.getElementById('delimiterBox'),
-		preview = doc.getElementById('preview');
+	var format = doc.getElementById('format'),
+		delimiter = doc.getElementById('delimiter');
 
 	format.addEventListener('change', function() {
 		localStorage.setItem('tab-format', format.value);
@@ -30,8 +18,28 @@
 		}
 	});
 
-	format.value = localStorage.getItem('tab-format') || 'txt2Lines';
-	delimiter.value = localStorage.getItem('tab-format-delimiter') || delimiterDefault;
+	template.addEventListener('keyup', function() {
+		localStorage.setItem('tab-format-template', template.value);
+		setControlStates();
+	});
+
+	template.addEventListener('change', function() {
+		if (!template.value) {
+			template.value = templateDefault;
+		}
+	});
+
+	doc.getElementById('open-template-key').addEventListener('click',function() {
+		doc.getElementById('template-key').style.display = '';
+	});
+
+	doc.getElementById('close-template-key').addEventListener('click',function() {
+		doc.getElementById('template-key').style.display = 'none';
+	});
+
+	format.value = get('tab-format');
+	delimiter.value = get('tab-format-delimiter');
+	template.value = get('tab-format-template');
 
 	setControlStates();
 
@@ -39,7 +47,12 @@
 	format.focus();
 
 	function setControlStates() {
-		preview.textContent = previews[format.value].replace('{{delimiter}}', delimiter.value || delimiterDefault);
-		delimiterBox.style.visibility = format.value === 'txt1Line' ? 'visible' : 'hidden';
+		doc.getElementById('preview').textContent = tabText({
+			title: 'Google',
+			url: 'https://www.google.com/'
+		}, format.value);
+
+		doc.getElementById('delimiterBox').style.display = format.value === 'txt1Line' ? '' : 'none';
+		doc.getElementById('templateBox').style.display = format.value === 'custom' ? '' : 'none';
 	}
-}(document))
+}(document));
