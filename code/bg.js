@@ -10,14 +10,15 @@
     var b = doc.getElementById('b');
 
     chrome.contextMenus.create({
-        title: 'Copy',
-        contexts: ['link', 'page'],
+        title: 'Copy tab',
+        // contexts: ['link', 'page'],
+        contexts: ['all'],
         onclick: function(info, t) {
             allowClickProcessing = false;
-            copyWots(info.linkUrl ? [{
+            copyWots(/*info.linkUrl ? [{
                 url: info.linkUrl,
                 highlighted: true
-            }] : [t], 1, t)
+            }] :*/ [t], 1, t);
         }
     });
 
