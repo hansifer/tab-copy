@@ -85,6 +85,16 @@
 		doc.getElementById('close-template-key').addEventListener('click', function() {
 			doc.getElementById('template-key').style.display = 'none';
 		});
+
+		doc.getElementById('template-key').addEventListener('click', function(e) {
+			e.stopPropagation();
+		});
+
+		doc.addEventListener('click', function(e) {
+			if (e.target.tagName !== 'INPUT' && e.target.tagName !== 'BUTTON') {
+				doc.getElementById('template-key').style.display = 'none';
+			}
+		});
 	}
 
 	function initializeControlValues() {

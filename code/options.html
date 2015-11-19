@@ -26,13 +26,21 @@
         cursor: pointer;
     }
     
-    label:hover {
-        text-decoration: underline;
-    }
-    
     label > span {
         vertical-align: middle;
-        margin-left: 10px;
+        padding: 4px 8px;
+        margin-left: 4px;
+    }
+    
+    label > input[type=checkbox]:focus + span {
+        /* outline: -webkit-focus-ring-color auto 5px;
+        background-color: hsl(209, 100%, 95%); */
+        background-color: hsl(0, 0%, 95%);
+    }
+    
+    label:hover > span {
+        /*background-color: hsl(209, 100%, 95%);*/
+        background-color: hsl(0, 0%, 95%);
     }
     
     .logo {
