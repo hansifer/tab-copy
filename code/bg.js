@@ -1,7 +1,6 @@
 (function(doc) {
     var allowClickProcessing = true,
-        clickCount = 0,
-        tabCount = 0;
+        clickCount = 0;
 
     var clickTimer = null,
         tooltipTimer = null,
@@ -15,15 +14,22 @@
         contexts: ['all'],
         onclick: function(info, t) {
             allowClickProcessing = false;
-            copyWots(/*info.linkUrl ? [{
-                url: info.linkUrl,
-                highlighted: true
-            }] :*/ [t], 1, t);
+            copyWots(
+                /*info.linkUrl ? [{
+                                url: info.linkUrl,
+                                highlighted: true
+                            }] :*/
+                [t], 1, t);
         }
     });
 
-    chrome.tabs.onUpdated.addListener(function(tabId/*, changeInfo, tab*/) {
-        chrome.pageAction.show(tabId);
+    // provide suggested value(s) if none specified
+    if (localStorage.getItem('custom-start') == null) {
+        localStorage.setItem('custom-start', '[date]\\n\\n');
+    }
+
+    chrome.tabs.onUpdated.addListener(function(tid /*, changeInfo, tab*/ ) {
+        chrome.pageAction.show(tid);
     });
 
     chrome.pageAction.onClicked.addListener(function(t) {
@@ -67,69 +73,22 @@
     }
 
     function copyWots(wots, clicks, t) {
-        buffer_clear();
-
-        var wot;
-        for (var i = 0; i < wots.length; i++) {
-            wot = wots[i];
-            if (wot.tabs) { // window
-                for (var j = 0; j < wot.tabs.length; j++) {
-                    buffer_appendTabInfo(wot.tabs[j]);
-                }
-            } else { // tab
-                if (wot.highlighted && clicks === 1 || clicks === 2) {
-                    buffer_appendTabInfo(wot);
-                }
+        tabsText(wots, clicks, get('format'), function(s, tabCount) {
+            if (copyToClipboard(s)) {
+                notifyOK(t, clicks, tabCount);
+            } else {
+                notifyError(t);
             }
-        }
-
-        if (get('tab-format') === 'json') {
-            b.value = '[' + b.value + ']';
-        }
-
-        if (buffer_copyToClipboard()) {
-            notifyOK(t, clicks);
-        } else {
-            notifyError(t);
-        }
+        });
     }
 
-    function buffer_clear() {
-        b.value = '';
-        tabCount = 0;
-    }
-
-    function buffer_copyToClipboard() {
-        if (b.value.length > 0) {
+    function copyToClipboard(txt) {
+        if (txt.length > 0) {
+            b.value = txt;
             b.select();
             doc.execCommand('copy');
             return true;
         }
-    }
-
-    function buffer_appendTabInfo(t) {
-        if (b.value.length) {
-            b.value += tabSeparator();
-        }
-
-        b.value += tabText(t);
-        tabCount++;
-    }
-
-    function tabSeparator() {
-        switch (get('tab-format')) {
-
-            case 'txt2Lines':
-
-                return '\n\n';
-
-            case 'json':
-
-                return ',\n';
-
-        }
-
-        return '\n';
     }
 
     // function notifyRunning(t) {
@@ -139,7 +98,7 @@
     //     });
     // }
 
-    function notifyOK(t, inType) {
+    function notifyOK(t, inType, tabCount) {
         if (!t.id) {
             return;
         }
@@ -154,6 +113,7 @@
             tabId: t.id,
             title: (inType === 1 ? 'Copied ' + tabCount + ' selected ' + (tabCount === 1 ? 'tab' : 'tabs') : (inType === 2 ? 'Copied ' + tabCount + ' window ' + (tabCount === 1 ? 'tab' : 'tabs') : 'Copied ' + tabCount + ' session ' + (tabCount === 1 ? 'tab' : 'tabs')))
         });
+
         tooltipTimer = setTimeout(chrome.pageAction.setTitle, 1000, {
             tabId: t.id,
             title: ''
@@ -166,7 +126,7 @@
         //chrome.pageAction.show(t.id);
         iconTimer = setTimeout(chrome.pageAction.setIcon, 1000, {
             tabId: t.id,
-            path: "img/icon19.png"
+            path: 'img/icon19.png'
         });
     }
 
