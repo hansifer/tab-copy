@@ -1,5 +1,5 @@
 {
-  "version": "2.3",
+  "version": "2.4",
   "minimum_chrome_version": "42",
   "name": "TabCopy",
   "description": "Quickly copy tab titles and URLs to the clipboard",
