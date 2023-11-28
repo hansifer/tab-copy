@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["crxjs", "hansifer"]
+  "cSpell.words": ["crxjs", "hansifer"],
+  "workbench.colorCustomizations": {
+    "statusBar.background": "#870061",
+    "statusBar.debuggingBackground": "#870061",
+    "statusBar.noFolderBackground": "#870061",
+    "statussBar.prominentBackground": "#870061"
+  }
 }
