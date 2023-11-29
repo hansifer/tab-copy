@@ -1,5 +1,6 @@
 {
   "cSpell.words": ["crxjs", "hansifer"],
+  "window.title": "${dirty}${activeEditorShort}${separator}tab-copy",
   "workbench.colorCustomizations": {
     "statusBar.background": "#870061",
     "statusBar.debuggingBackground": "#870061",
