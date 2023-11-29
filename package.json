@@ -1,0 +1,41 @@
+{
+  "name": "tab-copy",
+  "version": "4.0.0",
+  "description": "Quickly copy browser tabs to the clipboard in a variety of formats",
+  "keywords": [
+    "productivity",
+    "tabs",
+    "browser-extension",
+    "typescript",
+    "vite",
+    "create-chrome-ext"
+  ],
+  "author": "Hans Meyer",
+  "homepage": "https://tabcopy.com",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/hansifer/tab-copy.git"
+  },
+  "bugs": {
+    "url": "http://github.com/hansifer/tab-copy/issues"
+  },
+  "license": "GPL-3.0-or-later",
+  "type": "module",
+  "engines": {
+    "node": ">=14.18.0"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "fmt": "prettier --write '**/*.{ts,json,css,scss,html}'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@crxjs/vite-plugin": "^1.0.14",
+    "@types/chrome": "^0.0.246",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vite": "^4.4.11"
+  }
+}
