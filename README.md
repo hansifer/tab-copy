@@ -29,3 +29,9 @@ Access the popup or options page directly with:
 ## Tech notes
 
 This project was scaffolded with [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
+
+### Direct DOM manipulation vs React
+
+The popup is implemented with static HTML and direct DOM calls for load speed. Due to its simplicity, the value to be gained from the use of a front-end lib or framework is relatively small.
+
+The options page is implemented with React to support more complex interactions such as drag-drop list re-ordering.
