@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link
+      rel="icon"
+      href="/icons/logo.ico"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
+    <title>Tab Copy</title>
+  </head>
+  <body>
+    <header>Copy</header>
+    <button
+      id="copy-tab-btn"
+      class="button-primary"
+    >
+      This tab
+    </button>
+    <button
+      id="copy-window-tabs-btn"
+      class="button-primary"
+    >
+      This window's tabs
+    </button>
+    <button
+      id="copy-all-tabs"
+      class="button-primary"
+    >
+      All tabs
+    </button>
+    <div
+      id="format-section"
+      style="display: none"
+    >
+      <div class="format-header">
+        <span id="copy-as-label">Copy as:</span>
+        <button
+          id="selected-format-btn"
+          class="button-secondary"
+        >
+          <span id="selected-format-label">URL</span>
+          <span class="icon">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              height="4"
+              width="8"
+              fill="currentColor"
+            >
+              <path d="M0 0 H 8 L 4 4 Z" />
+            </svg>
+          </span>
+        </button>
+      </div>
+      <div id="format-selector"></div>
+    </div>
+    <script
+      type="module"
+      src="/src/popup/popup.ts"
+    ></script>
+  </body>
+</html>

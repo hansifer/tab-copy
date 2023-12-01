@@ -2,6 +2,12 @@
 
 Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb)
 
+<div>&nbsp;</div>
+
+<div align="center"><img src="https://hansifer.com/hosted-assets/tab-copy/popup.png" width="208"></div>
+
+<div>&nbsp;</div>
+
 ## Developing
 
 ### Setup
