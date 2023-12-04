@@ -1,0 +1,6 @@
+.BinaryOption {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  white-space: nowrap;
+}
