@@ -31,8 +31,10 @@
     "fmt": "prettier --write '**/*.{ts,tsx,json,css,scss,html}'"
   },
   "dependencies": {
+    "@types/lodash.isobject": "^3.0.9",
     "@types/node": "^20.10.3",
     "framer-motion": "^10.16.12",
+    "lodash.isobject": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
