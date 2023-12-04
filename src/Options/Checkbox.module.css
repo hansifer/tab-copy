@@ -17,6 +17,11 @@
     outline: 2px solid #b0436e;
     outline-offset: 2px;
   }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
 }
 
 .indicator {
@@ -28,6 +33,7 @@
   height: 100%;
   color: #fff;
   background-color: #e93d82;
+  pointer-events: none;
 
   :is(svg) {
     width: 11px;
