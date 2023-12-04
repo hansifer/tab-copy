@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["chromeos", "crxjs", "hansifer", "tabcopy", "unselectable"],
+  "cSpell.words": ["bbcode", "chromeos", "crxjs", "hansifer", "tabcopy", "unselectable"],
   "window.title": "${dirty}${activeEditorShort}${separator}tab-copy",
   "workbench.colorCustomizations": {
     "statusBar.background": "#870061",
