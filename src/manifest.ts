@@ -22,8 +22,8 @@ export default defineManifest({
     type: 'module',
   },
   options_page: 'options.html',
-  permissions: ['tabs', 'storage'],
-  optional_permissions: ['notifications', 'contextMenus'],
+  permissions: ['tabs', 'contextMenus', 'storage'],
+  optional_permissions: ['notifications'],
   // optional_host_permissions: ['file:///*'],
   commands: {
     _execute_action: {
