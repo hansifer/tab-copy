@@ -1,3 +1,4 @@
+import { options, OptionId } from '@/options'
 import {
   formatIds,
   formatOpts,
@@ -114,6 +115,20 @@ export async function getFormatOpts<T extends FormatId>(id: T) {
 
 export function setCopied() {
   return storage.set({ copied: performance.now() })
+}
+
+// ----- options -----
+
+export async function getOption<T extends OptionId>(id: T) {
+  const { [id]: value = options[id] } = (await storage.get(id)) as {
+    [k: string]: (typeof options)[T] // todo: possible to type the property key more specifically?
+  }
+
+  return value
+}
+
+export function setOption<T extends OptionId>(id: T, value: (typeof options)[T]) {
+  return storage.set({ [id]: value })
 }
 
 // ----- handle changes -----
