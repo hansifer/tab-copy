@@ -13,6 +13,8 @@ export const intl = {
 
   thisTab: () => 'this tab',
 
+  selectedTabs: () => 'selected tabs',
+
   thisWindowsTabs: () => "this window's tabs",
 
   allTabs: () => 'all tabs',
@@ -29,7 +31,7 @@ export const intl = {
 
   primary: () => 'primary',
 
-  // ----- options -----
+  // ----- options (key must match key in `options` object in `@/options`) -----
 
   confirmCopyWithPopup: () => 'confirm copy with popup',
 
