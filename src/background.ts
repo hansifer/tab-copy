@@ -1,4 +1,4 @@
-import { makeStorageChangeHandler } from '@/storage'
+import { makeStorageChangeHandler, getOption } from '@/storage'
 
 let actionIconFlashTimer: ReturnType<typeof setTimeout>
 
@@ -13,19 +13,24 @@ chrome.storage.onChanged.addListener(
       setIcon('success')
 
       actionIconFlashTimer = setTimeout(() => {
-        setIcon('logo-gray')
+        setIcon('logo')
       }, 1e3)
     }
   }),
 )
 
-function setIcon(name: 'success' | 'logo-gray') {
-  chrome.action.setIcon({
+async function setIcon(name: 'success' | 'logo') {
+  const filename =
+    name === 'logo' && (await getOption('grayscaleIcon')) // wrap
+      ? 'logo-gray'
+      : name
+
+  return chrome.action.setIcon({
     path: {
-      16: `img/${name}-16.png`,
-      32: `img/${name}-32.png`,
-      48: `img/${name}-48.png`,
-      128: `img/${name}-128.png`,
+      16: `img/${filename}-16.png`,
+      32: `img/${filename}-32.png`,
+      48: `img/${filename}-48.png`,
+      128: `img/${filename}-128.png`,
     },
   })
 }
