@@ -99,8 +99,10 @@ async function getUnselectableFormatIds() {
 // generic is necessary to get correct opts return type for specific id
 export async function getFormatOpts<T extends FormatId>(id: T) {
   if (formatHasOpts(id)) {
-    const { opts = formatOpts[id] } = (await storage.get([`${id}Opts`])) as {
-      opts: (typeof formatOpts)[typeof id]
+    const key = `${id}Opts`
+
+    const { [key]: opts = formatOpts[id] } = (await storage.get(key)) as {
+      [k: string]: (typeof formatOpts)[typeof id] // todo: possible to type the property key more specifically?
     }
 
     return opts
