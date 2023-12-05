@@ -11,7 +11,7 @@ const storage = chrome.storage.local
 // ----- primary format id -----
 
 export async function getPrimaryFormatId() {
-  const { primaryFormatId } = (await storage.get(['primaryFormatId'])) as {
+  const { primaryFormatId } = (await storage.get('primaryFormatId')) as {
     primaryFormatId: FormatId
   }
 
@@ -40,7 +40,7 @@ export async function setPrimaryFormatId(id: FormatId) {
 
 // returns comprehensive list of format ids, ordered by user preference
 export async function getOrderedFormatIds() {
-  const { orderedFormatIds = formatIds } = (await storage.get(['orderedFormatIds'])) as {
+  const { orderedFormatIds = formatIds } = (await storage.get('orderedFormatIds')) as {
     orderedFormatIds: FormatId[]
   }
 
@@ -86,7 +86,7 @@ export async function toggleSelectableFormatId(id: FormatId) {
 }
 
 async function getUnselectableFormatIds() {
-  const { unselectableFormatIds = [] } = (await storage.get(['unselectableFormatIds'])) as {
+  const { unselectableFormatIds = [] } = (await storage.get('unselectableFormatIds')) as {
     unselectableFormatIds: FormatId[]
   }
 
