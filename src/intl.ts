@@ -7,7 +7,7 @@ export const intl = {
 
   copy1xAs: () => 'copy 1x as',
 
-  holdWhenCopying: (modifierKeys: string) => `hold ${modifierKeys} to use when copying`,
+  holdWhenCopying: (keyModifier: string) => `hold ${keyModifier} when copying`,
 
   // ----- copy scope -----
 
@@ -37,12 +37,12 @@ export const intl = {
 
   formats: () => 'formats',
 
-  formatsDescription:
-    () => `Drag tiles to change the order of how formats will appear in the copy popup.
-  
-  Uncheck formats you don't want to see.
-  
-  The primary format is selected in the copy popup.`,
+  formatReorderInstructions: () =>
+    'drag tiles to change the order of how formats will appear in the copy popup.',
+
+  formatMakeUnselectableInstructions: () => "uncheck formats you don't want to see.",
+
+  formatSetPrimaryInstructions: () => 'the primary format is selected in the copy popup.',
 
   // ----- options (key must match key in `options` object in `@/options`) -----
 
@@ -56,7 +56,7 @@ export const intl = {
 
   shortcutKey: () => 'shortcut key',
 
-  // ----- modifier keys -----
+  // ----- key modifiers -----
 
   alt: () => 'alt',
 
@@ -64,7 +64,7 @@ export const intl = {
 
   shift: () => 'shift',
 
-  modifierKeys: (...keys: string[]) => keys.join('+'),
+  keyModifier: (...keys: string[]) => keys.join('+'),
 
   // ----- misc -----
 
