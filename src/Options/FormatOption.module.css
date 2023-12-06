@@ -1,0 +1,63 @@
+.side {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+
+  &.right {
+    :is(button) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      font-size: 0;
+      border-radius: 100%;
+      color: #ffffff7a;
+
+      &:hover {
+        color: #fff;
+        background-color: #00000036;
+      }
+    }
+
+    :is(svg) {
+      width: 16px;
+      height: 16px;
+    }
+  }
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  flex-grow: 1;
+  margin: 0 10px;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+
+  &.unselectable {
+    opacity: 0.5;
+  }
+
+  span {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+  }
+
+  .description {
+    font-size: 10px;
+    color: #ffffff8c;
+  }
+
+  &.primary .description {
+    color: #fed736;
+  }
+}
