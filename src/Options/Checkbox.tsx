@@ -7,13 +7,11 @@ type CheckboxProps = {
 }
 
 export const Checkbox = ({ checked, disabled, onClick }: CheckboxProps) => (
-  <span
-    className={classes.Checkbox}
-    onClick={onClick}
-  >
+  <span className={classes.Checkbox}>
     <button
       className={classes.button}
       disabled={disabled}
+      onClick={onClick}
     >
       {checked ? (
         <span className={classes.indicator}>
