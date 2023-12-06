@@ -31,6 +31,19 @@ export const intl = {
 
   primary: () => 'primary',
 
+  // options page
+
+  tabCopyOptions: () => 'tab copy options',
+
+  formats: () => 'formats',
+
+  formatsDescription:
+    () => `Drag tiles to change the order of how formats will appear in the copy popup.
+  
+  Uncheck formats you don't want to see.
+  
+  The primary format is selected in the copy popup.`,
+
   // ----- options (key must match key in `options` object in `@/options`) -----
 
   confirmCopyWithPopup: () => 'confirm copy with popup',
