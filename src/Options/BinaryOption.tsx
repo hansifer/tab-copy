@@ -11,7 +11,7 @@ type BinaryOptionProps = {
   id: BooleanOptionId
 }
 
-// todo: consider useSyncExternalStore instead of useState, useEffect
+// todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const BinaryOption = ({ id }: BinaryOptionProps) => {
   const [checked, setChecked] = useState<boolean>(false)
 
