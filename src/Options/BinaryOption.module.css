@@ -3,4 +3,9 @@
   align-items: center;
   gap: 22px;
   white-space: nowrap;
+
+  .label {
+    user-select: none;
+    cursor: pointer;
+  }
 }
