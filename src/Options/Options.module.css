@@ -98,7 +98,7 @@ a {
 
 .formatsInstructions {
   padding: 20px;
-  margin: 10px;
+  margin: 10px 0;
   white-space: pre;
   text-wrap: pretty;
   text-align: center;
