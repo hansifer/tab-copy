@@ -10,11 +10,17 @@ export const options = {
   grayscaleIcon: false,
 }
 
-export type OptionId = keyof typeof options
-export type BooleanOptionId = KeyOfType<typeof options, boolean>
+export type Options = typeof options
+export type OptionId = keyof Options
+export type BooleanOptionId = KeyOfType<Options, boolean>
 
 // --- 2. add label for new option by creating an intl function with same name as the option id ---
 
 export function getOptionLabel(id: OptionId) {
   return intl[id]()
+}
+
+// select option value with default fallback
+export function getOptionValue(id: OptionId, lookup?: Partial<Options>) {
+  return lookup?.[id] ?? options[id]
 }
