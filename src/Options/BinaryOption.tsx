@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
 import { Checkbox } from './Checkbox'
-import { getOptionLabel, BooleanOptionId } from '@/options'
+import { options, getOptionLabel, BooleanOptionId } from '@/options'
 import { getOption, setOption, makeStorageChangeHandler } from '@/storage'
 import { sentenceCase } from '@/util/string'
 
@@ -21,7 +21,9 @@ export const BinaryOption = ({ id }: BinaryOptionProps) => {
 
   useEffect(() => {
     const handleStorageChanged = makeStorageChangeHandler((changes) => {
-      if (changes[id]) setChecked(changes[id].newValue)
+      if (changes.options) {
+        setChecked(changes.options.newValue?.[id] ?? options[id])
+      }
     })
 
     chrome.storage.onChanged.addListener(handleStorageChanged)

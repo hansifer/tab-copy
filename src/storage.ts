@@ -1,4 +1,4 @@
-import { options, OptionId } from '@/options'
+import { options, Options, OptionId } from '@/options'
 import {
   formatIds,
   formatOpts,
@@ -121,16 +121,26 @@ export function setCopied() {
 
 // ----- options -----
 
+// generic is necessary to get specific return type for given id
 export async function getOption<T extends OptionId>(id: T) {
-  const { [id]: value = options[id] } = (await storage.get(id)) as {
-    [k: string]: (typeof options)[T] // todo: possible to type the property key more specifically?
-  }
-
-  return value
+  const storedOptions = await getOptions()
+  return storedOptions[id] ?? options[id]
 }
 
-export function setOption<T extends OptionId>(id: T, value: (typeof options)[T]) {
-  return storage.set({ [id]: value })
+export async function setOption<T extends OptionId>(id: T, value: Options[T]) {
+  const storedOptions = await getOptions()
+
+  return storage.set({
+    options: {
+      ...storedOptions,
+      [id]: value,
+    },
+  })
+}
+
+async function getOptions(): Promise<Partial<Options>> {
+  const { options } = await storage.get('options')
+  return options ?? {}
 }
 
 // ----- handle changes -----
