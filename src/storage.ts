@@ -1,4 +1,4 @@
-import { options, Options, OptionId } from '@/options'
+import { getOptionValue, Options, OptionId } from '@/options'
 import {
   formatIds,
   formatOpts,
@@ -124,7 +124,7 @@ export function setCopied() {
 // generic is necessary to get specific return type for given id
 export async function getOption<T extends OptionId>(id: T) {
   const storedOptions = await getOptions()
-  return storedOptions[id] ?? options[id]
+  return getOptionValue(id, storedOptions)
 }
 
 export async function setOption<T extends OptionId>(id: T, value: Options[T]) {
