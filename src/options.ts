@@ -1,7 +1,7 @@
 import { intl } from '@/intl'
 import { KeyOfType } from '@/util/typescript'
 
-// --- 1. add new options below by way of declaring defaults ---
+// --- 1. add new option below by way of declaring defaults ---
 
 export const options = {
   confirmCopyWithPopup: false,
