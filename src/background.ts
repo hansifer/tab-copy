@@ -1,4 +1,4 @@
-import { getOptionValue } from '@/options'
+import { selectOption } from '@/options'
 import { makeStorageChangeHandler, getOption } from '@/storage'
 
 let actionIconFlashTimer: ReturnType<typeof setTimeout>
@@ -25,7 +25,7 @@ chrome.storage.onChanged.addListener(
     }
 
     if (changes.options) {
-      setIconPaths(getOptionValue('grayscaleIcon', changes.options.newValue) ? 'logo-gray' : 'logo')
+      setIconPaths(selectOption('grayscaleIcon', changes.options.newValue) ? 'logo-gray' : 'logo')
     }
   }),
 )
