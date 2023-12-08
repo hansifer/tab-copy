@@ -14,7 +14,7 @@ export type Options = typeof options
 export type OptionId = keyof Options
 export type BooleanOptionId = KeyOfType<Options, boolean>
 
-// --- 2. add label for new option by creating an intl function with same name as the option id ---
+// --- 2. add label for new option by creating an intl function with same name as option id ---
 
 export function getOptionLabel(id: OptionId) {
   return intl[id]()
