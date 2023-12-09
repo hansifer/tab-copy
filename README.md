@@ -4,7 +4,7 @@ Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdlli
 
 <div>&nbsp;</div>
 
-<div align="center"><img src="https://hansifer.com/hosted-assets/tab-copy/popup.png" width="240"></div>
+<div align="center"><img src="https://hansifer.com/hosted-assets/tab-copy/popup-side-by-side-2023-12-09.png" width="500"></div>
 
 <div>&nbsp;</div>
 
