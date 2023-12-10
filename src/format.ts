@@ -92,7 +92,7 @@ export const builtinFormatOptions = {
 } satisfies { [k in BuiltInFormatId]?: Record<string, any> }
 
 export const customFormatOption = {
-  name: 'My format',
+  name: 'Custom format',
   template: {
     header: '[date][n][n]',
     tab: '[#]) Title: [title][n]   URL:   [url]',
