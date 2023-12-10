@@ -31,7 +31,7 @@ export const intl = {
 
   primary: () => 'primary',
 
-  // options page
+  // ----- options page -----
 
   tabCopyOptions: () => 'tab copy options',
 
@@ -43,6 +43,8 @@ export const intl = {
   formatMakeUnselectableInstructions: () => "uncheck formats you don't want to see.",
 
   formatSetPrimaryInstructions: () => 'the primary format is selected in the copy popup.',
+
+  addFormat: () => 'add format',
 
   // ----- options (key must match key in `options` object in `@/options`) -----
 
