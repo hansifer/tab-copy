@@ -37,7 +37,6 @@ button {
 body {
   padding: 0;
   margin: 0;
-  overflow: hidden;
   font-size: 14px;
   font-family:
     system-ui,
@@ -81,6 +80,23 @@ h4 {
 
 a {
   color: #ccc;
+}
+
+.primaryAction {
+  padding: 0.6em 1em;
+  border-radius: 5.34px;
+  background-color: #00000040;
+  box-shadow: #fffbed3c 0 0 0 1px inset;
+
+  &:hover {
+    background-color: #b0436e;
+    box-shadow: none
+  }
+
+  &:focus-visible {
+    outline: 2px solid #b0436e;
+    outline-offset: 2px;
+  }
 }
 
 .generalSection {

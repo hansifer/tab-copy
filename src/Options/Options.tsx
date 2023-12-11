@@ -4,13 +4,14 @@ import { Reorder } from 'framer-motion'
 import { BinaryOption } from './BinaryOption'
 import { FormatOption } from './FormatOption'
 import { BooleanOptionId, options } from '@/options'
+import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, isCustomFormatId } from '@/format'
+import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
-  getConfiguredFormats,
-  MIN_SELECTABLE_FORMAT_COUNT,
-  ConfiguredFormat,
-  FormatId,
-} from '@/formats'
-import { setOrderedFormatIds, toggleSelectableFormatId, makeStorageChangeHandler } from '@/storage'
+  setOrderedFormatIds,
+  toggleSelectableFormatId,
+  addCustomFormat,
+  makeStorageChangeHandler,
+} from '@/storage'
 import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
@@ -19,7 +20,7 @@ import classes from './Options.module.css'
 
 // todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const Options = () => {
-  const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat[]>([])
+  const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat<FormatId>[]>([])
 
   const refreshConfiguredFormats = useCallback(() => {
     getConfiguredFormats().then(setConfiguredFormats)
@@ -64,6 +65,12 @@ export const Options = () => {
       <div className={classes.formatsSection}>
         <h4>{sentenceCase(intl.formats())}</h4>
         <div className={classes.formatsInstructions}>{getFormatsInstructions()}</div>
+        <button
+          className={classes.primaryAction}
+          onClick={addCustomFormat}
+        >
+          {sentenceCase(intl.addFormat())}
+        </button>
         <Reorder.Group
           axis="y"
           values={configuredFormats}
@@ -80,7 +87,7 @@ export const Options = () => {
               onClick={toggleSelectableFormatId}
               onConfigClick={(id) => {
                 // todo: implement
-                console.log(id)
+                console.log(`${id}${isCustomFormatId(id) ? ' (custom id)' : ''}`)
               }}
             />
           ))}
@@ -90,7 +97,10 @@ export const Options = () => {
   )
 }
 
-function getFormatDescription(format: ConfiguredFormat, selectableNonPrimaryFormatIds: FormatId[]) {
+function getFormatDescription(
+  format: ConfiguredFormat<FormatId>,
+  selectableNonPrimaryFormatIds: FormatId[],
+) {
   if (format.primary) {
     return sentenceCase(intl.primary())
   }
