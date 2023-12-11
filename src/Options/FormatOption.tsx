@@ -4,13 +4,14 @@ import { Reorder, useMotionValue, useDragControls } from 'framer-motion'
 import { Checkbox } from './Checkbox'
 import { ConfigIcon } from './ConfigIcon'
 import { useRaisedShadow } from './useRaisedShadow'
-import { ConfiguredFormat, FormatId } from '@/formats'
+import { FormatId } from '@/format'
+import { ConfiguredFormat } from '@/configured-format'
 import { classy } from '@/util/css'
 
 import classes from './FormatOption.module.css'
 
 type FormatOptionProps = {
-  format: ConfiguredFormat
+  format: ConfiguredFormat<FormatId>
   disabled?: boolean
   description?: string
   onClick: (id: FormatId) => void
@@ -74,7 +75,7 @@ export const FormatOption = ({
         <span className={classes.description}>{description}</span>
       </span>
       <span className={sideRightClassNames}>
-        {format.opts ? (
+        {format.option ? (
           <button
             onClick={
               allowClick
