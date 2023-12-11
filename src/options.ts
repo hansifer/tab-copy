@@ -21,6 +21,6 @@ export function getOptionLabel(id: OptionId) {
 }
 
 // select option value with default fallback
-export function selectOption(id: OptionId, lookup?: Partial<Options>) {
+export function selectOption<T extends OptionId>(id: T, lookup?: Partial<Options>) {
   return lookup?.[id] ?? options[id]
 }
