@@ -48,9 +48,11 @@ li {
       border-radius: 100%;
       color: #ffffff7a;
 
+      &:focus-visible,
       &:hover {
         color: #fff;
         background-color: #00000036;
+        box-shadow: #fffbed3c 0 0 0 1px inset;
       }
     }
 
