@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 
 import { Checkbox } from './Checkbox'
-import { getOptionValue, getOptionLabel, BooleanOptionId } from '@/options'
+import { selectOption, getOptionLabel, BooleanOptionId } from '@/options'
 import { getOption, setOption, makeStorageChangeHandler } from '@/storage'
 import { sentenceCase } from '@/util/string'
 
@@ -22,7 +22,7 @@ export const BinaryOption = ({ id }: BinaryOptionProps) => {
   useEffect(() => {
     const handleStorageChanged = makeStorageChangeHandler((changes) => {
       if (changes.options) {
-        setChecked(getOptionValue(id, changes.options.newValue))
+        setChecked(selectOption(id, changes.options.newValue))
       }
     })
 
