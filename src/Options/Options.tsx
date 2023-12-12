@@ -63,7 +63,7 @@ export const Options = () => {
         {sentenceCase(intl.shortcutKey())}
       </div>
       <div className={classes.formatsSection}>
-        <h4>{sentenceCase(intl.formats())}</h4>
+        <h4>{intl.formats()}</h4>
         <div className={classes.formatsInstructions}>{getFormatsInstructions()}</div>
         <button
           className={classes.primaryAction}
