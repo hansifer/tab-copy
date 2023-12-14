@@ -38,17 +38,17 @@ export const intl = {
   formats: () => 'formats',
 
   formatReorderInstructions: () =>
-    'drag tiles to change the order of how formats will appear in the copy popup.',
+    'drag a format up or down to change its order in the copy popup.',
 
   formatMakeUnselectableInstructions: () => "uncheck formats you don't want to see.",
 
-  formatSetPrimaryInstructions: () => 'the primary format is selected in the copy popup.',
+  formatSetPrimaryInstructions: () => 'the primary format can be changed in the copy popup.',
 
   addFormat: () => 'add format',
 
   // ----- options (key must match key in `options` object in `@/options`) -----
 
-  confirmCopyWithPopup: () => 'confirm copy with popup',
+  confirmCopyWithNotification: () => 'confirm copy with notification',
 
   ignorePinnedTabs: () => 'ignore pinned tabs',
 
@@ -71,4 +71,6 @@ export const intl = {
   // ----- misc -----
 
   conjoin: (...items: string[]) => items.join(' & '),
+
+  tab: (count = 1) => (count === 1 ? 'tab' : 'tabs'),
 }
