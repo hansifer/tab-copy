@@ -4,7 +4,7 @@ import { KeyOfType } from '@/util/typescript'
 // --- 1. add new option below by way of declaring defaults ---
 
 export const options = {
-  confirmCopyWithPopup: false,
+  confirmCopyWithNotification: false,
   ignorePinnedTabs: false,
   showInContextMenu: true,
   grayscaleIcon: false,
