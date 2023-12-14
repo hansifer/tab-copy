@@ -7,38 +7,39 @@ import { sentenceCase } from '@/util/string'
 export function hasSecondaryActionKeyModifier({
   metaKey,
   ctrlKey,
-  altKey,
   shiftKey,
 }: {
   metaKey: boolean
   ctrlKey: boolean
-  altKey: boolean
   shiftKey: boolean
 }) {
-  return !shiftKey && hasPrincipalKeyModifier({ metaKey, ctrlKey, altKey })
+  return !shiftKey && hasPrincipalKeyModifier({ metaKey, ctrlKey })
 }
 
-export function hasTernaryActionKeyModifier({ shiftKey }: { shiftKey: boolean }) {
-  return shiftKey
-}
-
-// the "principal" key modifier is either cmd (if mac) or ctrl/alt (if windows/linux)
-function hasPrincipalKeyModifier({
+export function hasTernaryActionKeyModifier({
   metaKey,
   ctrlKey,
-  altKey,
+  shiftKey,
 }: {
   metaKey: boolean
   ctrlKey: boolean
-  altKey: boolean
+  shiftKey: boolean
 }) {
-  return clientInfo.os === 'mac' ? metaKey : ctrlKey || altKey
+  return shiftKey && hasPrincipalKeyModifier({ metaKey, ctrlKey })
+}
+
+// the "principal" key modifier is cmd if mac or ctrl if windows/linux
+function hasPrincipalKeyModifier({ metaKey, ctrlKey }: { metaKey: boolean; ctrlKey: boolean }) {
+  return clientInfo.os === 'mac' ? metaKey : ctrlKey
 }
 
 export function getSecondaryActionKeyModifierLabel() {
   return clientInfo.os === 'mac' ? '⌘' : sentenceCase(intl.ctrl())
 }
 
+// ternary can't be shift only since that's used for reverse-direction tabbing
 export function getTernaryActionKeyModifierLabel() {
-  return clientInfo.os === 'mac' ? '⇧' : sentenceCase(intl.shift())
+  return clientInfo.os === 'mac'
+    ? intl.keyModifier('⌘', '⇧')
+    : intl.keyModifier(sentenceCase(intl.ctrl()), sentenceCase(intl.shift()))
 }
