@@ -259,16 +259,16 @@ export function makeStorageChangeHandler(
   callback: (changes: StorageChanges) => void,
   { throttle: throttleTime = 0, listen }: { throttle?: number; listen?: string[] } = {},
 ): StorageChangeHandler {
-  const fct: StorageChangeHandler = (changes, areaName) => {
+  const fct = throttleTime // wrap
+    ? throttle(callback, throttleTime, { leading: true, trailing: true })
+    : callback
+
+  return (changes, areaName) => {
     if (areaName === 'local') {
       if (!listen || listen.some((change) => change in changes)) {
         // console.log('storage changed', changes)
-        callback(changes)
+        fct(changes)
       }
     }
   }
-
-  return throttleTime // wrap
-    ? throttle(fct, throttleTime, { leading: true, trailing: true })
-    : fct
 }
