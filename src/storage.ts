@@ -1,3 +1,5 @@
+import throttle from 'lodash.throttle'
+
 import { selectOption, Options, OptionId } from '@/options'
 import {
   builtInFormatIds,
@@ -255,11 +257,18 @@ type StorageChanges = { [key: string]: chrome.storage.StorageChange }
 
 export function makeStorageChangeHandler(
   callback: (changes: StorageChanges) => void,
+  { throttle: throttleTime = 0, listen }: { throttle?: number; listen?: string[] } = {},
 ): StorageChangeHandler {
-  return (changes, areaName) => {
+  const fct: StorageChangeHandler = (changes, areaName) => {
     if (areaName === 'local') {
-      // console.log('storage changed', changes)
-      callback(changes)
+      if (!listen || listen.some((change) => change in changes)) {
+        // console.log('storage changed', changes)
+        callback(changes)
+      }
     }
   }
+
+  return throttleTime // wrap
+    ? throttle(fct, throttleTime, { leading: true, trailing: true })
+    : fct
 }
