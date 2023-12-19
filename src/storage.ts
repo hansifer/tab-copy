@@ -7,7 +7,7 @@ import {
   isCustomFormatId,
   selectFormatOption,
   FormatId,
-  BuiltInFormatWithOptionId,
+  FormatWithOptionId,
   CustomFormatId,
   FormatOptions,
 } from '@/format'
@@ -216,7 +216,7 @@ export async function getFormatOption<T extends FormatId>(id: T) {
 }
 
 // todo: validate id? (isBuiltInFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
-export async function setFormatOption<T extends BuiltInFormatWithOptionId | CustomFormatId>(
+export async function setFormatOption<T extends FormatWithOptionId>(
   id: T,
   value: FormatOptions[T],
 ) {
@@ -230,7 +230,7 @@ export async function setFormatOption<T extends BuiltInFormatWithOptionId | Cust
   })
 }
 
-async function removeFormatOption(id: BuiltInFormatWithOptionId | CustomFormatId) {
+async function removeFormatOption(id: FormatWithOptionId) {
   const allFormatOptions = await getAllFormatOptions()
 
   if (id in allFormatOptions) {

@@ -11,6 +11,7 @@ export type CustomFormatOption = typeof customFormatOption
 
 export type BuiltInFormatWithOptionId = keyof BuiltInFormatOptions
 export type BuiltInFormatWithoutOptionId = Exclude<BuiltInFormatId, BuiltInFormatWithOptionId>
+export type FormatWithOptionId = BuiltInFormatWithOptionId | CustomFormatId
 
 export type FormatOptions = {
   [k in BuiltInFormatWithOptionId]: BuiltInFormatOptions[k]
