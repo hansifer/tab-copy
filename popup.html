@@ -13,7 +13,7 @@
     <title>Tab Copy</title>
   </head>
   <body>
-    <header>Copy</header>
+    <header></header>
     <div
       id="copy-buttons"
       style="display: none"
@@ -21,28 +21,22 @@
       <button
         id="copy-tab"
         class="button-primary"
-      >
-        This tab
-      </button>
+      ></button>
       <button
         id="copy-window-tabs"
         class="button-primary"
-      >
-        This window's tabs
-      </button>
+      ></button>
       <button
         id="copy-all-tabs"
         class="button-primary"
-      >
-        All tabs
-      </button>
+      ></button>
     </div>
     <div
       id="format-section"
       style="display: none"
     >
       <div class="format-header">
-        <span id="copy-as-label">Copy as:</span>
+        <span id="copy-as-label"></span>
         <button
           id="primary-format-btn"
           class="button-secondary"
@@ -50,9 +44,7 @@
           <span
             id="primary-format-label"
             class="button-label"
-          >
-            URL
-          </span>
+          ></span>
           <span class="icon">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -60,7 +52,11 @@
               width="8"
               fill="currentColor"
             >
-              <path d="M0 0 H 8 L 4 4 Z" />
+              <path
+                fill="transparent"
+                stroke="currentColor"
+                d="M0 0 L 4 4 L 8 0"
+              />
             </svg>
           </span>
         </button>
