@@ -28,10 +28,10 @@ export default defineManifest({
   commands: {
     _execute_action: {
       suggested_key: {
-        windows: 'Alt+J',
-        mac: 'Command+J',
-        chromeos: 'Alt+J',
-        linux: 'Alt+J',
+        windows: 'Alt+K',
+        mac: 'Command+K',
+        chromeos: 'Alt+K',
+        linux: 'Alt+K',
       },
     },
   },
