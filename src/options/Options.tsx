@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Reorder } from 'framer-motion'
 
-import { BinaryOption } from './BinaryOption'
-import { FormatOption } from './FormatOption'
+import { BinaryOption } from './BinaryOption/BinaryOption'
+import { FormatOption } from './FormatConfig/FormatOption'
 import { BooleanOptionId, options } from '@/options'
 import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, isCustomFormatId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'

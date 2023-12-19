@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Reorder, useMotionValue, useDragControls } from 'framer-motion'
 
-import { Checkbox } from './Checkbox'
+import { Checkbox } from '../Checkbox/Checkbox'
 import { ConfigIcon } from './ConfigIcon'
 import { useRaisedShadow } from './useRaisedShadow'
 import { FormatId } from '@/format'

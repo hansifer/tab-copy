@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 
-import { Checkbox } from './Checkbox'
+import { Checkbox } from '../Checkbox/Checkbox'
 import { selectOption, getOptionLabel, BooleanOptionId } from '@/options'
 import { getOption, setOption, makeStorageChangeHandler } from '@/storage'
 import { sentenceCase } from '@/util/string'
