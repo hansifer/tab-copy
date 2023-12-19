@@ -8,9 +8,9 @@ import { FormatId } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { classy } from '@/util/css'
 
-import classes from './FormatOption.module.css'
+import classes from './FormatConfig.module.css'
 
-type FormatOptionProps = {
+type FormatConfigProps = {
   format: ConfiguredFormat<FormatId>
   disabled?: boolean
   description?: string
@@ -18,13 +18,13 @@ type FormatOptionProps = {
   onConfigClick?: (id: FormatId) => void
 }
 
-export const FormatOption = ({
+export const FormatConfig = ({
   format,
   disabled,
   description,
   onClick,
   onConfigClick,
-}: FormatOptionProps) => {
+}: FormatConfigProps) => {
   // used to prevent click event from firing on drag end
   // todo: consider using a ref instead
   // todo: is there a cleaner way to do this? perhaps via a framer motion feature?
