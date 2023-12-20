@@ -5,8 +5,6 @@ import { selectOption, getOptionLabel, BooleanOptionId } from '@/options'
 import { getOption, setOption, makeStorageChangeHandler } from '@/storage'
 import { sentenceCase } from '@/util/string'
 
-import classes from './BinaryOption.module.css'
-
 type BinaryOptionProps = {
   id: BooleanOptionId
 }
@@ -38,17 +36,10 @@ export const BinaryOption = ({ id }: BinaryOptionProps) => {
   }, [id, checked])
 
   return (
-    <div className={classes.BinaryOption}>
-      <Checkbox
-        checked={checked}
-        onClick={handleClick}
-      />
-      <span
-        className={classes.label}
-        onClick={handleClick}
-      >
-        {sentenceCase(getOptionLabel(id))}
-      </span>
-    </div>
+    <Checkbox
+      label={sentenceCase(getOptionLabel(id))}
+      checked={checked}
+      onClick={handleClick}
+    />
   )
 }

@@ -1,13 +1,14 @@
 import classes from './Checkbox.module.css'
 
 type CheckboxProps = {
+  label?: string
   checked?: boolean
   disabled?: boolean
   onClick?: () => void
 }
 
-export const Checkbox = ({ checked, disabled, onClick }: CheckboxProps) => (
-  <span className={classes.Checkbox}>
+export const Checkbox = ({ label, checked, disabled, onClick }: CheckboxProps) => (
+  <div className={classes.Checkbox}>
     <button
       className={classes.button}
       disabled={disabled}
@@ -31,5 +32,13 @@ export const Checkbox = ({ checked, disabled, onClick }: CheckboxProps) => (
         </span>
       ) : null}
     </button>
-  </span>
+    {label ? (
+      <span
+        className={classes.label}
+        onClick={onClick}
+      >
+        {label}
+      </span>
+    ) : null}
+  </div>
 )
