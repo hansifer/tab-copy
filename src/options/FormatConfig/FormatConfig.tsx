@@ -4,7 +4,12 @@ import { Reorder, useMotionValue, useDragControls } from 'framer-motion'
 import { Checkbox } from '../Checkbox/Checkbox'
 import { ConfigIcon } from './ConfigIcon'
 import { useRaisedShadow } from './useRaisedShadow'
-import { FormatId } from '@/format'
+import {
+  isBuiltInFormatWithOptionId,
+  isCustomFormatId,
+  FormatId,
+  FormatWithOptionId,
+} from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { classy } from '@/util/css'
 
@@ -15,7 +20,7 @@ type FormatConfigProps = {
   disabled?: boolean
   description?: string
   onClick: (id: FormatId) => void
-  onConfigClick?: (id: FormatId) => void
+  onConfigClick?: (id: FormatWithOptionId) => void
 }
 
 export const FormatConfig = ({
@@ -80,7 +85,9 @@ export const FormatConfig = ({
             onClick={
               allowClick
                 ? (e) => {
-                    onConfigClick?.(format.id)
+                    if (isBuiltInFormatWithOptionId(format.id) || isCustomFormatId(format.id)) {
+                      onConfigClick?.(format.id)
+                    }
                     e.stopPropagation()
                   }
                 : undefined
