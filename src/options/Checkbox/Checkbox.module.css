@@ -1,7 +1,7 @@
 .Checkbox {
   display: flex;
   align-items: center;
-  gap: 22px;
+  gap: 20px;
   white-space: nowrap;
 
   :is(button) {
