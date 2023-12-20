@@ -31,6 +31,20 @@ export const intl = {
 
   primary: () => 'primary',
 
+  // ----- format option -----
+
+  separator: () => 'separator',
+
+  includeHeader: () => 'include header',
+
+  name: () => 'name',
+
+  header: () => 'header',
+
+  delimiter: () => 'delimiter',
+
+  footer: () => 'footer',
+
   // ----- options page -----
 
   tabCopyOptions: () => 'tab copy options',
