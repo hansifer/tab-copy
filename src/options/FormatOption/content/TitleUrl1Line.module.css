@@ -1,0 +1,10 @@
+.separator {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  white-space: nowrap;
+
+  :is(input) {
+    width: 60px;
+  }
+}
