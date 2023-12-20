@@ -3,14 +3,16 @@ import { Reorder } from 'framer-motion'
 
 import { BinaryOption } from './BinaryOption/BinaryOption'
 import { FormatConfig } from './FormatConfig/FormatConfig'
+import { FormatOption } from './FormatOption/FormatOption'
 import { BooleanOptionId, options } from '@/options'
-import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, isCustomFormatId } from '@/format'
+import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, FormatWithOptionId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
   setOrderedFormatIds,
   toggleSelectableFormatId,
   addCustomFormat,
   makeStorageChangeHandler,
+  setFormatOption,
 } from '@/storage'
 import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
 import { intl } from '@/intl'
@@ -21,6 +23,8 @@ import classes from './Options.module.css'
 // todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const Options = () => {
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat<FormatId>[]>([])
+  // formatId associated with format option being edited
+  const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptionId>()
 
   const refreshConfiguredFormats = useCallback(() => {
     getConfiguredFormats().then(setConfiguredFormats)
@@ -85,14 +89,21 @@ export const Options = () => {
               description={getFormatDescription(format, selectableNonPrimaryFormatIds)}
               disabled={format.selectable && isMinSelectableFormatCount}
               onClick={toggleSelectableFormatId}
-              onConfigClick={(id) => {
-                // todo: implement
-                console.log(`${id}${isCustomFormatId(id) ? ' (custom id)' : ''}`)
-              }}
+              onOptionClick={setOptionEditFormatId}
             />
           ))}
         </Reorder.Group>
       </div>
+      <FormatOption
+        formatId={optionEditFormatId}
+        onCancel={() => {
+          setOptionEditFormatId(undefined)
+        }}
+        onOK={(formatId, option) => {
+          setFormatOption(formatId, option)
+          setOptionEditFormatId(undefined)
+        }}
+      />
     </main>
   )
 }
