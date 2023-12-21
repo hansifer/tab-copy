@@ -16,6 +16,7 @@ body {
   gap: 10px;
   min-width: 13rem;
   margin: 12px;
+  user-select: none;
   font-size: 14px;
   font-family:
     system-ui,
@@ -29,7 +30,6 @@ body {
     'Open Sans',
     'Helvetica Neue',
     sans-serif;
-  user-select: none;
 }
 
 header {
@@ -52,10 +52,9 @@ button {
   outline: none;
   white-space: nowrap;
   overflow: hidden;
-  cursor: pointer;
-  /* color: #eeeeeea3; */
   color: #eee;
   background-color: #ffffff1f;
+  cursor: pointer;
   font-size: 14px;
   font-family:
     system-ui,
@@ -96,9 +95,9 @@ button {
   height: 28px;
   padding: 0 10px;
   font-size: 12px;
+  border: 1px solid #eeeeee4d;
   color: inherit;
   background-color: transparent;
-  border: 1px solid #eeeeee4d;
 }
 
 .button-secondary:focus {
@@ -114,11 +113,6 @@ button {
   margin-left: 8px;
 }
 
-#format-section {
-  display: flex;
-  flex-direction: column;
-}
-
 #format-section.expanded .icon {
   transform: rotate(180deg)
 }
@@ -131,8 +125,6 @@ button {
 }
 
 #primary-format-btn {
-  display: flex;
-  align-items: center;
   margin-left: auto;
   border-color: transparent;
 }
@@ -140,7 +132,6 @@ button {
 #primary-format-btn:hover {
   color: #fff;
 }
-
 
 #primary-format-btn .button-label {
   max-width: 100px;
