@@ -87,4 +87,8 @@ export const intl = {
   conjoin: (...items: string[]) => items.join(' & '),
 
   tab: (count = 1) => (count === 1 ? 'tab' : 'tabs'),
+
+  ok: () => 'OK',
+
+  cancel: () => 'cancel',
 }
