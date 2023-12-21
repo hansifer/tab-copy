@@ -117,6 +117,8 @@ async function initCopyButtons() {
   addListener(copyButtons, 'keydown', handleCopyKeydown)
   addListener(copyButtons, 'focus', closeFormatSelector)
   addListener(copyButtons, 'blur', clearAltFormat)
+
+  // auto-focus button on hover. delay listener add to avoid auto-focus of a button that mouse cursor happens to be over on popup open.
   setTimeout(() => {
     addListener(copyButtons, 'mouseenter', (e) => {
       if (isButton(e.currentTarget)) {
@@ -154,17 +156,19 @@ async function initCopyButtons() {
 }
 
 async function initFormats() {
-  refreshFormats()
-
-  const formatSelector = document.getElementById('format-selector') as HTMLDivElement
+  await refreshFormats()
 
   // handle format click (via event delegation)
 
-  const handleFormatClickOrKeydown = (e: MouseEvent | KeyboardEvent) => {
+  const handleFormatClickOrKeydown = async (e: MouseEvent | KeyboardEvent) => {
     if (isButton(e.target)) {
       const formatId = e.target.getAttribute('id') as FormatId
+      const primaryFormatId = await getPrimaryFormatId()
 
-      if (hasSecondaryActionKeyModifier(e)) {
+      if (formatId === primaryFormatId) {
+        oneTimeFormatId = null
+        refreshFormats() // no db impact, so force refresh
+      } else if (hasSecondaryActionKeyModifier(e)) {
         oneTimeFormatId = formatId
         refreshFormats() // no db impact, so force refresh
       } else {
@@ -185,10 +189,13 @@ async function initFormats() {
     }
   }
 
+  const formatSelector = document.getElementById('format-selector') as HTMLDivElement
+
   formatSelector.addEventListener('click', handleFormatClickOrKeydown)
   formatSelector.addEventListener('keydown', handleFormatKeydown)
+
+  // auto-focus button on hover
   formatSelector.addEventListener('mouseover', (e) => {
-    console.log(e)
     if (isButton(e.target)) {
       e.target.focus()
     }
@@ -217,7 +224,6 @@ async function refreshFormats() {
   const selectableFormats = await getConfiguredFormats({ selectableOnly: true })
 
   const formatSelector = document.getElementById('format-selector') as HTMLDivElement
-
   const buttons = Array.from(formatSelector.querySelectorAll('button'))
 
   const focusedFormatId = buttons
@@ -288,7 +294,7 @@ function flashActionIcon() {
 }
 
 async function useFormat() {
-  // oneTimeFormatId must take precedence over altFormat to avoid quirks related to auto focus of first copy button after a modified format selection
+  // oneTimeFormatId must take precedence over altFormat to avoid quirks related to auto focus of first copy button after a key-modified format selection
   if (oneTimeFormatId) {
     return getConfiguredFormat(oneTimeFormatId)
   }
