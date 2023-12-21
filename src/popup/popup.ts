@@ -142,7 +142,7 @@ async function initCopyButtons() {
     try {
       await copyTabs(scopedTabs, format)
       flashActionIcon()
-      // window.close()
+      window.close()
     } catch (ex) {
       console.error(ex)
 
