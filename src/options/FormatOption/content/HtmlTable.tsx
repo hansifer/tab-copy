@@ -1,7 +1,8 @@
 import { Checkbox } from '../../Checkbox/Checkbox'
-import { ContentProps } from '../FormatOption'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
+
+import { ContentProps } from './interface'
 
 // content components receive up-to-date option and are responsible for reporting option changes
 
