@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Reorder, useMotionValue, useDragControls } from 'framer-motion'
 
 import { Checkbox } from '../Checkbox/Checkbox'
-import { ConfigIcon } from './ConfigIcon'
+import { OptionIcon } from './OptionIcon'
 import { useRaisedShadow } from './useRaisedShadow'
 import {
   isBuiltInFormatWithOptionId,
@@ -93,7 +93,7 @@ export const FormatConfig = ({
                 : undefined
             }
           >
-            <ConfigIcon />
+            <OptionIcon />
           </button>
         ) : null}
       </span>
