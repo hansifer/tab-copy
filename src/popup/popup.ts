@@ -24,8 +24,8 @@ type CopyScope =
 
 type AltFormat = 'secondary' | 'ternary'
 
-let oneTimeFormatId: FormatId | null = null // takes precedence
-let altFormat: AltFormat | null = null
+let oneTimeFormatId: FormatId | null = null // engaged when selecting a format. takes precedence.
+let altFormat: AltFormat | null = null // engaged when copying
 
 initApp()
 
