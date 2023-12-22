@@ -121,7 +121,8 @@ async function initCopyButtons() {
   // auto-focus button on hover. delay listener add to avoid auto-focus of a button that mouse cursor happens to be over on popup open.
   setTimeout(() => {
     addListener(copyButtons, 'mouseenter', (e) => {
-      if (isButton(e.currentTarget)) {
+      if (isButton(e.currentTarget) && !e.buttons) {
+        // !e.buttons prevents focus on drag
         e.currentTarget.focus()
       }
     })
@@ -196,7 +197,8 @@ async function initFormats() {
 
   // auto-focus button on hover
   formatSelector.addEventListener('mouseover', (e) => {
-    if (isButton(e.target)) {
+    if (isButton(e.target) && !e.buttons) {
+      // !e.buttons prevents focus on drag
       e.target.focus()
     }
   })
