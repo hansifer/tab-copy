@@ -32,6 +32,10 @@
   margin: 28px 0;
 }
 
+.deleteConfirmation {
+  text-align: center;
+}
+
 .buttonRow {
   display: flex;
   justify-content: flex-end;

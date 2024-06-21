@@ -27,14 +27,18 @@ type FormatOptionProps<T extends FormatWithOptionId> = {
   formatId?: T
   onCancel?: () => void
   onOK?: (formatId: T, option: FormatOptions[T]) => void
+  onDelete?: (formatId: T) => void
 }
 
 export const FormatOption = <T extends FormatWithOptionId>({
   formatId,
   onCancel,
   onOK,
+  onDelete,
 }: FormatOptionProps<T>) => {
   const [format, setFormat] = useState<ConfiguredFormat<T>>()
+
+  const [deleteMode, setDeleteMode] = useState<boolean>(false)
 
   useEffect(() => {
     if (formatId) {
@@ -46,10 +50,20 @@ export const FormatOption = <T extends FormatWithOptionId>({
 
   if (!format) return null
 
-  // todo: resolve need for TS assertion
-  const Content = (isBuiltInFormatWithOptionId(format.id)
+  // todo: eliminate need for TS assertion
+  const ContentComp = (isBuiltInFormatWithOptionId(format.id)
     ? builtInFormatOptionContent[format.id]
     : Custom) as unknown as FC<ContentProps<T>>
+
+  const content = deleteMode ? (
+    <div className={classes.deleteConfirmation}>{intl.confirmDelete()}</div>
+  ) : (
+    <ContentComp
+      option={format.option}
+      onChange={(option) => setFormat({ ...format, option })}
+      onDelete={() => setDeleteMode(true)}
+    />
+  )
 
   return (
     <div
@@ -61,24 +75,25 @@ export const FormatOption = <T extends FormatWithOptionId>({
         onMouseDown={(e) => e.stopPropagation()}
       >
         <h1>{format.label}</h1>
-        <div className={classes.content}>
-          <Content
-            option={format.option}
-            onChange={(option) => setFormat({ ...format, option })}
-          />
-        </div>
+        <div className={classes.content}>{content}</div>
         <div className={classes.buttonRow}>
           <button
             className={optionsClasses.primaryAction}
-            onClick={() => onCancel?.()}
+            onClick={
+              deleteMode // wrap
+                ? () => setDeleteMode(false)
+                : () => onCancel?.()
+            }
           >
-            {sentenceCase(intl.cancel())}
+            {deleteMode ? sentenceCase(intl.no()) : sentenceCase(intl.cancel())}
           </button>
           <button
             className={optionsClasses.primaryAction}
-            onClick={() => onOK?.(format.id, format.option)}
+            onClick={
+              deleteMode ? () => onDelete?.(format.id) : () => onOK?.(format.id, format.option)
+            }
           >
-            {intl.ok()}
+            {deleteMode ? sentenceCase(intl.yes()) : intl.ok()}
           </button>
         </div>
       </div>
