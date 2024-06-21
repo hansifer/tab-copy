@@ -56,9 +56,9 @@ export const intl = {
   formatReorderInstructions: () =>
     'drag a format up or down to change its order in the copy popup.',
 
-  formatMakeUnselectableInstructions: () => "uncheck formats you don't want to see.",
+  formatMakeUnselectableInstructions: () => "uncheck formats you don't want to see in the popup.",
 
-  formatSetPrimaryInstructions: () => 'the primary format can be changed in the copy popup.',
+  formatSetPrimaryInstructions: () => 'the primary format can be changed in the popup.',
 
   addFormat: () => 'add format',
 
@@ -99,4 +99,6 @@ export const intl = {
   no: () => 'no',
 
   hidden: () => 'hidden',
+
+  delete: () => 'delete',
 }
