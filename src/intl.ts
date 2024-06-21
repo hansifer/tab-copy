@@ -45,6 +45,8 @@ export const intl = {
 
   footer: () => 'footer',
 
+  confirmDelete: () => 'Are you sure you want to delete this format?',
+
   // ----- options page -----
 
   tabCopyOptions: () => 'tab copy options',
@@ -91,6 +93,10 @@ export const intl = {
   ok: () => 'OK',
 
   cancel: () => 'cancel',
+
+  yes: () => 'yes',
+
+  no: () => 'no',
 
   hidden: () => 'hidden',
 }
