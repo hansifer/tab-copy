@@ -74,6 +74,21 @@ a {
   color: #ccc;
 }
 
+input {
+  padding: 6px 8px;
+  border-width: 0 0 1px 0;
+  border-color: #ffffff26;
+  outline: none;
+  background-color: transparent;
+  transition: all 150ms;
+
+  &:focus {
+    border-radius: 2px;
+    border-color: #ffffff91;
+    background-color: #ffffff0f;
+  }
+}
+
 .primaryAction {
   padding: 0.6em 1em;
   border-radius: 5.34px;
