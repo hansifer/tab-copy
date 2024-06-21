@@ -91,4 +91,6 @@ export const intl = {
   ok: () => 'OK',
 
   cancel: () => 'cancel',
+
+  hidden: () => 'hidden',
 }

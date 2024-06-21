@@ -112,6 +112,10 @@ function getFormatDescription(
   format: ConfiguredFormat<FormatId>,
   selectableNonPrimaryFormatIds: FormatId[],
 ) {
+  if (!format.selectable) {
+    return sentenceCase(intl.hidden())
+  }
+
   if (format.primary) {
     return sentenceCase(intl.primary())
   }
