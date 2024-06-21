@@ -1,29 +1,43 @@
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
+import { classy } from '@/util/css'
 
 import { ContentProps } from './interface'
 import classes from './Custom.module.css'
+import optionsClasses from '../../Options.module.css'
 
 // content components receive up-to-date option and are responsible for reporting option changes
 
 // todo: add template fields
 // todo: add validation
 
-export const Custom = ({ option, onChange }: ContentProps<'custom-*'>) => {
+export const Custom = ({ option, onChange, onDelete }: ContentProps<'custom-*'>) => {
   return (
-    <div className={classes.name}>
-      <div>{sentenceCase(intl.name())}:</div>
-      <input
-        type="text"
-        maxLength={30}
-        onInput={({ currentTarget }) => {
-          onChange({
-            ...option,
-            name: currentTarget.value,
-          })
-        }}
-        value={option.name}
-      />
+    <div className={classes.Custom}>
+      <div className={classes.name}>
+        <div>{sentenceCase(intl.name())}:</div>
+        <input
+          type="text"
+          maxLength={30}
+          onInput={({ currentTarget }) => {
+            onChange({
+              ...option,
+              name: currentTarget.value,
+            })
+          }}
+          value={option.name}
+        />
+      </div>
+      {onDelete ? (
+        <div>
+          <button
+            className={classy(optionsClasses.primaryAction, optionsClasses.destructiveAction)}
+            onClick={() => onDelete()}
+          >
+            {sentenceCase(intl.delete())}
+          </button>
+        </div>
+      ) : null}
     </div>
   )
 }
