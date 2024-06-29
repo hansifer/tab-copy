@@ -1,0 +1,63 @@
+.OptionTip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  font-size: 0.7rem;
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: 0 0 16px 10px #86868611;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #ffffff1c;
+    box-shadow: 0 0 16px 10px #00000011;
+  }
+}
+
+.icon {
+  color: #666;
+
+  @media (prefers-color-scheme: dark) {
+    color: #aaa;
+  }
+
+  :is(svg) {
+    height: 20px;
+    margin-left: 8px;
+  }
+}
+
+.text {
+  white-space: pre-wrap;
+}
+
+.dismiss {
+  padding: 0.6em 1em;
+  border-radius: 5.34px;
+  white-space: nowrap;
+  color: #fff;
+  background-color: #1c7c96;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #215665;
+  }
+
+  &:hover {
+    box-shadow: inset 0 0 0px 30px #00000030;
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow: inset 0 0 0px 30px #ffffff19;
+    }
+  }
+
+  &:focus-visible {
+    outline: 2px solid #1c7c96;
+    outline-offset: 2px;
+
+    @media (prefers-color-scheme: dark) {
+      outline: 2px solid #215665;
+    }
+  }
+}
