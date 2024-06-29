@@ -67,7 +67,7 @@ export const intl = {
 
   // ----- options (key must match key in `options` object in `@/options`) -----
 
-  confirmCopyWithNotification: () => 'confirm copy with notification',
+  notifyOnCopy: () => 'notify on copy',
 
   ignorePinnedTabs: () => 'ignore pinned tabs',
 
