@@ -53,12 +53,15 @@ export const intl = {
 
   formats: () => 'formats',
 
-  formatReorderInstructions: () =>
-    'drag a format up or down to change its order in the copy popup.',
+  optionTipText: {
+    'format-order': () => 'drag a format up or down to change its\norder in the Tab Copy popup.',
 
-  formatMakeUnselectableInstructions: () => "uncheck formats you don't want to see in the popup.",
+    'hidden-formats': () =>
+      "uncheck formats you don't want to see\n(at least 3 formats must remain checked).",
 
-  formatSetPrimaryInstructions: () => 'the primary format can be changed in the popup.',
+    'default-format': () =>
+      'the first listed format is the default format.\nIt can also be set in the Tab Copy popup.',
+  },
 
   addFormat: () => 'add format',
 
