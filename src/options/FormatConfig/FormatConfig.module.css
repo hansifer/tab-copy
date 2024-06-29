@@ -21,11 +21,15 @@ li {
   padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
-  background-color: #363636;
+  background-color: #fff;
   cursor: grab;
 
-  &:hover {
-    background-color: #454545;
+  @media (prefers-color-scheme: dark) {
+    background-color: #363636;
+
+    &:hover {
+      background-color: #454545;
+    }
   }
 }
 
@@ -46,13 +50,22 @@ li {
       height: 36px;
       font-size: 0;
       border-radius: 100%;
-      color: #ffffff7a;
+      color: #888;
+
+      @media (prefers-color-scheme: dark) {
+        color: #ffffff7a;
+      }
 
       &:focus-visible,
       &:hover {
-        color: #fff;
-        background-color: #00000036;
-        box-shadow: #fffbed3c 0 0 0 1px inset;
+        color: #000;
+        background-color: #eee;
+
+        @media (prefers-color-scheme: dark) {
+          color: #fff;
+          background-color: #00000036;
+          box-shadow: #fffbed3c 0 0 0 1px inset;
+        }
       }
     }
 
@@ -71,12 +84,17 @@ li {
   flex-grow: 1;
   margin: 0 10px;
   line-height: 1.4;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   transition: opacity 200ms;
 
   &.unselectable {
-    opacity: 0.5;
+    opacity: 0.3;
+
+    @media (prefers-color-scheme: dark) {
+      opacity: 0.5;
+    }
   }
 
   :is(span) {
@@ -88,7 +106,12 @@ li {
 
   .description {
     font-size: 10px;
-    color: #ffffff8c;
+    font-weight: normal;
+    color: #7e7e7e;
+
+    @media (prefers-color-scheme: dark) {
+      color: #ffffff8c;
+    }
   }
 
   /* &.primary .description {
