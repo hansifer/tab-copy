@@ -1,6 +1,7 @@
 import throttle from 'lodash.throttle'
 
 import { selectOption, Options, OptionId } from '@/options'
+import { OptionTipId } from '@/option-tips'
 import {
   builtInFormatIds,
   MIN_SELECTABLE_FORMAT_COUNT,
@@ -37,6 +38,23 @@ export async function setOption<T extends OptionId>(id: T, value: Options[T]) {
 async function getAllOptions(): Promise<Partial<Options>> {
   const { options } = await storage.get('options')
   return options ?? {}
+}
+
+// ----- option tips -----
+
+export async function hideOptionTip(id: OptionTipId) {
+  const hiddenOptionTipIds = await getHiddenOptionTipIds()
+
+  if (!hiddenOptionTipIds.includes(id)) {
+    await storage.set({
+      hiddenOptionTips: [...hiddenOptionTipIds, id],
+    })
+  }
+}
+
+export async function getHiddenOptionTipIds(): Promise<OptionTipId[]> {
+  const { hiddenOptionTips } = await storage.get('hiddenOptionTips')
+  return hiddenOptionTips ?? []
 }
 
 // ----- primary format id -----
