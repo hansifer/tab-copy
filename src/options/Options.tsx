@@ -87,14 +87,16 @@ export const Options = () => {
         <h3>{intl.tabCopyOptions()}</h3>
       </div>
       <div className={classes.generalSection}>
-        {Object.entries(options)
-          .filter(([, defaultVal]) => defaultVal === true || defaultVal === false) // only consider boolean options
-          .map(([optionId]) => (
-            <BinaryOption
-              key={optionId}
-              id={optionId as BooleanOptionId}
-            />
-          ))}
+        <div className={classes.generalSubSection}>
+          {Object.entries(options)
+            .filter(([, defaultVal]) => defaultVal === true || defaultVal === false) // only consider boolean options
+            .map(([optionId]) => (
+              <BinaryOption
+                key={optionId}
+                id={optionId as BooleanOptionId}
+              />
+            ))}
+        </div>
         {sentenceCase(intl.shortcutKey())}
       </div>
       <div className={classes.formatsSection}>
@@ -119,24 +121,26 @@ export const Options = () => {
         >
           {sentenceCase(intl.addFormat())}
         </button>
-        <Reorder.Group
-          axis="y"
-          values={configuredFormats}
-          onReorder={(configuredFormats) =>
-            setOrderedFormatIds(configuredFormats.map(({ id }) => id))
-          }
-        >
-          {configuredFormats.map((format) => (
-            <FormatConfig
-              key={format.id}
-              format={format}
-              description={getFormatDescription(format, selectableNonPrimaryFormatIds)}
-              disabled={format.selectable && isMinSelectableFormatCount}
-              onClick={toggleSelectableFormatId}
-              onOptionClick={setOptionEditFormatId}
-            />
-          ))}
-        </Reorder.Group>
+        <div className={classes.formats}>
+          <Reorder.Group
+            axis="y"
+            values={configuredFormats}
+            onReorder={(configuredFormats) =>
+              setOrderedFormatIds(configuredFormats.map(({ id }) => id))
+            }
+          >
+            {configuredFormats.map((format) => (
+              <FormatConfig
+                key={format.id}
+                format={format}
+                description={getFormatDescription(format, selectableNonPrimaryFormatIds)}
+                disabled={format.selectable && isMinSelectableFormatCount}
+                onClick={toggleSelectableFormatId}
+                onOptionClick={setOptionEditFormatId}
+              />
+            ))}
+          </Reorder.Group>
+        </div>
       </div>
       <FormatOption
         formatId={optionEditFormatId}
