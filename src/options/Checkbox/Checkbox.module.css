@@ -22,8 +22,12 @@
   position: relative;
   border-radius: 5.34px;
   overflow: hidden;
-  background-color: #00000040;
+  background-color: #fff;
   box-shadow: #fffbed3c 0 0 0 1px inset;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #00000040;
+  }
 
   &:focus-visible {
     outline: 2px solid #b0436e;
