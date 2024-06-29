@@ -5,6 +5,7 @@ import { BinaryOption } from './BinaryOption/BinaryOption'
 import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOption } from './FormatOption/FormatOption'
 import { OptionTip } from './OptionTip/OptionTip'
+import { Logo } from '@/Logo'
 import { BooleanOptionId, options } from '@/options'
 import { formatOptionTips, getOptionTipText } from '@/option-tips'
 import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, FormatWithOptionId } from '@/format'
@@ -21,6 +22,7 @@ import {
 import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
+import { prefersColorSchemeDark } from '@/util/css'
 
 import classes from './Options.module.css'
 
@@ -77,7 +79,13 @@ export const Options = () => {
 
   return (
     <main>
-      <h3>{intl.tabCopyOptions()}</h3>
+      <div className={classes.header}>
+        <Logo
+          size={48}
+          lineColor={prefersColorSchemeDark() ? undefined : '#fff'} // not reactive but ok for now
+        />
+        <h3>{intl.tabCopyOptions()}</h3>
+      </div>
       <div className={classes.generalSection}>
         {Object.entries(options)
           .filter(([, defaultVal]) => defaultVal === true || defaultVal === false) // only consider boolean options
