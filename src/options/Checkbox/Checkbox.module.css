@@ -22,10 +22,12 @@
   position: relative;
   border-radius: 5.34px;
   overflow: hidden;
+  border: 2px solid #aaa;
   background-color: #fff;
   box-shadow: #fffbed3c 0 0 0 1px inset;
 
   @media (prefers-color-scheme: dark) {
+    border: 2px solid #666;
     background-color: #00000040;
   }
 
@@ -37,6 +39,10 @@
   &:disabled {
     opacity: 0.5;
     cursor: not-allowed;
+  }
+
+  &:has(.indicator) {
+    border-width: 0
   }
 }
 
