@@ -6,7 +6,7 @@ export default defineManifest({
   version: pkg.version,
   description: 'Quickly copy tabs to the clipboard in a variety of formats',
   manifest_version: 3,
-  minimum_chrome_version: '110',
+  minimum_chrome_version: '109',
   icons: {
     16: 'img/logo-16.png',
     32: 'img/logo-32.png',
