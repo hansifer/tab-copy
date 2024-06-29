@@ -14,6 +14,13 @@ import {
 } from '@/format'
 import { newId } from '@/util/id'
 
+export class MinSelectableFormatDeleteError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'MinSelectableFormatDeleteError'
+  }
+}
+
 const storage = chrome.storage.local
 
 // ----- options -----
@@ -98,7 +105,11 @@ export async function addCustomFormat() {
 
 export async function removeCustomFormat(id: CustomFormatId) {
   // enforce minimum selectable count
-  if ((await isSelectable(id)) && (await hasMinimumSelectableFormatCount())) return
+  if ((await isSelectable(id)) && (await hasMinimumSelectableFormatCount())) {
+    throw new MinSelectableFormatDeleteError(
+      `Format ${id} cannot be deleted because it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} selectable formats.`,
+    )
+  }
 
   await removeCustomFormatId(id)
 
