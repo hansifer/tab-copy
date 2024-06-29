@@ -21,16 +21,10 @@ button {
 
 :root {
   color-scheme: light dark;
-  background-color: #242424;
-}
+  background-color: #ededed;
 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #fafafa;
-  }
-
-  a:hover {
-    color: #f3e5ab;
+  @media (prefers-color-scheme: dark) {
+    background-color: #242424;
   }
 }
 
@@ -67,25 +61,34 @@ h3 {
   line-height: 1.2rem;
   margin: 2rem 0;
   text-transform: uppercase;
-  color: #f3e5ab;
-}
+  color: #000;
 
-a {
-  color: #ccc;
+  @media (prefers-color-scheme: dark) {
+    color: #f3e5ab;
+  }
 }
 
 input {
   padding: 6px 8px;
   border-width: 0 0 1px 0;
-  border-color: #ffffff26;
+  border-color: #ccc;
   outline: none;
   background-color: transparent;
   transition: all 150ms;
 
+  @media (prefers-color-scheme: dark) {
+    border-color: #ffffff26;
+  }
+
   &:focus {
     border-radius: 2px;
-    border-color: #ffffff91;
-    background-color: #ffffff0f;
+    border-color: #999;
+    background-color: #0000000c;
+
+    @media (prefers-color-scheme: dark) {
+      border-color: #ffffff91;
+      background-color: #ffffff0f;
+    }
   }
 }
 
@@ -100,10 +103,17 @@ input {
 .primaryAction {
   padding: 0.6em 1em;
   border-radius: 5.34px;
-  background-color: #00000040;
-  box-shadow: #fffbed3c 0 0 0 1px inset;
+  background-color: #fff;
+  box-shadow: #6262623c 0 0 0 1px inset;
 
-  &:hover {
+  @media (prefers-color-scheme: dark) {
+    background-color: #00000040;
+    box-shadow: #fffbed3c 0 0 0 1px inset;
+  }
+
+  &:hover,
+  &:focus {
+    color: #fff;
     background-color: #b0436e;
     box-shadow: none
   }
