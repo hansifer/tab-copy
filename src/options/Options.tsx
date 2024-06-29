@@ -4,7 +4,9 @@ import { Reorder } from 'framer-motion'
 import { BinaryOption } from './BinaryOption/BinaryOption'
 import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOption } from './FormatOption/FormatOption'
+import { OptionTip } from './OptionTip/OptionTip'
 import { BooleanOptionId, options } from '@/options'
+import { formatOptionTips, getOptionTipText } from '@/option-tips'
 import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, FormatWithOptionId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
@@ -13,6 +15,8 @@ import {
   addCustomFormat,
   makeStorageChangeHandler,
   setFormatOption,
+  getHiddenOptionTipIds,
+  hideOptionTip,
 } from '@/storage'
 import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
 import { intl } from '@/intl'
@@ -26,23 +30,42 @@ export const Options = () => {
   // formatId associated with format option being edited
   const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptionId>()
 
+  const [visibleFormatOptionTips, setVisibleFormatOptionTips] = useState<
+    (typeof formatOptionTips)[number][]
+  >([])
+
+  const refreshVisibleOptionTips = useCallback(() => {
+    getHiddenOptionTipIds().then((hiddenOptionTipIds) => {
+      setVisibleFormatOptionTips(
+        formatOptionTips.filter(({ id }) => !hiddenOptionTipIds.includes(id)),
+      )
+    })
+  }, [setVisibleFormatOptionTips])
+
   const refreshConfiguredFormats = useCallback(() => {
     getConfiguredFormats().then(setConfiguredFormats)
-  }, [])
+  }, [setConfiguredFormats])
 
-  useEffect(() => {
+  const applyStorageState = useCallback(() => {
+    refreshVisibleOptionTips()
     refreshConfiguredFormats()
-  }, [refreshConfiguredFormats])
+  }, [refreshVisibleOptionTips, refreshConfiguredFormats])
 
+  // apply storage state on mount
   useEffect(() => {
-    const handleStorageChanged = makeStorageChangeHandler(refreshConfiguredFormats)
+    applyStorageState()
+  }, [applyStorageState])
+
+  // apply storage state when storage changes
+  useEffect(() => {
+    const handleStorageChanged = makeStorageChangeHandler(applyStorageState)
 
     chrome.storage.onChanged.addListener(handleStorageChanged)
 
     return () => {
       chrome.storage.onChanged.removeListener(handleStorageChanged)
     }
-  }, [refreshConfiguredFormats])
+  }, [applyStorageState])
 
   const selectableFormats = configuredFormats.filter(({ selectable }) => selectable)
 
@@ -68,7 +91,20 @@ export const Options = () => {
       </div>
       <div className={classes.formatsSection}>
         <h3>{intl.formats()}</h3>
-        <div className={classes.formatsInstructions}>{getFormatsInstructions()}</div>
+        {visibleFormatOptionTips.length ? (
+          <div className={classes.formatOptionTips}>
+            {visibleFormatOptionTips.map(({ id, icon }) => (
+              <OptionTip
+                key={id}
+                icon={icon}
+                text={sentenceCase(getOptionTipText(id))}
+                onDismiss={() => {
+                  hideOptionTip(id)
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
         <button
           className={classes.primaryAction}
           onClick={addCustomFormat}
@@ -129,12 +165,4 @@ function getFormatDescription(
   if (idx === 1) {
     return sentenceCase(intl.holdWhenCopying(getTernaryActionKeyModifierLabel()))
   }
-}
-
-function getFormatsInstructions() {
-  return `${sentenceCase(intl.formatReorderInstructions())}
-  
-  ${sentenceCase(intl.formatMakeUnselectableInstructions())}
-  
-  ${sentenceCase(intl.formatSetPrimaryInstructions())}`
 }
