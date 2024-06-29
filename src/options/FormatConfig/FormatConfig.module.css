@@ -91,10 +91,6 @@ li {
 
   &.unselectable {
     opacity: 0.3;
-
-    @media (prefers-color-scheme: dark) {
-      opacity: 0.5;
-    }
   }
 
   :is(span) {
@@ -111,6 +107,10 @@ li {
 
     @media (prefers-color-scheme: dark) {
       color: #ffffff8c;
+    }
+
+    .text.unselectable & {
+      color: inherit;
     }
   }
 
