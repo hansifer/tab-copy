@@ -18,3 +18,7 @@ export function classy(...arr: any[]) {
       .flat(),
   ).join(' ')
 }
+
+export function prefersColorSchemeDark() {
+  return window?.matchMedia?.('(prefers-color-scheme: dark)').matches
+}
