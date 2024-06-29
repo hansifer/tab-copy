@@ -26,6 +26,13 @@ import { prefersColorSchemeDark } from '@/util/css'
 
 import classes from './Options.module.css'
 
+// todo: remove after this bug is fixed: https://github.com/facebook/react/pull/24730
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    inert?: 'true'
+  }
+}
+
 // todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const Options = () => {
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat<FormatId>[]>([])
@@ -77,6 +84,8 @@ export const Options = () => {
     .filter(({ primary }) => !primary)
     .map(({ id }) => id)
 
+  const inert = optionEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
+
   return (
     <main>
       <div className={classes.header}>
@@ -86,7 +95,10 @@ export const Options = () => {
         />
         <h3>{intl.tabCopyOptions()}</h3>
       </div>
-      <div className={classes.generalSection}>
+      <div
+        className={classes.generalSection}
+        inert={inert}
+      >
         <div className={classes.generalSubSection}>
           {Object.entries(options)
             .filter(([, defaultVal]) => defaultVal === true || defaultVal === false) // only consider boolean options
@@ -132,7 +144,10 @@ export const Options = () => {
           {sentenceCase(intl.editKeyboardShortcuts())}
         </button>
       </div>
-      <div className={classes.formatsSection}>
+      <div
+        className={classes.formatsSection}
+        inert={inert}
+      >
         <h3>{intl.formats()}</h3>
         {visibleFormatOptionTips.length ? (
           <div className={classes.formatOptionTips}>
