@@ -75,7 +75,7 @@ export const intl = {
 
   grayscaleIcon: () => 'grayscale icon',
 
-  shortcutKey: () => 'shortcut key',
+  editKeyboardShortcuts: () => 'edit keyboard shortcuts...',
 
   // ----- key modifiers -----
 

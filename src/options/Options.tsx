@@ -97,7 +97,40 @@ export const Options = () => {
               />
             ))}
         </div>
-        {sentenceCase(intl.shortcutKey())}
+        <button
+          className={classes.primaryAction}
+          onClick={() => {
+            chrome.tabs.create({ url: 'chrome://extensions/shortcuts' })
+          }}
+        >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            <path d="M10 8h.01" />
+            <path d="M12 12h.01" />
+            <path d="M14 8h.01" />
+            <path d="M16 12h.01" />
+            <path d="M18 8h.01" />
+            <path d="M6 8h.01" />
+            <path d="M7 16h10" />
+            <path d="M8 12h.01" />
+            <rect
+              width="20"
+              height="16"
+              x="2"
+              y="4"
+              rx="2"
+            />
+          </svg>
+          {sentenceCase(intl.editKeyboardShortcuts())}
+        </button>
       </div>
       <div className={classes.formatsSection}>
         <h3>{intl.formats()}</h3>
@@ -119,6 +152,18 @@ export const Options = () => {
           className={classes.primaryAction}
           onClick={addCustomFormat}
         >
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            style={{ marginRight: '6px' }}
+          >
+            <path d="M5 12h14" />
+            <path d="M12 5v14" />
+          </svg>
           {sentenceCase(intl.addFormat())}
         </button>
         <div className={classes.formats}>

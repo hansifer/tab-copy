@@ -101,6 +101,9 @@ input {
 }
 
 .primaryAction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 0.6em 1em;
   border-radius: 5.34px;
   background-color: #fff;
@@ -121,6 +124,10 @@ input {
   &:focus-visible {
     outline: 2px solid #b0436e;
     outline-offset: 2px;
+  }
+
+  :is(svg) {
+    margin-right: 12px;
   }
 }
 
