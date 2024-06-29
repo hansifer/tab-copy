@@ -130,15 +130,9 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 20px;
+  margin: 24px 0;
 }
 
-.formatsInstructions {
-  padding: 20px;
-  margin: 10px 0;
-  white-space: pre;
-  text-wrap: pretty;
-  text-align: center;
-  border-radius: 10px;
-  background-color: #ffffff1c;
+.formatOptionTips {
+  padding-bottom: 16px;
 }

@@ -31,6 +31,8 @@
 
 .text {
   white-space: pre-wrap;
+  text-align: center;
+  /* text-wrap: pretty; */
 }
 
 .dismiss {
