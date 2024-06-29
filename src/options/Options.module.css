@@ -16,7 +16,7 @@ button {
   -webkit-tap-highlight-color: transparent;
   color: inherit;
   background-color: transparent;
-  cursor: default;
+  cursor: pointer;
 }
 
 :root {
