@@ -100,6 +100,27 @@ export const Options = () => {
     setEditError('')
   }
 
+  const deleteFormat = async (formatId: FormatWithOptionId) => {
+    try {
+      if (isCustomFormatId(formatId)) {
+        await removeCustomFormat(formatId)
+        closeFormatOptionEditor()
+      } else {
+        setEditError(sentenceCase(intl.genericFormatDeleteError()))
+      }
+    } catch (ex) {
+      console.error(ex)
+
+      setEditError(
+        sentenceCase(
+          ex instanceof MinSelectableFormatDeleteError
+            ? intl.minSelectableFormatDeleteError()
+            : intl.genericFormatDeleteError(),
+        ),
+      )
+    }
+  }
+
   return (
     <main>
       <div className={classes.header}>
@@ -227,25 +248,8 @@ export const Options = () => {
           setFormatOption(formatId, option)
           closeFormatOptionEditor()
         }}
-        onDelete={async (formatId) => {
-          try {
-            if (isCustomFormatId(formatId)) {
-              await removeCustomFormat(formatId)
-              closeFormatOptionEditor()
-            } else {
-              setEditError(sentenceCase(intl.genericFormatDeleteError()))
-            }
-          } catch (ex) {
-            console.error(ex)
-
-            setEditError(
-              sentenceCase(
-                ex instanceof MinSelectableFormatDeleteError
-                  ? intl.minSelectableFormatDeleteError()
-                  : intl.genericFormatDeleteError(),
-              ),
-            )
-          }
+        onDelete={(formatId) => {
+          deleteFormat(formatId)
         }}
       />
     </main>
