@@ -8,7 +8,12 @@ import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
 import { BooleanOptionId, options } from '@/options'
 import { formatOptionTips, getOptionTipText } from '@/option-tips'
-import { MIN_SELECTABLE_FORMAT_COUNT, FormatId, FormatWithOptionId } from '@/format'
+import {
+  MIN_SELECTABLE_FORMAT_COUNT,
+  isCustomFormatId,
+  FormatId,
+  FormatWithOptionId,
+} from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
   setOrderedFormatIds,
@@ -16,6 +21,8 @@ import {
   addCustomFormat,
   makeStorageChangeHandler,
   setFormatOption,
+  removeCustomFormat,
+  MinSelectableFormatDeleteError,
   getHiddenOptionTipIds,
   hideOptionTip,
 } from '@/storage'
@@ -38,6 +45,8 @@ export const Options = () => {
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat<FormatId>[]>([])
   // formatId associated with format option being edited
   const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptionId>()
+
+  const [editError, setEditError] = useState<string>('')
 
   const [visibleFormatOptionTips, setVisibleFormatOptionTips] = useState<
     (typeof formatOptionTips)[number][]
@@ -85,6 +94,11 @@ export const Options = () => {
     .map(({ id }) => id)
 
   const inert = optionEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
+
+  const closeFormatOptionEditor = () => {
+    setOptionEditFormatId(undefined)
+    setEditError('')
+  }
 
   return (
     <main>
@@ -203,13 +217,35 @@ export const Options = () => {
         </div>
       </div>
       <FormatOption
+        key={optionEditFormatId} // force remount to clear deleteMode
+        error={editError}
         formatId={optionEditFormatId}
         onCancel={() => {
-          setOptionEditFormatId(undefined)
+          closeFormatOptionEditor()
         }}
         onOK={(formatId, option) => {
           setFormatOption(formatId, option)
-          setOptionEditFormatId(undefined)
+          closeFormatOptionEditor()
+        }}
+        onDelete={async (formatId) => {
+          try {
+            if (isCustomFormatId(formatId)) {
+              await removeCustomFormat(formatId)
+              closeFormatOptionEditor()
+            } else {
+              setEditError(sentenceCase(intl.genericFormatDeleteError()))
+            }
+          } catch (ex) {
+            console.error(ex)
+
+            setEditError(
+              sentenceCase(
+                ex instanceof MinSelectableFormatDeleteError
+                  ? intl.minSelectableFormatDeleteError()
+                  : intl.genericFormatDeleteError(),
+              ),
+            )
+          }
         }}
       />
     </main>

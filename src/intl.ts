@@ -1,3 +1,5 @@
+import { MIN_SELECTABLE_FORMAT_COUNT } from '@/format'
+
 export const intl = {
   // ----- copying  -----
 
@@ -45,7 +47,12 @@ export const intl = {
 
   footer: () => 'footer',
 
-  confirmDelete: () => 'Are you sure you want to delete this format?',
+  confirmDelete: () => 'are you sure you want to delete this format?',
+
+  minSelectableFormatDeleteError: () =>
+    `this format cannot be deleted\nbecause it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} visible formats`,
+
+  genericFormatDeleteError: () => 'unable to delete this format',
 
   // ----- options page -----
 
