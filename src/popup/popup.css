@@ -1,12 +1,11 @@
 :root {
   color-scheme: light dark;
-  color: #aaa;
-  background-color: #242424;
-}
+  color: #000;
+  background-color: #fafafa;
 
-@media (prefers-color-scheme: light) {
-  :root {
-    background-color: #fafafa;
+  @media (prefers-color-scheme: dark) {
+    color: #aaa;
+    background-color: #242424;
   }
 }
 
@@ -52,8 +51,8 @@ button {
   outline: none;
   white-space: nowrap;
   overflow: hidden;
-  color: #eee;
-  background-color: #ffffff1f;
+  color: #000;
+  background-color: #e8e8e8;
   cursor: pointer;
   font-size: 14px;
   font-family:
@@ -68,6 +67,11 @@ button {
     'Open Sans',
     'Helvetica Neue',
     sans-serif;
+
+  @media (prefers-color-scheme: dark) {
+    color: #eee;
+    background-color: #ffffff1f;
+  }
 }
 
 .button-label {
@@ -86,7 +90,11 @@ button {
 
 .button-primary:focus {
   color: #fff;
-  background-color: #1f515e;
+  background-color: #1c7c96;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #1f515e;
+  }
 }
 
 .button-secondary {
@@ -95,14 +103,23 @@ button {
   height: 28px;
   padding: 0 10px;
   font-size: 12px;
-  border: 1px solid #eeeeee4d;
+  border: 1px solid #ccc;
   color: inherit;
   background-color: transparent;
+
+  @media (prefers-color-scheme: dark) {
+    border: 1px solid #eeeeee4d;
+  }
 }
 
 .button-secondary:focus {
-  color: #fff;
-  border-color: #ddd;
+  color: #000;
+  border-color: #333;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+    border-color: #ddd;
+  }
 }
 
 .button-secondary .button-label {
@@ -130,7 +147,11 @@ button {
 }
 
 #default-format-btn:hover {
-  color: #fff;
+  color: #000;
+
+  @media (prefers-color-scheme: dark) {
+    color: #fff;
+  }
 }
 
 #default-format-btn .button-label {
