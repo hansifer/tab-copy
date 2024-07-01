@@ -35,6 +35,7 @@ function initApp() {
 
   initCopyButtons()
   initFormats()
+  initKeyboardInteraction()
 
   const formatChanges = [
     'customFormatIds',
@@ -219,6 +220,34 @@ async function initFormats() {
   // reveal UI
 
   document.getElementById('format-section')!.style.display = ''
+}
+
+function initKeyboardInteraction() {
+  document.addEventListener('keydown', ({ code }: KeyboardEvent) => {
+    const copyTabBtn = document.getElementById('copy-tab') as HTMLButtonElement
+    const copyWindowTabsBtn = document.getElementById('copy-window-tabs') as HTMLButtonElement
+    const copyAllTabsBtn = document.getElementById('copy-all-tabs') as HTMLButtonElement
+
+    if (code === 'ArrowUp') {
+      if (document.activeElement === copyAllTabsBtn) {
+        copyWindowTabsBtn.focus()
+      } else if (document.activeElement === copyWindowTabsBtn) {
+        copyTabBtn.focus()
+      } else {
+        // copyTabBtn or no copy button is focused
+        copyTabBtn.focus()
+      }
+    } else if (code === 'ArrowDown') {
+      if (document.activeElement === copyTabBtn) {
+        copyWindowTabsBtn.focus()
+      } else if (document.activeElement === copyWindowTabsBtn) {
+        copyAllTabsBtn.focus()
+      } else if (document.activeElement !== copyAllTabsBtn) {
+        // no copy button is focused
+        copyTabBtn.focus()
+      }
+    }
+  })
 }
 
 async function refreshFormats() {
