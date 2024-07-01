@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 import { classy } from '@/util/css'
@@ -12,11 +14,18 @@ import optionsClasses from '../../Options.module.css'
 // todo: add validation
 
 export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
   return (
     <div className={classes.Custom}>
       <div className={classes.name}>
         <div>{sentenceCase(intl.name())}:</div>
         <input
+          ref={inputRef}
           type="text"
           maxLength={30}
           onInput={({ currentTarget }) => {

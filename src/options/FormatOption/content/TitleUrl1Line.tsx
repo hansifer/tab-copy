@@ -1,3 +1,5 @@
+import { useEffect, useRef } from 'react'
+
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 
@@ -9,10 +11,17 @@ import classes from './TitleUrl1Line.module.css'
 // todo: add validation
 
 export const TitleUrl1Line = ({ option, onChange }: ContentProps<'titleUrl1Line'>) => {
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
+
   return (
     <div className={classes.separator}>
       <div>{sentenceCase(intl.separator())}:</div>
       <input
+        ref={inputRef}
         type="text"
         maxLength={6}
         onInput={({ currentTarget }) => {
