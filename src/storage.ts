@@ -14,10 +14,10 @@ import {
 } from '@/format'
 import { newId } from '@/util/id'
 
-export class MinSelectableFormatDeleteError extends Error {
+export class MinSelectableFormatExceededError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'MinSelectableFormatDeleteError'
+    this.name = 'MinSelectableFormatExceededError'
   }
 }
 
@@ -64,28 +64,18 @@ export async function getHiddenOptionTipIds(): Promise<OptionTipId[]> {
   return hiddenOptionTips ?? []
 }
 
-// ----- primary format id -----
+// ----- default format id -----
 
-export async function getPrimaryFormatId() {
-  const { primaryFormatId } = (await storage.get('primaryFormatId')) as {
-    primaryFormatId: FormatId
-  }
-
+export async function getDefaultFormatId() {
   const selectableFormatIds = await getSelectableFormatIds()
-
-  if (!primaryFormatId || !selectableFormatIds.includes(primaryFormatId)) {
-    // if primary format is not set or not selectable, find and lock in a new one
-    const primaryFormatId = selectableFormatIds[0]
-    await storage.set({ primaryFormatId })
-    return primaryFormatId
-  }
-
-  return primaryFormatId
+  return selectableFormatIds[0]
 }
 
-export async function setPrimaryFormatId(id: FormatId) {
+export async function setDefaultFormat(id: FormatId) {
   if (await isSelectable(id)) {
-    return storage.set({ primaryFormatId: id })
+    // move to top of format order
+    const orderedFormatIds = await getOrderedFormatIds()
+    await setOrderedFormatIds([id, ...orderedFormatIds.filter((formatId) => formatId !== id)])
   }
 }
 
@@ -106,8 +96,8 @@ export async function addCustomFormat() {
 export async function removeCustomFormat(id: CustomFormatId) {
   // enforce minimum selectable count
   if ((await isSelectable(id)) && (await hasMinimumSelectableFormatCount())) {
-    throw new MinSelectableFormatDeleteError(
-      `Format ${id} cannot be deleted because it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} selectable formats.`,
+    throw new MinSelectableFormatExceededError(
+      `Format ${id} cannot be deleted because it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} visible formats.`,
     )
   }
 
@@ -207,7 +197,11 @@ export async function toggleSelectableFormatId(id: FormatId, selectable?: boolea
 
   if (isSelectable && !makingSelectable) {
     // do not allow unselecting beyond minimum selectable count
-    if (await hasMinimumSelectableFormatCount()) return
+    if (await hasMinimumSelectableFormatCount()) {
+      throw new MinSelectableFormatExceededError(
+        `Format ${id} cannot be hidden because it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} visible formats.`,
+      )
+    }
 
     return setUnselectableFormatIds([...unselectableFormatIds, id])
   }

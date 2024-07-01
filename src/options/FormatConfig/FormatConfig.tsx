@@ -42,7 +42,6 @@ export const FormatConfig = ({
   const textClassNames = classy({
     [classes.text]: true,
     [classes.unselectable]: !format.selectable,
-    [classes.primary]: format.primary,
   })
 
   const sideRightClassNames = classy(classes.side, classes.right)

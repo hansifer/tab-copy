@@ -2,8 +2,8 @@ import { copyTabs } from '@/copy'
 import { FormatId } from '@/format'
 import { getConfiguredFormat, getConfiguredFormats } from '@/configured-format'
 import {
-  getPrimaryFormatId,
-  setPrimaryFormatId,
+  getDefaultFormatId,
+  setDefaultFormat,
   setCopied,
   makeStorageChangeHandler,
 } from '@/storage'
@@ -38,7 +38,6 @@ function initApp() {
 
   const formatChanges = [
     'customFormatIds',
-    'primaryFormatId',
     'orderedFormatIds',
     'unselectableFormatIds',
     'formatOptions',
@@ -164,9 +163,9 @@ async function initFormats() {
   const handleFormatClickOrKeydown = async (e: MouseEvent | KeyboardEvent) => {
     if (isButton(e.target)) {
       const formatId = e.target.getAttribute('id') as FormatId
-      const primaryFormatId = await getPrimaryFormatId()
+      const defaultFormatId = await getDefaultFormatId()
 
-      if (formatId === primaryFormatId) {
+      if (formatId === defaultFormatId) {
         oneTimeFormatId = null
         refreshFormats() // no db impact, so force refresh
       } else if (hasSecondaryActionKeyModifier(e)) {
@@ -174,7 +173,7 @@ async function initFormats() {
         refreshFormats() // no db impact, so force refresh
       } else {
         oneTimeFormatId = null
-        setPrimaryFormatId(formatId)
+        setDefaultFormat(formatId)
       }
 
       closeFormatSelector()
@@ -203,17 +202,17 @@ async function initFormats() {
     }
   })
 
-  // handle primary format click
+  // handle default format click
 
-  const primaryFormatBtn = document.getElementById('primary-format-btn') as HTMLButtonElement
+  const defaultFormatBtn = document.getElementById('default-format-btn') as HTMLButtonElement
 
-  primaryFormatBtn.addEventListener('click', () => {
+  defaultFormatBtn.addEventListener('click', () => {
     toggleFormatSelector()
   })
 
   // suppress format selector close
 
-  addListener([formatSelector, primaryFormatBtn], 'mousedown', (e) => {
+  addListener([formatSelector, defaultFormatBtn], 'mousedown', (e) => {
     e.stopPropagation()
   })
 
@@ -237,7 +236,7 @@ async function refreshFormats() {
   for (const format of selectableFormats) {
     if (
       (!oneTimeFormatId || oneTimeFormatId !== format.id) &&
-      (oneTimeFormatId || !format.primary)
+      (oneTimeFormatId || !format.isDefault)
     ) {
       const button = document.createElement('button')
 
@@ -272,8 +271,8 @@ async function refreshFormatOverride() {
 
   const format = await useFormat()
 
-  const primaryFormatLabel = document.getElementById('primary-format-label') as HTMLSpanElement
-  primaryFormatLabel.textContent = format.label
+  const defaultFormatLabel = document.getElementById('default-format-label') as HTMLSpanElement
+  defaultFormatLabel.textContent = format.label
 }
 
 function focusCopyTabBtn() {
@@ -303,12 +302,12 @@ async function useFormat() {
 
   if (altFormat) {
     const selectableFormats = await getConfiguredFormats({ selectableOnly: true })
-    const selectableNonPrimaryFormats = selectableFormats.filter(({ primary }) => !primary)
+    const selectableNonDefaultFormats = selectableFormats.filter(({ isDefault }) => !isDefault)
 
-    return selectableNonPrimaryFormats[altFormat === 'secondary' ? 0 : 1]
+    return selectableNonDefaultFormats[altFormat === 'secondary' ? 0 : 1]
   }
 
-  return getConfiguredFormat(await getPrimaryFormatId())
+  return getConfiguredFormat(await getDefaultFormatId())
 }
 
 function hasFormatOverride() {

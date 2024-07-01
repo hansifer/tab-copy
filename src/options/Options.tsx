@@ -22,7 +22,7 @@ import {
   makeStorageChangeHandler,
   setFormatOption,
   removeCustomFormat,
-  MinSelectableFormatDeleteError,
+  MinSelectableFormatExceededError,
   getHiddenOptionTipIds,
   hideOptionTip,
 } from '@/storage'
@@ -89,10 +89,6 @@ export const Options = () => {
 
   const isMinSelectableFormatCount = selectableFormats.length <= MIN_SELECTABLE_FORMAT_COUNT
 
-  const selectableNonPrimaryFormatIds = selectableFormats
-    .filter(({ primary }) => !primary)
-    .map(({ id }) => id)
-
   const inert = optionEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
 
   const closeFormatOptionEditor = () => {
@@ -113,7 +109,7 @@ export const Options = () => {
 
       setEditError(
         sentenceCase(
-          ex instanceof MinSelectableFormatDeleteError
+          ex instanceof MinSelectableFormatExceededError
             ? intl.minSelectableFormatDeleteError()
             : intl.genericFormatDeleteError(),
         ),
@@ -228,7 +224,7 @@ export const Options = () => {
               <FormatConfig
                 key={format.id}
                 format={format}
-                description={getFormatDescription(format, selectableNonPrimaryFormatIds)}
+                description={getFormatDescription(format, selectableFormats)}
                 disabled={format.selectable && isMinSelectableFormatCount}
                 onClick={toggleSelectableFormatId}
                 onOptionClick={setOptionEditFormatId}
@@ -258,23 +254,23 @@ export const Options = () => {
 
 function getFormatDescription(
   format: ConfiguredFormat<FormatId>,
-  selectableNonPrimaryFormatIds: FormatId[],
+  selectableFormats: ConfiguredFormat<FormatId>[],
 ) {
   if (!format.selectable) {
     return sentenceCase(intl.hidden())
   }
 
-  if (format.primary) {
-    return sentenceCase(intl.primary())
-  }
-
-  const idx = selectableNonPrimaryFormatIds.indexOf(format.id)
+  const idx = selectableFormats.findIndex(({ id }) => id === format.id)
 
   if (idx === 0) {
-    return sentenceCase(intl.holdWhenCopying(getSecondaryActionKeyModifierLabel()))
+    return sentenceCase(intl.default())
   }
 
   if (idx === 1) {
+    return sentenceCase(intl.holdWhenCopying(getSecondaryActionKeyModifierLabel()))
+  }
+
+  if (idx === 2) {
     return sentenceCase(intl.holdWhenCopying(getTernaryActionKeyModifierLabel()))
   }
 }
