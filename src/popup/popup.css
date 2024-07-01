@@ -124,16 +124,16 @@ button {
   font-size: 12px;
 }
 
-#primary-format-btn {
+#default-format-btn {
   margin-left: auto;
   border-color: transparent;
 }
 
-#primary-format-btn:hover {
+#default-format-btn:hover {
   color: #fff;
 }
 
-#primary-format-btn .button-label {
+#default-format-btn .button-label {
   max-width: 100px;
 }
 
