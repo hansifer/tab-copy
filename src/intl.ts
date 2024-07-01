@@ -47,6 +47,8 @@ export const intl = {
 
   footer: () => 'footer',
 
+  deleteFormat: () => 'delete format',
+
   confirmDelete: () => 'are you sure you want to delete this format?',
 
   minSelectableFormatDeleteError: () =>

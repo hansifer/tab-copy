@@ -11,7 +11,7 @@ import optionsClasses from '../../Options.module.css'
 // todo: add template fields
 // todo: add validation
 
-export const Custom = ({ option, onChange, onDelete }: ContentProps<'custom-*'>) => {
+export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
   return (
     <div className={classes.Custom}>
       <div className={classes.name}>
@@ -28,13 +28,13 @@ export const Custom = ({ option, onChange, onDelete }: ContentProps<'custom-*'>)
           value={option.name}
         />
       </div>
-      {onDelete ? (
+      {onConfirmDelete ? (
         <div>
           <button
             className={classy(optionsClasses.primaryAction, optionsClasses.destructiveAction)}
-            onClick={() => onDelete()}
+            onClick={() => onConfirmDelete()}
           >
-            {sentenceCase(intl.delete())}
+            {sentenceCase(intl.deleteFormat())}
           </button>
         </div>
       ) : null}
