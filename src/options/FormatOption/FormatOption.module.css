@@ -7,8 +7,12 @@
   min-height: 100%;
   padding: 1rem;
   box-sizing: border-box;
-  background-color: #000000d6;
+  background-color: #00000073;
   animation: 200ms background-fade-in;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #000000c6;
+  }
 }
 
 .FormatOption {
@@ -18,9 +22,13 @@
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 10px;
-  background-color: #363636;
+  background-color: #fff;
   box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
   animation: 200ms pop-in;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #363636;
+  }
 
   :is(h1) {
     margin-top: 0;
@@ -33,6 +41,8 @@
 }
 
 .contentMessage {
+  padding: 16px 0;
+  white-space: pre-wrap;
   text-align: center;
 }
 
