@@ -93,7 +93,7 @@ export const FormatOption = <T extends FormatWithOptionId>({
         className={optionsClasses.primaryAction}
         onClick={() => onCancel()}
       >
-        {sentenceCase(intl.ok())}
+        {intl.ok()}
       </button>
     </>
   ) : confirmDelete ? (
@@ -139,7 +139,7 @@ export const FormatOption = <T extends FormatWithOptionId>({
       >
         <h1>{format.label}</h1>
         <div className={classes.content}>{content}</div>
-        <div className={classes.buttonRow}>{buttons}</div>
+        <div className={classes.buttons}>{buttons}</div>
       </div>
     </div>
   )

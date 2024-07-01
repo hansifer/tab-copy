@@ -36,7 +36,7 @@
   text-align: center;
 }
 
-.buttonRow {
+.buttons {
   display: flex;
   justify-content: flex-end;
   gap: 8px;
