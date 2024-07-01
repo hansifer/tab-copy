@@ -50,6 +50,20 @@ export const FormatOption = <T extends FormatWithOptionId>({
     }
   }, [formatId])
 
+  useEffect(() => {
+    const keydownHandler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onCancel()
+      }
+    }
+
+    document.addEventListener('keydown', keydownHandler)
+
+    return () => {
+      document.removeEventListener('keydown', keydownHandler)
+    }
+  }, [onCancel])
+
   if (!format) return null
 
   const content = error ? (
