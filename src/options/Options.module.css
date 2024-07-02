@@ -74,7 +74,7 @@ input {
   border-color: #ccc;
   outline: none;
   background-color: transparent;
-  transition: all 150ms;
+  transition: background-color 150ms, border-color 150ms;
 
   @media (prefers-color-scheme: dark) {
     border-color: #ffffff26;

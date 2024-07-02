@@ -1,37 +1,26 @@
-import { useEffect, useRef } from 'react'
-
 import { intl } from '@/intl'
-import { sentenceCase } from '@/util/string'
 
+import { TextOption } from '@/options/TextOption/TextOption'
 import { ContentProps } from './interface'
-import classes from './TitleUrl1Line.module.css'
 
 // content components receive up-to-date option and are responsible for reporting option changes
 
 // todo: add validation
 
 export const TitleUrl1Line = ({ option, onChange }: ContentProps<'titleUrl1Line'>) => {
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
-
   return (
-    <div className={classes.separator}>
-      <div>{sentenceCase(intl.separator())}:</div>
-      <input
-        ref={inputRef}
-        type="text"
-        maxLength={6}
-        onInput={({ currentTarget }) => {
-          onChange({
-            ...option,
-            separator: currentTarget.value,
-          })
-        }}
-        value={option.separator}
-      />
-    </div>
+    <TextOption
+      label={intl.separator()}
+      value={option.separator}
+      width={60}
+      maxLength={6}
+      autoFocus
+      onChange={(separator) => {
+        onChange({
+          ...option,
+          separator,
+        })
+      }}
+    />
   )
 }

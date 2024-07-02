@@ -1,16 +1,5 @@
 .Custom {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-}
-
-.name {
-  display: flex;
-  align-items: baseline;
-  gap: 20px;
-  white-space: nowrap;
-
-  :is(input) {
-    width: 280px;
-  }
+  gap: 8px;
 }

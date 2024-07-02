@@ -1,42 +1,83 @@
-import { useEffect, useRef } from 'react'
-
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 import { classy } from '@/util/css'
 
+import { TextOption } from '@/options/TextOption/TextOption'
 import { ContentProps } from './interface'
 import classes from './Custom.module.css'
 import optionsClasses from '../../Options.module.css'
 
 // content components receive up-to-date option and are responsible for reporting option changes
 
-// todo: add template fields
 // todo: add validation
 
 export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
-  const inputRef = useRef<HTMLInputElement>(null)
-
-  useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
-
   return (
     <div className={classes.Custom}>
-      <div className={classes.name}>
-        <div>{sentenceCase(intl.name())}:</div>
-        <input
-          ref={inputRef}
-          type="text"
-          maxLength={30}
-          onInput={({ currentTarget }) => {
-            onChange({
-              ...option,
-              name: currentTarget.value,
-            })
-          }}
-          value={option.name}
-        />
-      </div>
+      <TextOption
+        label={intl.name()}
+        value={option.name}
+        maxLength={30}
+        autoFocus
+        onChange={(name) => {
+          onChange({
+            ...option,
+            name,
+          })
+        }}
+      />
+      <TextOption
+        label={intl.header()}
+        value={option.template.header}
+        onChange={(header) => {
+          onChange({
+            ...option,
+            template: {
+              ...option.template,
+              header,
+            },
+          })
+        }}
+      />
+      <TextOption
+        label={intl.tab()}
+        value={option.template.tab}
+        onChange={(tab) => {
+          onChange({
+            ...option,
+            template: {
+              ...option.template,
+              tab,
+            },
+          })
+        }}
+      />
+      <TextOption
+        label={intl.delimiter()}
+        value={option.template.delimiter}
+        onChange={(delimiter) => {
+          onChange({
+            ...option,
+            template: {
+              ...option.template,
+              delimiter,
+            },
+          })
+        }}
+      />
+      <TextOption
+        label={intl.footer()}
+        value={option.template.footer}
+        onChange={(footer) => {
+          onChange({
+            ...option,
+            template: {
+              ...option.template,
+              footer,
+            },
+          })
+        }}
+      />
       {onConfirmDelete ? (
         <div>
           <button

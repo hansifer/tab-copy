@@ -1,0 +1,14 @@
+.TextOption {
+  display: flex;
+  align-items: baseline;
+  white-space: nowrap;
+
+  .label {
+    padding-right: 16px;
+    opacity: 0.5;
+  }
+
+  :is(input) {
+    box-sizing: border-box;
+  }
+}
