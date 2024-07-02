@@ -3,7 +3,7 @@ import { Reorder } from 'framer-motion'
 
 import { BinaryOption } from './BinaryOption/BinaryOption'
 import { FormatConfig } from './FormatConfig/FormatConfig'
-import { FormatOption } from './FormatOption/FormatOption'
+import { FormatOptionEditor } from './FormatOptionEditor/FormatOptionEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
 import { BooleanOptionId, options } from '@/options'
@@ -233,7 +233,7 @@ export const Options = () => {
           </Reorder.Group>
         </div>
       </div>
-      <FormatOption
+      <FormatOptionEditor
         key={optionEditFormatId} // force remount to clear deleteMode
         error={editError}
         formatId={optionEditFormatId}

@@ -15,7 +15,7 @@ import { HtmlTable } from './content/HtmlTable'
 import { TitleUrl1Line } from './content/TitleUrl1Line'
 import { Custom } from './content/Custom'
 
-import classes from './FormatOption.module.css'
+import classes from './FormatOptionEditor.module.css'
 import optionsClasses from '../Options.module.css'
 
 const builtInFormatOptionContent = {
@@ -23,7 +23,7 @@ const builtInFormatOptionContent = {
   titleUrl1Line: TitleUrl1Line,
 } satisfies { [k in BuiltInFormatWithOptionId]: FC<ContentProps<k>> }
 
-type FormatOptionProps<T extends FormatWithOptionId> = {
+type FormatOptionEditorProps<T extends FormatWithOptionId> = {
   formatId?: T
   error?: string
   onCancel: () => void
@@ -31,13 +31,13 @@ type FormatOptionProps<T extends FormatWithOptionId> = {
   onDelete?: (formatId: T) => void
 }
 
-export const FormatOption = <T extends FormatWithOptionId>({
+export const FormatOptionEditor = <T extends FormatWithOptionId>({
   formatId,
   error,
   onCancel,
   onOK,
   onDelete,
-}: FormatOptionProps<T>) => {
+}: FormatOptionEditorProps<T>) => {
   const [format, setFormat] = useState<ConfiguredFormat<T>>()
 
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
@@ -134,7 +134,7 @@ export const FormatOption = <T extends FormatWithOptionId>({
       onMouseDown={() => onCancel()}
     >
       <div
-        className={classes.FormatOption}
+        className={classes.FormatOptionEditor}
         onMouseDown={(e) => e.stopPropagation()}
       >
         <h1>{format.label}</h1>
