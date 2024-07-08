@@ -68,8 +68,7 @@ export const intl = {
     'hidden-formats': () =>
       "uncheck formats you don't want to see\n(at least 3 formats must remain checked).",
 
-    'default-format': () =>
-      'the top visible format is the default format.\nIt can also be set in the Tab Copy popup.',
+    'default-format': () => 'the top visible format is the default format.',
   },
 
   addFormat: () => 'add format',
