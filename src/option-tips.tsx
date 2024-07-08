@@ -49,7 +49,6 @@ export const formatOptionTips = [
       </svg>
     ),
   },
-
   {
     id: 'default-format',
     icon: (
