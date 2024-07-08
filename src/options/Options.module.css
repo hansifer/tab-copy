@@ -82,23 +82,24 @@ h3 {
 input {
   padding: 6px 8px;
   border-width: 0 0 1px 0;
-  border-color: #ccc;
+  border-color: #d4d4d4;
   outline: none;
+  color: #666;
   background-color: transparent;
-  transition: background-color 150ms, border-color 150ms;
+  transition: color 150ms, border-color 150ms;
 
   @media (prefers-color-scheme: dark) {
-    border-color: #ffffff26;
+    color: #ccc;
+    border-color: #ffffff33;
   }
 
   &:focus {
-    border-radius: 2px;
-    border-color: #999;
-    background-color: #0000000c;
+    color: #000;
+    border-color: #000;
 
     @media (prefers-color-scheme: dark) {
-      border-color: #ffffff91;
-      background-color: #ffffff0f;
+      color: #fff;
+      border-color: #fff;
     }
   }
 }
