@@ -2,15 +2,23 @@ import { copyTabs } from '@/copy'
 import { FormatId } from '@/format'
 import { getConfiguredFormat, getConfiguredFormats } from '@/configured-format'
 import {
+  // wrap
   getDefaultFormatId,
-  setDefaultFormat,
   setCopied,
   makeStorageChangeHandler,
 } from '@/storage'
 import { hasSecondaryActionKeyModifier, hasTernaryActionKeyModifier } from '@/keyboard'
 import { intl } from '@/intl'
 import { getTabs } from '@/util/tabs'
-import { isButton, addListener } from '@/util/dom'
+import {
+  // wrap
+  isButton,
+  addListener,
+  getSpan,
+  getDiv,
+  getButton,
+  queryElement,
+} from '@/util/dom'
 import { sentenceCase } from '@/util/string'
 
 import './popup.css'
@@ -22,16 +30,15 @@ type CopyScope =
 
 // ----- format overrides -----
 
-type AltFormat = 'secondary' | 'ternary'
+type FormatVariation = 'secondary' | 'ternary'
 
-let oneTimeFormatId: FormatId | null = null // engaged when selecting a format. takes precedence.
-let altFormat: AltFormat | null = null // engaged when copying
+let formatVariation: FormatVariation | null = null // set when key modifiers are engaged
+let oneTimeFormatId: FormatId | null = null // set when selecting a non-default format. takes precedence over formatVariation during copy.
 
 initApp()
 
 function initApp() {
-  const header = document.querySelector('header') as HTMLElement
-  header.textContent = intl.copy()
+  queryElement('header').textContent = intl.copy()
 
   initCopyButtons()
   initFormats()
@@ -64,39 +71,38 @@ function initApp() {
 async function initCopyButtons() {
   const { highlighted: highlightedTabs } = await getTabs()
 
-  const copyTabBtn = document.getElementById('copy-tab') as HTMLButtonElement
-  const copyWindowTabsBtn = document.getElementById('copy-window-tabs') as HTMLButtonElement
-  const copyAllTabsBtn = document.getElementById('copy-all-tabs') as HTMLButtonElement
+  const copyTabBtn = getButton('copy-tab')
+  const copyWindowTabsBtn = getButton('copy-window-tabs')
+  const copyAllTabsBtn = getButton('copy-all-tabs')
 
-  // ----- set copy tab button label -----
+  // ----- set copy button labels -----
 
-  copyTabBtn.textContent =
+  copyTabBtn.textContent = sentenceCase(
     highlightedTabs.length > 1 // wrap
-      ? sentenceCase(intl.selectedTabs())
-      : sentenceCase(intl.thisTab())
-
-  // ----- set other button labels -----
+      ? intl.selectedTabs()
+      : intl.thisTab(),
+  )
 
   copyWindowTabsBtn.textContent = sentenceCase(intl.thisWindowsTabs())
   copyAllTabsBtn.textContent = sentenceCase(intl.allTabs())
 
   // ----- reveal UI -----
 
-  document.getElementById('copy-buttons')!.style.display = ''
+  getDiv('copy-buttons')!.style.display = ''
 
   copyTabBtn.focus()
 
   // ----- add event handlers -----
 
-  const setAltFormatForKeys = (e: KeyboardEvent) => {
+  const setFormatVariationPerKeyModifiers = (e: KeyboardEvent) => {
     if (isButton(e.currentTarget)) {
-      setAltFormat(getAltFormat(e))
+      setFormatVariation(getFormatVariation(e))
     }
   }
 
   const handleCopyClickOrKeydown = (e: MouseEvent | KeyboardEvent) => {
     if (isButton(e.currentTarget)) {
-      setAltFormat(getAltFormat(e))
+      setFormatVariation(getFormatVariation(e))
       const scope = e.currentTarget.getAttribute('id') as CopyScope
       handleCopy(scope)
     }
@@ -112,11 +118,11 @@ async function initCopyButtons() {
 
   const copyButtons = [copyTabBtn, copyWindowTabsBtn, copyAllTabsBtn]
 
-  addListener(copyButtons, ['keydown', 'keyup'], setAltFormatForKeys)
+  addListener(copyButtons, ['keydown', 'keyup'], setFormatVariationPerKeyModifiers)
   addListener(copyButtons, 'click', handleCopyClickOrKeydown)
   addListener(copyButtons, 'keydown', handleCopyKeydown)
   addListener(copyButtons, 'focus', closeFormatSelector)
-  addListener(copyButtons, 'blur', clearAltFormat)
+  addListener(copyButtons, 'blur', clearFormatVariation)
 
   // auto-focus button on hover. delay listener add to avoid auto-focus of a button that mouse cursor happens to be over on popup open.
   setTimeout(() => {
@@ -138,7 +144,7 @@ async function initCopyButtons() {
           ? tabs.inCurrentWin
           : tabs.all
 
-    const format = await useFormat()
+    const format = await getEffectiveFormat()
 
     try {
       await copyTabs(scopedTabs, format)
@@ -147,7 +153,7 @@ async function initCopyButtons() {
     } catch (ex) {
       console.error(ex)
 
-      const scopeButton = document.getElementById(scope) as HTMLButtonElement
+      const scopeButton = getButton(scope)
 
       copyButtons.forEach(
         (button) => (button.style.backgroundColor = scopeButton === button ? '#7a2c2c' : ''),
@@ -166,17 +172,12 @@ async function initFormats() {
       const formatId = e.target.getAttribute('id') as FormatId
       const defaultFormatId = await getDefaultFormatId()
 
-      if (formatId === defaultFormatId) {
-        oneTimeFormatId = null
-        refreshFormats() // no db impact, so force refresh
-      } else if (hasSecondaryActionKeyModifier(e)) {
-        oneTimeFormatId = formatId
-        refreshFormats() // no db impact, so force refresh
-      } else {
-        oneTimeFormatId = null
-        setDefaultFormat(formatId)
-      }
+      oneTimeFormatId =
+        formatId === defaultFormatId // wrap
+          ? null
+          : formatId
 
+      refreshFormats() // no db impact, so force refresh
       closeFormatSelector()
       focusCopyTabBtn()
     }
@@ -190,7 +191,7 @@ async function initFormats() {
     }
   }
 
-  const formatSelector = document.getElementById('format-selector') as HTMLDivElement
+  const formatSelector = getDiv('format-selector')
 
   formatSelector.addEventListener('click', handleFormatClickOrKeydown)
   formatSelector.addEventListener('keydown', handleFormatKeydown)
@@ -205,7 +206,7 @@ async function initFormats() {
 
   // handle default format click
 
-  const defaultFormatBtn = document.getElementById('default-format-btn') as HTMLButtonElement
+  const defaultFormatBtn = getButton('default-format-btn')
 
   defaultFormatBtn.addEventListener('click', () => {
     toggleFormatSelector()
@@ -219,14 +220,14 @@ async function initFormats() {
 
   // reveal UI
 
-  document.getElementById('format-section')!.style.display = ''
+  getDiv('format-section')!.style.display = ''
 }
 
 function initKeyboardInteraction() {
   document.addEventListener('keydown', ({ code }: KeyboardEvent) => {
-    const copyTabBtn = document.getElementById('copy-tab') as HTMLButtonElement
-    const copyWindowTabsBtn = document.getElementById('copy-window-tabs') as HTMLButtonElement
-    const copyAllTabsBtn = document.getElementById('copy-all-tabs') as HTMLButtonElement
+    const copyTabBtn = getButton('copy-tab')
+    const copyWindowTabsBtn = getButton('copy-window-tabs')
+    const copyAllTabsBtn = getButton('copy-all-tabs')
 
     if (code === 'ArrowUp') {
       if (document.activeElement === copyAllTabsBtn) {
@@ -251,22 +252,20 @@ function initKeyboardInteraction() {
 }
 
 async function refreshFormats() {
-  const selectableFormats = await getConfiguredFormats({ selectableOnly: true })
+  const visibleFormats = await getConfiguredFormats({ selectableOnly: true })
 
-  const formatSelector = document.getElementById('format-selector') as HTMLDivElement
+  const formatSelector = getDiv('format-selector')
   const buttons = Array.from(formatSelector.querySelectorAll('button'))
 
+  // capture focused format id before clearing formatSelector
   const focusedFormatId = buttons
     .find((button) => button === document.activeElement)
     ?.getAttribute('id')
 
   formatSelector.innerHTML = ''
 
-  for (const format of selectableFormats) {
-    if (
-      (!oneTimeFormatId || oneTimeFormatId !== format.id) &&
-      (oneTimeFormatId || !format.isDefault)
-    ) {
+  for (const format of visibleFormats) {
+    if (oneTimeFormatId ? oneTimeFormatId !== format.id : !format.isDefault) {
       const button = document.createElement('button')
 
       button.setAttribute('id', format.id)
@@ -285,33 +284,33 @@ async function refreshFormats() {
     }
   }
 
-  if (oneTimeFormatId && !selectableFormats.some(({ id }) => id === oneTimeFormatId)) {
+  if (oneTimeFormatId && !visibleFormats.some(({ id }) => id === oneTimeFormatId)) {
     oneTimeFormatId = null
   }
 
-  refreshFormatOverride()
+  refreshEffectiveFormat()
 }
 
-async function refreshFormatOverride() {
-  const copyAsLabel = document.getElementById('copy-as-label') as HTMLSpanElement
-  copyAsLabel.textContent = sentenceCase(
-    `${hasFormatOverride() ? intl.copy1xAs() : intl.copyAs()}:`,
+async function refreshEffectiveFormat() {
+  getSpan('copy-as-label').textContent = sentenceCase(
+    `${
+      hasFormatOverride() // wrap
+        ? intl.copy1xAs()
+        : intl.copyAs()
+    }:`,
   )
 
-  const format = await useFormat()
+  const format = await getEffectiveFormat()
 
-  const defaultFormatLabel = document.getElementById('default-format-label') as HTMLSpanElement
-  defaultFormatLabel.textContent = format.label
+  getSpan('default-format-label').textContent = format.label
 }
 
 function focusCopyTabBtn() {
-  const copyTabBtn = document.getElementById('copy-tab') as HTMLButtonElement
-  copyTabBtn.focus()
+  getButton('copy-tab').focus()
 }
 
 function toggleFormatSelector(expanded?: boolean) {
-  const formatSection = document.getElementById('format-section') as HTMLDivElement
-  formatSection.classList.toggle('expanded', expanded)
+  getDiv('format-section').classList.toggle('expanded', expanded)
 }
 
 function closeFormatSelector() {
@@ -323,27 +322,25 @@ function flashActionIcon() {
   setCopied()
 }
 
-async function useFormat() {
-  // oneTimeFormatId must take precedence over altFormat to avoid quirks related to auto focus of first copy button after a key-modified format selection
+async function getEffectiveFormat() {
+  // oneTimeFormatId must take precedence over formatVariation to avoid quirks related to auto focus of first copy button after a key-modified format selection
   if (oneTimeFormatId) {
     return getConfiguredFormat(oneTimeFormatId)
   }
 
-  if (altFormat) {
-    const selectableFormats = await getConfiguredFormats({ selectableOnly: true })
-    const selectableNonDefaultFormats = selectableFormats.filter(({ isDefault }) => !isDefault)
-
-    return selectableNonDefaultFormats[altFormat === 'secondary' ? 0 : 1]
+  if (formatVariation) {
+    const visibleFormats = await getConfiguredFormats({ selectableOnly: true })
+    return visibleFormats[formatVariation === 'secondary' ? 1 : 2] // visibleFormats[0] is the default format
   }
 
   return getConfiguredFormat(await getDefaultFormatId())
 }
 
 function hasFormatOverride() {
-  return !!oneTimeFormatId || !!altFormat
+  return !!(oneTimeFormatId || formatVariation)
 }
 
-function getAltFormat(e: KeyboardEvent | MouseEvent): AltFormat | null {
+function getFormatVariation(e: KeyboardEvent | MouseEvent): FormatVariation | null {
   if (hasTernaryActionKeyModifier(e)) {
     return 'ternary'
   }
@@ -355,11 +352,11 @@ function getAltFormat(e: KeyboardEvent | MouseEvent): AltFormat | null {
   return null
 }
 
-function clearAltFormat() {
-  setAltFormat(null)
+function clearFormatVariation() {
+  setFormatVariation(null)
 }
 
-function setAltFormat(desiredAltFormat: AltFormat | null) {
-  altFormat = desiredAltFormat
-  refreshFormatOverride()
+function setFormatVariation(variation: FormatVariation | null) {
+  formatVariation = variation
+  refreshEffectiveFormat()
 }
