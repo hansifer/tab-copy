@@ -50,9 +50,14 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 500px;
-  margin: 0 auto;
   padding: 1em;
+
+  /* prevent scroll when dialog is open */
+
+  height: 100vh;
+  box-sizing: border-box;
+  /* scroll instead of auto to prevent layout shift */
+  overflow-y: scroll;
 }
 
 h3 {
