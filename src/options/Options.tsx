@@ -227,7 +227,9 @@ export const Options = () => {
                 description={getFormatDescription(format, selectableFormats)}
                 disabled={format.selectable && isMinSelectableFormatCount}
                 onClick={toggleSelectableFormatId}
-                onOptionClick={setOptionEditFormatId}
+                onOptionClick={(formatId) => {
+                  setOptionEditFormatId(formatId)
+                }}
               />
             ))}
           </Reorder.Group>
