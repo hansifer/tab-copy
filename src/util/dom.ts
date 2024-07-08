@@ -14,3 +14,15 @@ export function addListener<T extends HTMLElement[], U extends keyof HTMLElement
     els.forEach((el) => el.addEventListener(type, listener))
   })
 }
+
+export function getElement<T extends HTMLElement>(id: string) {
+  return document.getElementById(id) as T
+}
+
+export function queryElement<T extends HTMLElement>(query: string) {
+  return document.querySelector(query) as T
+}
+
+export const getSpan = getElement<HTMLSpanElement>
+export const getDiv = getElement<HTMLDivElement>
+export const getButton = getElement<HTMLButtonElement>
