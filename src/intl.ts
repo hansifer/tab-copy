@@ -43,7 +43,7 @@ export const intl = {
 
   header: () => 'header',
 
-  delimiter: () => 'delimiter',
+  tabDelimiter: () => 'tab delimiter',
 
   footer: () => 'footer',
 
