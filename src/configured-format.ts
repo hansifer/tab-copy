@@ -10,7 +10,7 @@ export type ConfiguredFormat<T extends FormatId> = {
   id: T
   label: string
   selectable: boolean
-  isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from selectableFormats[0] (currently only 2 instances in popup.ts would need to be updated)
+  isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from selectableFormats[0] (currently only 1 instance (in popup.ts) would need to be updated)
   option: FormatOptions[T]
 }
 
