@@ -2,7 +2,7 @@ import { intl } from '@/intl'
 import { clientInfo } from '@/util/client-info'
 import { sentenceCase } from '@/util/string'
 
-// tab copy actions (eg, copy, format selection) can have secondary and ternary action key modifiers that slightly modify the behavior of the action
+// tab copy can have secondary and ternary key modifiers that slightly modify behavior
 
 export function hasSecondaryActionKeyModifier({
   metaKey,
@@ -13,7 +13,7 @@ export function hasSecondaryActionKeyModifier({
   ctrlKey: boolean
   shiftKey: boolean
 }) {
-  return !shiftKey && hasPrincipalKeyModifier({ metaKey, ctrlKey })
+  return !shiftKey && hasCtrlOrMeta({ metaKey, ctrlKey })
 }
 
 export function hasTernaryActionKeyModifier({
@@ -25,11 +25,10 @@ export function hasTernaryActionKeyModifier({
   ctrlKey: boolean
   shiftKey: boolean
 }) {
-  return shiftKey && hasPrincipalKeyModifier({ metaKey, ctrlKey })
+  return shiftKey && hasCtrlOrMeta({ metaKey, ctrlKey })
 }
 
-// the "principal" key modifier is cmd if mac or ctrl if windows/linux
-function hasPrincipalKeyModifier({ metaKey, ctrlKey }: { metaKey: boolean; ctrlKey: boolean }) {
+function hasCtrlOrMeta({ metaKey, ctrlKey }: { metaKey: boolean; ctrlKey: boolean }) {
   return clientInfo.os === 'mac' ? metaKey : ctrlKey
 }
 
