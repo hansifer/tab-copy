@@ -166,6 +166,7 @@ input {
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding-bottom: 3em;
   margin: 24px 0;
 }
 
