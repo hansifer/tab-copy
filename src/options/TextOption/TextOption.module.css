@@ -1,14 +1,22 @@
 .TextOption {
   display: flex;
-  align-items: baseline;
+  flex-direction: column;
+  align-items: center;
   white-space: nowrap;
 
   .label {
-    padding-right: 16px;
-    opacity: 0.5;
+    margin-bottom: 2px;
+    font-size: 0.8rem;
+    color: #aaa;
+
+    @media (prefers-color-scheme: dark) {
+      color: #888;
+    }
   }
 
   :is(input) {
     box-sizing: border-box;
+    text-align: center;
+    width: 100%;
   }
 }
