@@ -34,7 +34,7 @@ export function insertInputText(input: HTMLInputElement, text: string, cursorOff
   const selectionStart = input.selectionStart == null ? input.value.length : input.selectionStart
   const selectionEnd = input.selectionEnd == null ? selectionStart : input.selectionEnd
 
-  input.value = `${input.value.slice(0, selectionStart)}${text}${input.value.slice(selectionEnd)}`
+  input.value = `${input.value.slice(0, selectionStart)}${text}${input.value.slice(selectionEnd)}` // does not fire onInput
 
   // move cursor to end of inserted text, adjusting for passed cursorOffset
   input.selectionStart = input.selectionEnd = selectionStart + text.length + cursorOffset
