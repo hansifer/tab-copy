@@ -1,3 +1,5 @@
+// todo: intl label
+
 export const tokens = {
   tabCount: {
     id: 'tab-count',
