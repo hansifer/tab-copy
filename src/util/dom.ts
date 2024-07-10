@@ -26,3 +26,18 @@ export function queryElement<T extends HTMLElement>(query: string) {
 export const getSpan = getElement<HTMLSpanElement>
 export const getDiv = getElement<HTMLDivElement>
 export const getButton = getElement<HTMLButtonElement>
+
+// inserts text at the current cursor position of an input element. replaces any selection.
+// sets cursor position to end of inserted text, adjusting for passed cursorOffset
+// returns new value
+export function insertInputText(input: HTMLInputElement, text: string, cursorOffset = 0) {
+  const selectionStart = input.selectionStart == null ? input.value.length : input.selectionStart
+  const selectionEnd = input.selectionEnd == null ? selectionStart : input.selectionEnd
+
+  input.value = `${input.value.slice(0, selectionStart)}${text}${input.value.slice(selectionEnd)}`
+
+  // move cursor to end of inserted text, adjusting for passed cursorOffset
+  input.selectionStart = input.selectionEnd = selectionStart + text.length + cursorOffset
+
+  return input.value
+}
