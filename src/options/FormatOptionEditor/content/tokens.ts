@@ -89,3 +89,49 @@ export const tokens = {
 >
 
 export type Token = (typeof tokens)[keyof typeof tokens]
+
+export function makeTokenRegExp(tokens?: Token[]) {
+  return tokens // wrap
+    ? new RegExp(`\\[(${tokens.map(({ token }) => token).join('|')})]`, 'g')
+    : null
+}
+
+// returns true if selectionStart or selectionEnd is inside of a token, otherwise false
+// exception: returns 'full' if selection fully spans the content of a single token (all chars between [ and ])
+export function selectionOverlapsToken(
+  value: string,
+  selectionStart: number,
+  selectionEnd: number,
+  tokenRegExp: RegExp,
+) {
+  // swap token delimiter brackets to facilitate counting. we know \n will not be included in the value since custom fields are single line.
+  const bracketSwap = '\n'
+  const bracketSwapRegExp = new RegExp(bracketSwap, 'g')
+
+  const workingValue = value.replace(tokenRegExp, `${bracketSwap}$1${bracketSwap}`)
+
+  const beforeSelection = workingValue.slice(0, selectionStart)
+  const beforeSelectionBracketCount = (beforeSelection.match(bracketSwapRegExp) ?? []).length
+  const isSelectionStartInsideOfToken = !!(beforeSelectionBracketCount % 2)
+
+  if (isSelectionStartInsideOfToken) {
+    if (
+      workingValue[selectionStart - 1] === bracketSwap &&
+      workingValue[selectionEnd] === bracketSwap
+    ) {
+      const selection = workingValue.slice(selectionStart, selectionEnd)
+
+      if (!selection.includes(bracketSwap)) {
+        return 'full'
+      }
+    }
+
+    return true
+  }
+
+  const afterSelection = workingValue.slice(selectionEnd)
+  const afterSelectionBracketCount = (afterSelection.match(bracketSwapRegExp) ?? []).length
+  const isSelectionEndInsideOfToken = !!(afterSelectionBracketCount % 2)
+
+  return isSelectionEndInsideOfToken
+}
