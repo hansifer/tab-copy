@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 
 import { sentenceCase } from '@/util/string'
-import { classy } from '@/util/css'
 import { insertInputText } from '@/util/dom'
 import {
   Token,
@@ -63,14 +62,12 @@ export const TextOption = ({
         />
         {tokens?.length && tokenRegExp ? (
           <div className={classes.tokenSelector}>
-            <span className={classy(classes.tokenOrLabel, classes.insert)}>{`${sentenceCase(
-              intl.insert(),
-            )}:`}</span>
+            <span className={classes.insert}>{`${sentenceCase(intl.insert())}:`}</span>
             {(showAllTokens ? tokens : tokens.slice(0, MAX_COLLAPSED_TOKENS)).map(
               ({ id, label, token }) => (
                 <button
                   key={id}
-                  className={classy(classes.tokenOrLabel, classes.token)}
+                  className={classes.token}
                   onClick={() => {
                     // insert token at cursor position
 
@@ -104,7 +101,7 @@ export const TextOption = ({
             )}
             {tokens.length > MAX_COLLAPSED_TOKENS ? (
               <button
-                className={classy(classes.tokenOrLabel, classes.expandCollapse)}
+                className={classes.expandCollapse}
                 onClick={() => setShowAllTokens((prev) => !prev)}
               >
                 {showAllTokens ? '< less' : 'more >'}
