@@ -32,20 +32,19 @@ export const TextOption = ({
   }, [autoFocus])
 
   return (
-    <div
-      className={classes.TextOption}
-      style={{ width }}
-    >
+    <div className={classes.TextOption}>
       <div className={classes.label}>{sentenceCase(label)}</div>
-      <input
-        ref={inputRef}
-        type="text"
-        maxLength={maxLength}
-        onInput={({ currentTarget }) => {
-          onChange(currentTarget.value)
-        }}
-        value={value}
-      />
+      <div style={{ width }}>
+        <input
+          ref={inputRef}
+          type="text"
+          maxLength={maxLength}
+          onInput={({ currentTarget }) => {
+            onChange(currentTarget.value)
+          }}
+          value={value}
+        />
+      </div>
     </div>
   )
 }

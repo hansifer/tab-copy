@@ -15,8 +15,8 @@
   }
 
   :is(input) {
+    width: 100%;
     box-sizing: border-box;
     text-align: center;
-    width: 100%;
   }
 }
