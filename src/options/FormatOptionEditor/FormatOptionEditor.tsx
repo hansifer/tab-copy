@@ -40,6 +40,7 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
 }: FormatOptionEditorProps<T>) => {
   const [format, setFormat] = useState<ConfiguredFormat<T>>()
 
+  const [okDisabled, setOKDisabled] = useState<boolean>(false)
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
 
   useEffect(() => {
@@ -82,6 +83,9 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
           option={format.option}
           onChange={(option) => setFormat({ ...format, option })}
           onConfirmDelete={() => setConfirmDelete(true)}
+          onValidChanged={(valid) => {
+            setOKDisabled(!valid)
+          }}
         />
       )
     })()
@@ -121,7 +125,10 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
       </button>
       <button
         className={optionsClasses.primaryAction}
-        onClick={() => onOK(format.id, format.option)}
+        onClick={() => {
+          onOK(format.id, format.option)
+        }}
+        disabled={okDisabled}
       >
         {intl.ok()}
       </button>
