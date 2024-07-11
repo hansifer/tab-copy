@@ -49,6 +49,8 @@ export const intl = {
 
   insert: () => 'insert',
 
+  preview: () => 'preview',
+
   deleteFormat: () => 'delete format',
 
   confirmDelete: () => 'are you sure you want to delete this format?',

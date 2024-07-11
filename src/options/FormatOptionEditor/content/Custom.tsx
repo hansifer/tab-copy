@@ -15,6 +15,22 @@ import { tokens } from './tokens'
 const TEMPLATE_FIELD_WIDTH = '265px'
 
 export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
+  const previewText = ''
+
+  //   const previewText = `[8:46:18 AM]
+
+  // My format
+
+  // 1) Title: Example 1
+  //     URL:   https://www.example.com/
+
+  // 2) Title: Example 2
+  //     URL:   http://example.com/search?q=kittens
+
+  // 3) Title: Example 3
+  //     URL:   http://examsdfsdfsdfsdfsdfsfple.com/folder/doc.html#fragment
+  // `
+
   return (
     <>
       <TextOption
@@ -127,6 +143,17 @@ export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'cust
           }}
         />
       </div>
+      {previewText ? (
+        <div className={classes.preview}>
+          <div
+            className={classes.previewText}
+            tabIndex={-1}
+          >
+            {previewText}
+          </div>
+          <div className={classes.previewLabel}>{sentenceCase(intl.preview())}</div>
+        </div>
+      ) : null}
       {onConfirmDelete ? (
         <button
           className={classy(optionsClasses.primaryAction, optionsClasses.destructiveAction)}
