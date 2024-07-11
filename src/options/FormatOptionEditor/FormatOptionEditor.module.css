@@ -9,6 +9,7 @@
   box-sizing: border-box;
   background-color: #00000073;
   animation: 200ms background-fade-in;
+  overflow-y: auto;
 
   @media (prefers-color-scheme: dark) {
     background-color: #000000c6;
