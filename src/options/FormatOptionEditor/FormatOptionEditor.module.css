@@ -16,6 +16,9 @@
 }
 
 .FormatOptionEditor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   max-width: 28rem;
   padding: 1rem;
@@ -37,6 +40,9 @@
 }
 
 .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   margin: 28px 0;
 }
 
