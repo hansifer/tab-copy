@@ -12,7 +12,7 @@ export const TitleUrl1Line = ({ option, onChange }: ContentProps<'titleUrl1Line'
     <TextOption
       label={intl.separator()}
       value={option.separator}
-      width={60}
+      width="60px"
       maxLength={6}
       autoFocus
       onChange={(separator) => {
