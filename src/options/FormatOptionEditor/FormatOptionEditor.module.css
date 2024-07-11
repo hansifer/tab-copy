@@ -20,8 +20,8 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
-  max-width: 28rem;
-  padding: 1rem;
+  max-width: 24rem;
+  padding: 1.2rem 1.4rem;
   box-sizing: border-box;
   overflow: hidden;
   border-radius: 10px;
