@@ -44,8 +44,6 @@ export const FormatConfig = ({
     [classes.unselectable]: !format.selectable,
   })
 
-  const sideRightClassNames = classy(classes.side, classes.right)
-
   return (
     <Reorder.Item
       value={format}
@@ -68,7 +66,7 @@ export const FormatConfig = ({
         setAllowClick(true)
       }}
     >
-      <span className={classes.side}>
+      <span className={classy(classes.side, classes.left)}>
         <Checkbox
           checked={format.selectable}
           disabled={disabled}
@@ -78,16 +76,20 @@ export const FormatConfig = ({
         <span>{format.label}</span>
         <span className={classes.description}>{description}</span>
       </span>
-      <span className={sideRightClassNames}>
+      <span
+        className={classy(classes.side, classes.right)}
+        onClick={(e) => {
+          e.stopPropagation()
+        }}
+      >
         {format.option ? (
           <button
             onClick={
               allowClick
-                ? (e) => {
+                ? () => {
                     if (isBuiltInFormatWithOptionId(format.id) || isCustomFormatId(format.id)) {
                       onOptionClick?.(format.id)
                     }
-                    e.stopPropagation()
                   }
                 : undefined
             }

@@ -18,7 +18,6 @@ li {
   position: relative;
   box-sizing: border-box;
   width: 100%;
-  padding: 10px;
   margin-bottom: 10px;
   border-radius: 8px;
   background-color: #fff;
@@ -40,8 +39,15 @@ li {
   width: 36px;
   min-width: 36px;
   height: 36px;
+  padding: 10px 0;
+
+  &.left {
+    padding-left: 10px;
+  }
 
   &.right {
+    padding-right: 10px;
+
     :is(button) {
       display: flex;
       align-items: center;
@@ -50,7 +56,7 @@ li {
       height: 36px;
       font-size: 0;
       border-radius: 100%;
-      color: #888;
+      color: #333;
 
       @media (prefers-color-scheme: dark) {
         color: #ffffff7a;
