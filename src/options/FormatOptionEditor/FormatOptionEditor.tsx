@@ -55,6 +55,15 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
     const keydownHandler = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onCancel()
+      } else if (e.key === 'Enter') {
+        if (
+          !okDisabled && // wrap
+          format &&
+          e.target instanceof Element &&
+          e.target.tagName === 'INPUT'
+        ) {
+          onOK(format.id, format.option)
+        }
       }
     }
 
@@ -63,7 +72,7 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
     return () => {
       document.removeEventListener('keydown', keydownHandler)
     }
-  }, [onCancel])
+  }, [onCancel, onOK, format, okDisabled])
 
   if (!format) return null
 
