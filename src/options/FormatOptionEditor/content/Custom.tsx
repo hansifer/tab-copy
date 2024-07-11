@@ -10,11 +10,18 @@ import { tokens } from './tokens'
 
 // content components receive up-to-date option and are responsible for reporting option changes
 
-// todo: add validation
+// todo: add more validation
 
 const TEMPLATE_FIELD_WIDTH = '265px'
 
-export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
+export const Custom = ({
+  option,
+  onChange,
+  onConfirmDelete,
+  onValidChanged,
+}: ContentProps<'custom-*'>) => {
+  const valid = !!option.name.trim()
+
   const previewText = ''
 
   //   const previewText = `[8:46:18 AM]
@@ -40,6 +47,12 @@ export const Custom = ({ option, onChange, onConfirmDelete }: ContentProps<'cust
         width="200px"
         autoFocus
         onChange={(name) => {
+          const newValid = !!name.trim()
+
+          if (onValidChanged && newValid !== valid) {
+            onValidChanged(newValid)
+          }
+
           onChange({
             ...option,
             name,
