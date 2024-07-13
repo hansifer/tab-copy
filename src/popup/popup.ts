@@ -38,7 +38,12 @@ let oneTimeFormatId: FormatId | null = null // set when selecting a non-default 
 initApp()
 
 function initApp() {
-  queryElement('header').textContent = intl.copy()
+  getDiv('header-text').textContent = intl.copy()
+
+  getSpan('options-button-text').textContent = sentenceCase(intl.options())
+  getButton('options-button').addEventListener('click', () => {
+    chrome.runtime.openOptionsPage()
+  })
 
   initCopyButtons()
   initFormats()

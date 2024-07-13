@@ -62,6 +62,8 @@ export const intl = {
 
   // ----- options page -----
 
+  options: () => 'options',
+
   tabCopyOptions: () => 'tab copy options',
 
   formats: () => 'formats',
