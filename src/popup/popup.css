@@ -32,11 +32,68 @@ body {
 }
 
 header {
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   height: 30px;
   text-transform: uppercase;
+
+  .headerButtons {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+
+    button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      height: 24px;
+      padding: 0 10px;
+      font-size: 10px;
+      border-radius: 1000px;
+      color: transparent;
+      background-color: transparent;
+
+      & svg {
+        width: 12px;
+        height: 12px;
+        color: #222;
+
+        @media (prefers-color-scheme: dark) {
+          color: #aaa;
+        }
+      }
+
+      & span {
+        display: none;
+      }
+
+      &:hover {
+        color: #444;
+        background-color: #e8e8e8;
+        transition: color 150ms ease-in, background-color 200ms ease-in;
+
+        @media (prefers-color-scheme: dark) {
+          color: #ddd;
+          background-color: #ffffff1a;
+        }
+
+        & svg {
+          color: #000;
+
+          @media (prefers-color-scheme: dark) {
+            color: #fff;
+          }
+        }
+
+        & span {
+          display: initial;
+        }
+      }
+    }
+  }
 }
 
 #copy-buttons {
