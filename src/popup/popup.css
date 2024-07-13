@@ -13,7 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  min-width: 13rem;
+  min-width: 208px;
   margin: 12px;
   user-select: none;
   font-size: 14px;
