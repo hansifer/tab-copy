@@ -31,10 +31,7 @@
     "fmt": "prettier --write '**/*.{ts,tsx,json,css,scss,html}'"
   },
   "dependencies": {
-    "@types/lodash.isobject": "^3.0.9",
-    "@types/lodash.throttle": "^4.1.9",
-    "@types/node": "^20.10.3",
-    "framer-motion": "^10.16.12",
+    "framer-motion": "^11.3.19",
     "lodash.isobject": "^3.0.2",
     "lodash.throttle": "^4.1.1",
     "nanoid": "^5.0.4",
@@ -42,13 +39,16 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^1.0.14",
-    "@types/chrome": "^0.0.246",
+    "@crxjs/vite-plugin": "^2.0.0-beta.25",
+    "@types/chrome": "^0.0.269",
+    "@types/lodash.isobject": "^3.0.9",
+    "@types/lodash.throttle": "^4.1.9",
+    "@types/node": "^18.19.42",
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.0",
+    "@vitejs/plugin-react": "^4.3.1",
     "prettier": "^3.0.3",
-    "typescript": "^5.2.2",
-    "vite": "^4.5.2"
+    "typescript": "^5.5.4",
+    "vite": "^5.3.5"
   }
 }
