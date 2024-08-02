@@ -1,8 +1,10 @@
 import { copyTabs } from '@/copy'
+import { ScopeId } from '@/scope'
 import { FormatId } from '@/format'
 import { getConfiguredFormat, getConfiguredFormats } from '@/configured-format'
 import {
   // wrap
+  getVisibleScopes,
   getDefaultFormatId,
   setCopied,
   makeStorageChangeHandler,
@@ -41,6 +43,7 @@ function initApp() {
   getDiv('header-text').textContent = intl.copy()
 
   getSpan('options-button-text').textContent = sentenceCase(intl.options())
+
   getButton('options-button').addEventListener('click', () => {
     chrome.runtime.openOptionsPage()
   })
@@ -74,28 +77,27 @@ function initApp() {
 }
 
 async function initCopyButtons() {
-  const { highlighted: highlightedTabs } = await getTabs()
+  const copyButtonsContainer = getDiv('copy-buttons')
 
-  const copyTabBtn = getButton('copy-tab')
-  const copyWindowTabsBtn = getButton('copy-window-tabs')
-  const copyAllTabsBtn = getButton('copy-all-tabs')
+  const visibleScopes = await getVisibleScopes()
 
-  // ----- set copy button labels -----
+  for (const scope of visibleScopes) {
+    const button = document.createElement('button')
 
-  copyTabBtn.textContent = sentenceCase(
-    highlightedTabs.length > 1 // wrap
-      ? intl.selectedTabs()
-      : intl.thisTab(),
-  )
+    button.dataset.scope = scope
+    button.classList.add('button-primary')
+    button.textContent = await getCopyButtonLabel(scope)
 
-  copyWindowTabsBtn.textContent = sentenceCase(intl.thisWindowsTabs())
-  copyAllTabsBtn.textContent = sentenceCase(intl.allTabs())
+    copyButtonsContainer.appendChild(button)
+  }
 
   // ----- reveal UI -----
 
-  getDiv('copy-buttons')!.style.display = ''
+  copyButtonsContainer.style.display = ''
 
-  copyTabBtn.focus()
+  const copyButtons = Array.from(copyButtonsContainer.children) as HTMLButtonElement[]
+
+  copyButtons[0]?.focus()
 
   // ----- add event handlers -----
 
@@ -120,8 +122,6 @@ async function initCopyButtons() {
       e.preventDefault() // suppress click event (in case of non-modified Enter)
     }
   }
-
-  const copyButtons = [copyTabBtn, copyWindowTabsBtn, copyAllTabsBtn]
 
   addListener(copyButtons, ['keydown', 'keyup'], setFormatVariationPerKeyModifiers)
   addListener(copyButtons, 'click', handleCopyClickOrKeydown)
@@ -184,7 +184,7 @@ async function initFormats() {
 
       refreshFormats() // no db impact, so force refresh
       closeFormatSelector()
-      focusCopyTabBtn()
+      queryElement('.button-primary')?.focus()
     }
   }
 
@@ -225,34 +225,25 @@ async function initFormats() {
 
   // reveal UI
 
-  getDiv('format-section')!.style.display = ''
+  getDiv('format-section').style.display = ''
 }
 
 function initKeyboardInteraction() {
   document.addEventListener('keydown', ({ code }: KeyboardEvent) => {
-    const copyTabBtn = getButton('copy-tab')
-    const copyWindowTabsBtn = getButton('copy-window-tabs')
-    const copyAllTabsBtn = getButton('copy-all-tabs')
+    if (code !== 'ArrowUp' && code !== 'ArrowDown') return
 
-    if (code === 'ArrowUp') {
-      if (document.activeElement === copyAllTabsBtn) {
-        copyWindowTabsBtn.focus()
-      } else if (document.activeElement === copyWindowTabsBtn) {
-        copyTabBtn.focus()
-      } else {
-        // copyTabBtn or no copy button is focused
-        copyTabBtn.focus()
-      }
-    } else if (code === 'ArrowDown') {
-      if (document.activeElement === copyTabBtn) {
-        copyWindowTabsBtn.focus()
-      } else if (document.activeElement === copyWindowTabsBtn) {
-        copyAllTabsBtn.focus()
-      } else if (document.activeElement !== copyAllTabsBtn) {
-        // no copy button is focused
-        copyTabBtn.focus()
-      }
-    }
+    const copyButtons = Array.from(getDiv('copy-buttons').children) as HTMLButtonElement[]
+
+    const focusedButtonIdx = (copyButtons as ReadonlyArray<Element | null>).indexOf(
+      document.activeElement,
+    )
+
+    const newButtonIdx = Math.min(
+      copyButtons.length - 1,
+      Math.max(0, focusedButtonIdx + (code === 'ArrowUp' ? -1 : 1)),
+    )
+
+    copyButtons[newButtonIdx]?.focus()
   })
 }
 
@@ -310,10 +301,6 @@ async function refreshEffectiveFormat() {
   getSpan('default-format-label').textContent = format.label
 }
 
-function focusCopyTabBtn() {
-  getButton('copy-tab').focus()
-}
-
 function toggleFormatSelector(expanded?: boolean) {
   getDiv('format-section').classList.toggle('expanded', expanded)
 }
@@ -364,4 +351,30 @@ function clearFormatVariation() {
 function setFormatVariation(variation: FormatVariation | null) {
   formatVariation = variation
   refreshEffectiveFormat()
+}
+
+async function getCopyButtonLabel(id: ScopeId) {
+  if (id === 'highlighted-tabs') {
+    const { highlighted } = await getTabs()
+
+    return sentenceCase(
+      highlighted.length > 1 // wrap
+        ? intl.selectedTabs()
+        : intl.thisTab(),
+    )
+  }
+
+  if (id === 'window-tabs') {
+    return sentenceCase(intl.thisWindowsTabs())
+  }
+
+  if (id === 'all-tabs') {
+    return sentenceCase(intl.allTabs())
+  }
+
+  if (id === 'all-windows-and-tabs') {
+    return sentenceCase(intl.allWindowsAndTabs())
+  }
+
+  return ''
 }

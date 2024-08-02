@@ -21,6 +21,8 @@ export const intl = {
 
   allTabs: () => 'all tabs',
 
+  allWindowsAndTabs: () => 'all windows and tabs',
+
   // ----- copy format -----
 
   link: () => 'link',
