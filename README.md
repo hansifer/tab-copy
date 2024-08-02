@@ -1,4 +1,4 @@
-#### A browser extension enabling copy of tabs to the clipboard in a variety of formats
+#### A browser extension for copying tabs to the clipboard in a variety of formats
 
 Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb)
 
@@ -12,7 +12,7 @@ Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdlli
 
 ### Setup
 
-1. Ensure you're on `Node.js` version 14 or newer
+1. Ensure you're on `Node.js` version 18 or newer
 2. Run `npm install`
 3. Run `npm run dev` to generate `build` folder output
 4. Open `chrome://extensions/`
@@ -36,8 +36,12 @@ Access the popup or options page directly with:
 
 This project was scaffolded with [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
 
-### Direct DOM manipulation vs React
+## Issues
 
-The popup is implemented with static HTML and direct DOM calls for load speed. Due to its simplicity, the value to be gained from the use of a front-end lib or framework is relatively small.
+- `npm run dev` does not copy all `/public` files to `/build`. Copy missing `/icons` and `/img` files manually.
 
-The options page is implemented with React to support more complex interactions such as drag-drop list re-ordering.
+### Direct DOM calls vs React
+
+The popup is implemented with static HTML and vanilla JS/direct DOM calls. The original intent of this was to optimize load speed, but the ultimate performance benefit and maintenance tradeoff are open to question.
+
+The options page is implemented in React for better maintainability and to more easily support complex interactions like drag-drop list re-ordering.
