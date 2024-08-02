@@ -73,7 +73,7 @@ header {
       &:hover {
         color: #444;
         background-color: #e8e8e8;
-        transition: color 150ms ease-in, background-color 200ms ease-in;
+        transition: color 200ms ease-in, background-color 200ms ease-in;
 
         @media (prefers-color-scheme: dark) {
           color: #ddd;
