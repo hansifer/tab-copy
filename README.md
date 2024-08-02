@@ -1,3 +1,5 @@
+# Tab Copy
+
 #### A browser extension for copying tabs to the clipboard in a variety of formats
 
 Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb)
@@ -32,13 +34,13 @@ Access the popup or options page directly with:
 - `chrome-extension://replaceWithExtensionId/popup.html`
 - `chrome-extension://replaceWithExtensionId/options.html`
 
+## Known issues
+
+- `npm run dev` does not copy all `/public` files to `/build`. Copy missing `/icons` and `/img` files manually.
+
 ## Tech notes
 
 This project was scaffolded with [create-chrome-ext](https://github.com/guocaoyi/create-chrome-ext)
-
-## Issues
-
-- `npm run dev` does not copy all `/public` files to `/build`. Copy missing `/icons` and `/img` files manually.
 
 ### Direct DOM calls vs React
 
