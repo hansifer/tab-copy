@@ -53,9 +53,10 @@ function initApp() {
   initKeyboardInteraction()
 
   const formatChanges = [
+    // wrap
     'customFormatIds',
     'orderedFormatIds',
-    'unselectableFormatIds',
+    'hiddenFormatIds',
     'formatOptions',
   ]
 
@@ -248,7 +249,7 @@ function initKeyboardInteraction() {
 }
 
 async function refreshFormats() {
-  const visibleFormats = await getConfiguredFormats({ selectableOnly: true })
+  const visibleFormats = await getConfiguredFormats({ visibleOnly: true })
 
   const formatSelector = getDiv('format-selector')
   const buttons = Array.from(formatSelector.querySelectorAll('button'))
@@ -321,7 +322,7 @@ async function getEffectiveFormat() {
   }
 
   if (formatVariation) {
-    const visibleFormats = await getConfiguredFormats({ selectableOnly: true })
+    const visibleFormats = await getConfiguredFormats({ visibleOnly: true })
     return visibleFormats[formatVariation === 'secondary' ? 1 : 2] // visibleFormats[0] is the default format
   }
 
