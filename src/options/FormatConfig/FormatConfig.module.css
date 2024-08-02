@@ -95,7 +95,7 @@ li {
   overflow: hidden;
   transition: opacity 200ms;
 
-  &.unselectable {
+  &.hidden {
     opacity: 0.3;
   }
 
@@ -115,7 +115,7 @@ li {
       color: #ffffff8c;
     }
 
-    .text.unselectable & {
+    .text.hidden & {
       color: inherit;
     }
   }

@@ -41,7 +41,7 @@ export const FormatConfig = ({
 
   const textClassNames = classy({
     [classes.text]: true,
-    [classes.unselectable]: !format.selectable,
+    [classes.hidden]: !format.visible,
   })
 
   return (
@@ -68,7 +68,7 @@ export const FormatConfig = ({
     >
       <span className={classy(classes.side, classes.left)}>
         <Checkbox
-          checked={format.selectable}
+          checked={format.visible}
           disabled={disabled}
         />
       </span>

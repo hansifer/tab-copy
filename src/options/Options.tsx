@@ -8,21 +8,16 @@ import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
 import { BooleanOptionId, options } from '@/options'
 import { formatOptionTips, getOptionTipText } from '@/option-tips'
-import {
-  MIN_SELECTABLE_FORMAT_COUNT,
-  isCustomFormatId,
-  FormatId,
-  FormatWithOptionId,
-} from '@/format'
+import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatId, FormatWithOptionId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
   setOrderedFormatIds,
-  toggleSelectableFormatId,
+  toggleVisibleFormatId,
   addCustomFormat,
   makeStorageChangeHandler,
   setFormatOption,
   removeCustomFormat,
-  MinSelectableFormatExceededError,
+  MinVisibleFormatExceededError,
   getHiddenOptionTipIds,
   hideOptionTip,
 } from '@/storage'
@@ -85,9 +80,9 @@ export const Options = () => {
     }
   }, [applyStorageState])
 
-  const selectableFormats = configuredFormats.filter(({ selectable }) => selectable)
+  const visibleFormats = configuredFormats.filter(({ visible }) => visible)
 
-  const isMinSelectableFormatCount = selectableFormats.length <= MIN_SELECTABLE_FORMAT_COUNT
+  const isMinVisibleFormatCount = visibleFormats.length <= MIN_VISIBLE_FORMAT_COUNT
 
   const inert = optionEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
 
@@ -109,8 +104,8 @@ export const Options = () => {
 
       setEditError(
         sentenceCase(
-          ex instanceof MinSelectableFormatExceededError
-            ? intl.minSelectableFormatDeleteError()
+          ex instanceof MinVisibleFormatExceededError
+            ? intl.minVisibleFormatDeleteError()
             : intl.genericFormatDeleteError(),
         ),
       )
@@ -224,9 +219,9 @@ export const Options = () => {
               <FormatConfig
                 key={format.id}
                 format={format}
-                description={getFormatDescription(format, selectableFormats)}
-                disabled={format.selectable && isMinSelectableFormatCount}
-                onClick={toggleSelectableFormatId}
+                description={getFormatDescription(format, visibleFormats)}
+                disabled={format.visible && isMinVisibleFormatCount}
+                onClick={toggleVisibleFormatId}
                 onOptionClick={(formatId) => {
                   setOptionEditFormatId(formatId)
                 }}
@@ -256,13 +251,13 @@ export const Options = () => {
 
 function getFormatDescription(
   format: ConfiguredFormat<FormatId>,
-  selectableFormats: ConfiguredFormat<FormatId>[],
+  visibleFormats: ConfiguredFormat<FormatId>[],
 ) {
-  if (!format.selectable) {
+  if (!format.visible) {
     return sentenceCase(intl.hidden())
   }
 
-  const idx = selectableFormats.findIndex(({ id }) => id === format.id)
+  const idx = visibleFormats.findIndex(({ id }) => id === format.id)
 
   if (idx === 0) {
     return sentenceCase(intl.default())
