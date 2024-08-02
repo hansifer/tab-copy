@@ -1,7 +1,7 @@
 import { getFormatLabel, FormatId, FormatOptions } from '@/format'
 import {
   // wrap
-  getSelectableFormatIds,
+  getVisibleFormatIds,
   getAllFormatIds,
   getFormatOption,
 } from '@/storage'
@@ -9,30 +9,30 @@ import {
 export type ConfiguredFormat<T extends FormatId> = {
   id: T
   label: string
-  selectable: boolean
-  isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from selectableFormats[0] (currently only 1 instance (in popup.ts) would need to be updated)
+  visible: boolean
+  isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from visibleFormats[0] (currently only 1 instance (in popup.ts) would need to be updated)
   option: FormatOptions[T]
 }
 
 export async function getConfiguredFormat<T extends FormatId>(id: T) {
-  const selectableFormatIds = await getSelectableFormatIds()
+  const visibleFormatIds = await getVisibleFormatIds()
 
-  return makeConfiguredFormat(id, selectableFormatIds)
+  return makeConfiguredFormat(id, visibleFormatIds)
 }
 
-export async function getConfiguredFormats({ selectableOnly }: { selectableOnly?: boolean } = {}) {
-  const selectableFormatIds = await getSelectableFormatIds()
+export async function getConfiguredFormats({ visibleOnly }: { visibleOnly?: boolean } = {}) {
+  const visibleFormatIds = await getVisibleFormatIds()
 
-  const formatIds = selectableOnly // wrap
-    ? selectableFormatIds
+  const formatIds = visibleOnly // wrap
+    ? visibleFormatIds
     : await getAllFormatIds()
 
-  return Promise.all(formatIds.map((id) => makeConfiguredFormat(id, selectableFormatIds)))
+  return Promise.all(formatIds.map((id) => makeConfiguredFormat(id, visibleFormatIds)))
 }
 
 async function makeConfiguredFormat<T extends FormatId>(
   id: T,
-  selectableFormatIds: FormatId[],
+  visibleFormatIds: FormatId[],
 ): Promise<ConfiguredFormat<T>> {
   const label = await getFormatLabel(id)
   const option = await getFormatOption(id)
@@ -40,8 +40,8 @@ async function makeConfiguredFormat<T extends FormatId>(
   return {
     id,
     label,
-    selectable: selectableFormatIds.includes(id),
-    isDefault: selectableFormatIds[0] === id,
+    visible: visibleFormatIds.includes(id),
+    isDefault: visibleFormatIds[0] === id,
     option,
   }
 }

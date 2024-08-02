@@ -4,7 +4,7 @@ import { selectOption, Options, OptionId } from '@/options'
 import { OptionTipId } from '@/option-tips'
 import {
   builtInFormatIds,
-  MIN_SELECTABLE_FORMAT_COUNT,
+  MIN_VISIBLE_FORMAT_COUNT,
   isCustomFormatId,
   selectFormatOption,
   FormatId,
@@ -14,10 +14,10 @@ import {
 } from '@/format'
 import { newId } from '@/util/id'
 
-export class MinSelectableFormatExceededError extends Error {
+export class MinVisibleFormatExceededError extends Error {
   constructor(message: string) {
     super(message)
-    this.name = 'MinSelectableFormatExceededError'
+    this.name = 'MinVisibleFormatExceededError'
   }
 }
 
@@ -67,12 +67,12 @@ export async function getHiddenOptionTipIds(): Promise<OptionTipId[]> {
 // ----- default format id -----
 
 export async function getDefaultFormatId() {
-  const selectableFormatIds = await getSelectableFormatIds()
-  return selectableFormatIds[0]
+  const visibleFormatIds = await getVisibleFormatIds()
+  return visibleFormatIds[0]
 }
 
 export async function setDefaultFormat(id: FormatId) {
-  if (await isSelectable(id)) {
+  if (await isVisibleFormat(id)) {
     // move to top of format order
     const orderedFormatIds = await getOrderedFormatIds()
     await setOrderedFormatIds([id, ...orderedFormatIds.filter((formatId) => formatId !== id)])
@@ -94,10 +94,10 @@ export async function addCustomFormat() {
 }
 
 export async function removeCustomFormat(id: CustomFormatId) {
-  // enforce minimum selectable count
-  if ((await isSelectable(id)) && (await hasMinimumSelectableFormatCount())) {
-    throw new MinSelectableFormatExceededError(
-      `Format ${id} cannot be deleted because it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} visible formats.`,
+  // enforce minimum visible count
+  if ((await isVisibleFormat(id)) && (await hasMinimumVisibleFormatCount())) {
+    throw new MinVisibleFormatExceededError(
+      `Format ${id} cannot be deleted because it is one of only ${MIN_VISIBLE_FORMAT_COUNT} visible formats.`,
     )
   }
 
@@ -107,7 +107,7 @@ export async function removeCustomFormat(id: CustomFormatId) {
 
   await removeOrderedFormatId(id)
 
-  await toggleSelectableFormatId(id, true)
+  await toggleVisibleFormatId(id, true)
 
   return removeFormatOption(id)
 }
@@ -179,55 +179,55 @@ async function getOrderedFormatIds(): Promise<FormatId[]> {
   return orderedFormatIds
 }
 
-// ----- selectable format ids -----
+// ----- visible format ids -----
 
 // results are ordered
-export async function getSelectableFormatIds() {
+export async function getVisibleFormatIds() {
   const allFormatIds = await getAllFormatIds()
-  const unselectableFormatIds = await getUnselectableFormatIds()
+  const hiddenFormatIds = await getHiddenFormatIds()
 
-  return allFormatIds.filter((id) => !unselectableFormatIds.includes(id))
+  return allFormatIds.filter((id) => !hiddenFormatIds.includes(id))
 }
 
-export async function toggleSelectableFormatId(id: FormatId, selectable?: boolean) {
-  const unselectableFormatIds = await getUnselectableFormatIds()
+export async function toggleVisibleFormatId(id: FormatId, visible?: boolean) {
+  const hiddenFormatIds = await getHiddenFormatIds()
 
-  const isSelectable = !unselectableFormatIds.includes(id)
-  const makingSelectable = selectable === undefined ? !isSelectable : selectable
+  const isVisible = !hiddenFormatIds.includes(id)
+  const makingVisible = visible === undefined ? !isVisible : visible
 
-  if (isSelectable && !makingSelectable) {
-    // do not allow unselecting beyond minimum selectable count
-    if (await hasMinimumSelectableFormatCount()) {
-      throw new MinSelectableFormatExceededError(
-        `Format ${id} cannot be hidden because it is one of only ${MIN_SELECTABLE_FORMAT_COUNT} visible formats.`,
+  if (isVisible && !makingVisible) {
+    // do not allow unselecting beyond minimum visible count
+    if (await hasMinimumVisibleFormatCount()) {
+      throw new MinVisibleFormatExceededError(
+        `Format ${id} cannot be hidden because it is one of only ${MIN_VISIBLE_FORMAT_COUNT} visible formats.`,
       )
     }
 
-    return setUnselectableFormatIds([...unselectableFormatIds, id])
+    return setHiddenFormatIds([...hiddenFormatIds, id])
   }
 
-  if (!isSelectable && makingSelectable) {
-    return setUnselectableFormatIds(unselectableFormatIds.filter((formatId) => formatId !== id))
+  if (!isVisible && makingVisible) {
+    return setHiddenFormatIds(hiddenFormatIds.filter((formatId) => formatId !== id))
   }
 }
 
-async function isSelectable(id: FormatId) {
-  const selectableFormatIds = await getSelectableFormatIds()
-  return selectableFormatIds.includes(id)
+async function isVisibleFormat(id: FormatId) {
+  const visibleFormatIds = await getVisibleFormatIds()
+  return visibleFormatIds.includes(id)
 }
 
-async function hasMinimumSelectableFormatCount() {
-  const selectableFormatIds = await getSelectableFormatIds()
-  return selectableFormatIds.length <= MIN_SELECTABLE_FORMAT_COUNT
+async function hasMinimumVisibleFormatCount() {
+  const visibleFormatIds = await getVisibleFormatIds()
+  return visibleFormatIds.length <= MIN_VISIBLE_FORMAT_COUNT
 }
 
-async function getUnselectableFormatIds(): Promise<FormatId[]> {
-  const { unselectableFormatIds = [] } = await storage.get('unselectableFormatIds')
-  return unselectableFormatIds
+async function getHiddenFormatIds(): Promise<FormatId[]> {
+  const { hiddenFormatIds = [] } = await storage.get('hiddenFormatIds')
+  return hiddenFormatIds
 }
 
-function setUnselectableFormatIds(ids: FormatId[]) {
-  return storage.set({ unselectableFormatIds: ids })
+function setHiddenFormatIds(ids: FormatId[]) {
+  return storage.set({ hiddenFormatIds: ids })
 }
 
 // ----- format options -----
