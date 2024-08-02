@@ -3,7 +3,7 @@ import throttle from 'lodash.throttle'
 import { selectOption, Options, OptionId } from '@/options'
 import { OptionTipId } from '@/option-tips'
 import {
-  builtInFormatIds,
+  builtinFormatIds,
   MIN_VISIBLE_FORMAT_COUNT,
   isCustomFormatId,
   selectFormatOption,
@@ -171,7 +171,7 @@ async function removeOrderedFormatId(id: FormatId) {
 
 async function getLegitFormatIds(): Promise<FormatId[]> {
   const customFormatIds = await getCustomFormatIds()
-  return [...builtInFormatIds, ...customFormatIds]
+  return [...builtinFormatIds, ...customFormatIds]
 }
 
 async function getOrderedFormatIds(): Promise<FormatId[]> {
@@ -238,7 +238,7 @@ export async function getFormatOption<T extends FormatId>(id: T) {
   return selectFormatOption(id, allFormatOptions)
 }
 
-// todo: validate id? (isBuiltInFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
+// todo: validate id? (isBuiltinFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
 export async function setFormatOption<T extends FormatWithOptionId>(
   id: T,
   value: FormatOptions[T],

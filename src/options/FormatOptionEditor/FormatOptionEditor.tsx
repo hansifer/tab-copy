@@ -1,8 +1,8 @@
 import { useState, useEffect, FC } from 'react'
 
 import {
-  isBuiltInFormatWithOptionId,
-  BuiltInFormatWithOptionId,
+  isBuiltinFormatWithOptionId,
+  BuiltinFormatWithOptionId,
   FormatWithOptionId,
   FormatOptions,
 } from '@/format'
@@ -18,10 +18,10 @@ import { Custom } from './content/Custom'
 import classes from './FormatOptionEditor.module.css'
 import optionsClasses from '../Options.module.css'
 
-const builtInFormatOptionContent = {
+const builtinFormatOptionContent = {
   htmlTable: HtmlTable,
   titleUrl1Line: TitleUrl1Line,
-} satisfies { [k in BuiltInFormatWithOptionId]: FC<ContentProps<k>> }
+} satisfies { [k in BuiltinFormatWithOptionId]: FC<ContentProps<k>> }
 
 type FormatOptionEditorProps<T extends FormatWithOptionId> = {
   formatId?: T
@@ -83,8 +83,8 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
   ) : (
     (() => {
       // todo: eliminate need for TS assertion
-      const ContentComp = (isBuiltInFormatWithOptionId(format.id)
-        ? builtInFormatOptionContent[format.id]
+      const ContentComp = (isBuiltinFormatWithOptionId(format.id)
+        ? builtinFormatOptionContent[format.id]
         : Custom) as unknown as FC<ContentProps<T>>
 
       return (

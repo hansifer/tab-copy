@@ -5,7 +5,7 @@ import { Checkbox } from '../Checkbox/Checkbox'
 import { OptionIcon } from './OptionIcon'
 import { useRaisedShadow } from './useRaisedShadow'
 import {
-  isBuiltInFormatWithOptionId,
+  isBuiltinFormatWithOptionId,
   isCustomFormatId,
   FormatId,
   FormatWithOptionId,
@@ -87,7 +87,7 @@ export const FormatConfig = ({
             onClick={
               allowClick
                 ? () => {
-                    if (isBuiltInFormatWithOptionId(format.id) || isCustomFormatId(format.id)) {
+                    if (isBuiltinFormatWithOptionId(format.id) || isCustomFormatId(format.id)) {
                       onOptionClick?.(format.id)
                     }
                   }
