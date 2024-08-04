@@ -7,7 +7,6 @@ import {
   builtinFormatIds,
   MIN_VISIBLE_FORMAT_COUNT,
   isCustomFormatId,
-  selectFormatOption,
   FormatId,
   FormatWithOptionId,
   CustomFormatId,
@@ -109,7 +108,9 @@ async function hasMinimumVisibleScopeCount() {
 }
 
 async function getHiddenScopeIds(): Promise<ScopeId[]> {
-  const { hiddenScopeIds = [] } = await storage.get('hiddenScopeIds')
+  const { hiddenScopeIds = <ScopeId[]>['all-windows-and-tabs'] } =
+    await storage.get('hiddenScopeIds')
+
   return hiddenScopeIds
 }
 
@@ -288,7 +289,7 @@ function setHiddenFormatIds(ids: FormatId[]) {
 // generic is necessary to get specific return type for given id
 export async function getFormatOption<T extends FormatId>(id: T) {
   const allFormatOptions = await getAllFormatOptions()
-  return selectFormatOption(id, allFormatOptions)
+  return allFormatOptions[id]
 }
 
 // todo: validate id? (isBuiltinFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
