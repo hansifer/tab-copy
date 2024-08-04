@@ -2,6 +2,7 @@ import throttle from 'lodash.throttle'
 
 import { selectOption, Options, OptionId } from '@/options'
 import { OptionTipId } from '@/option-tips'
+import { scopeIds, MIN_VISIBLE_SCOPE_COUNT, ScopeId } from '@/scope'
 import {
   builtinFormatIds,
   MIN_VISIBLE_FORMAT_COUNT,
@@ -13,6 +14,13 @@ import {
   FormatOptions,
 } from '@/format'
 import { newId } from '@/util/id'
+
+class MinVisibleScopeExceededError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'MinVisibleScopeExceededError'
+  }
+}
 
 export class MinVisibleFormatExceededError extends Error {
   constructor(message: string) {
@@ -62,6 +70,51 @@ export async function hideOptionTip(id: OptionTipId) {
 export async function getHiddenOptionTipIds(): Promise<OptionTipId[]> {
   const { hiddenOptionTips } = await storage.get('hiddenOptionTips')
   return hiddenOptionTips ?? []
+}
+
+// ----- scopes -----
+
+export async function getVisibleScopes() {
+  const hiddenScopeIds = await getHiddenScopeIds()
+  return scopeIds.filter((id) => !hiddenScopeIds.includes(id))
+}
+
+export async function toggleVisibleScopeId(id: ScopeId, visible?: boolean) {
+  const hiddenScopeIds = await getHiddenScopeIds()
+
+  const isVisible = !hiddenScopeIds.includes(id)
+  const makingVisible = visible === undefined ? !isVisible : visible
+
+  if (isVisible && !makingVisible) {
+    // do not allow unselecting beyond minimum visible count
+    if (await hasMinimumVisibleScopeCount()) {
+      throw new MinVisibleScopeExceededError(
+        `Scope ${id} cannot be hidden because at least ${MIN_VISIBLE_SCOPE_COUNT} ${
+          MIN_VISIBLE_SCOPE_COUNT === 1 ? 'scope' : 'scopes'
+        } must be visible.`,
+      )
+    }
+
+    return setHiddenScopeIds([...hiddenScopeIds, id])
+  }
+
+  if (!isVisible && makingVisible) {
+    return setHiddenScopeIds(hiddenScopeIds.filter((scopeId) => scopeId !== id))
+  }
+}
+
+async function hasMinimumVisibleScopeCount() {
+  const visibleScopeIds = await getVisibleScopes()
+  return visibleScopeIds.length <= MIN_VISIBLE_SCOPE_COUNT
+}
+
+async function getHiddenScopeIds(): Promise<ScopeId[]> {
+  const { hiddenScopeIds = [] } = await storage.get('hiddenScopeIds')
+  return hiddenScopeIds
+}
+
+function setHiddenScopeIds(ids: ScopeId[]) {
+  return storage.set({ hiddenScopeIds: ids })
 }
 
 // ----- default format id -----
