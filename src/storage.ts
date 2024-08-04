@@ -73,7 +73,7 @@ export async function getHiddenOptionTipIds(): Promise<OptionTipId[]> {
 
 // ----- scopes -----
 
-export async function getVisibleScopes() {
+export async function getVisibleScopeIds() {
   const hiddenScopeIds = await getHiddenScopeIds()
   return scopeIds.filter((id) => !hiddenScopeIds.includes(id))
 }
@@ -103,7 +103,7 @@ export async function toggleVisibleScopeId(id: ScopeId, visible?: boolean) {
 }
 
 async function hasMinimumVisibleScopeCount() {
-  const visibleScopeIds = await getVisibleScopes()
+  const visibleScopeIds = await getVisibleScopeIds()
   return visibleScopeIds.length <= MIN_VISIBLE_SCOPE_COUNT
 }
 
