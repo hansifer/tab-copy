@@ -8,11 +8,11 @@ export type ScopeId = Scope['id']
 export const scopes = [
   {
     id: 'highlighted-tabs',
-    label: ({ highlightedTabCount = 0 } = {}) =>
-      highlightedTabCount > 1 // wrap
-        ? intl.selectedTabs()
-        : intl.thisTab(),
-    description: () => intl.thisTabDescription(),
+    label: ({ highlightedTabCount } = {}) =>
+      highlightedTabCount === 1 // wrap
+        ? intl.thisTab()
+        : intl.selectedTabs(),
+    description: () => intl.selectedTabsDescription(),
   },
   {
     id: 'window-tabs',
