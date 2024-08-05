@@ -3,6 +3,7 @@ import { intl } from '@/intl'
 type OptionTip = {
   id: string
   icon: JSX.Element
+  text: () => string
 }
 
 const hiddenSvg = (
@@ -26,8 +27,6 @@ const hiddenSvg = (
   </svg>
 )
 
-// --- 1. add new option tip below ---
-
 export const scopeOptionTips = [
   {
     id: 'copy-button-scopes',
@@ -50,10 +49,12 @@ export const scopeOptionTips = [
         />
       </svg>
     ),
+    text: () => intl.optionTipText.copyButtonScopes(),
   },
   {
     id: 'hidden-scopes',
     icon: hiddenSvg,
+    text: () => intl.optionTipText.hiddenScopes(),
   },
 ] as const satisfies OptionTip[]
 
@@ -75,6 +76,7 @@ export const formatOptionTips = [
         <path d="M17 4v16" />
       </svg>
     ),
+    text: () => intl.optionTipText.formatOrder(),
   },
   {
     id: 'default-format',
@@ -90,10 +92,12 @@ export const formatOptionTips = [
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
       </svg>
     ),
+    text: () => intl.optionTipText.defaultFormat(),
   },
   {
     id: 'hidden-formats',
     icon: hiddenSvg,
+    text: () => intl.optionTipText.hiddenFormats(),
   },
 ] as const satisfies OptionTip[]
 
@@ -102,11 +106,5 @@ export const optionTips = [
   ...scopeOptionTips,
   ...formatOptionTips,
 ] as const
-
-// --- 2. add text for new option tip by creating an intl function with same name as option tip id ---
-
-export function getOptionTipText(id: OptionTipId) {
-  return intl.optionTipText[id]()
-}
 
 export type OptionTipId = (typeof optionTips)[number]['id']
