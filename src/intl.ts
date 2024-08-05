@@ -77,7 +77,9 @@ export const intl = {
 
   tabCopyOptions: () => 'tab copy options',
 
-  formats: () => 'formats',
+  format: (count = 1) => (count === 1 ? 'format' : 'formats'),
+
+  formats: () => intl.format(2),
 
   optionTipText: {
     'format-order': () => 'drag a format up or down to change its\norder in the Tab Copy popup.',
@@ -115,6 +117,8 @@ export const intl = {
   // ----- misc -----
 
   conjoin: (...items: string[]) => items.join(' & '),
+
+  window: (count = 1) => (count === 1 ? 'window' : 'windows'),
 
   tab: (count = 1) => (count === 1 ? 'tab' : 'tabs'),
 
