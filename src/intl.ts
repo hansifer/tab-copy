@@ -82,12 +82,17 @@ export const intl = {
   formats: () => intl.format(2),
 
   optionTipText: {
-    'format-order': () => 'drag a format up or down to change its\norder in the Tab Copy popup.',
+    copyButtonScopes: () => 'each button in the Tab Copy popup\ncopies a particular range of tabs.',
 
-    'hidden-formats': () =>
+    hiddenScopes: () =>
+      "uncheck the buttons you don't want to see\n(at least 1 button must remain checked).",
+
+    formatOrder: () => 'drag a format up or down to change its\norder in the Tab Copy popup.',
+
+    defaultFormat: () => 'the top visible format is the default format.',
+
+    hiddenFormats: () =>
       "uncheck formats you don't want to see\n(at least 3 formats must remain checked).",
-
-    'default-format': () => 'the top visible format is the default format.',
   },
 
   addFormat: () => 'add format',
