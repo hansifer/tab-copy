@@ -17,11 +17,20 @@ export const intl = {
 
   selectedTabs: () => 'selected tabs',
 
+  selectedTabsDescription: () =>
+    'selected tabs\nin the current window\n(usually just the current tab)',
+
   thisWindowsTabs: () => "this window's tabs",
+
+  thisWindowsTabsDescription: () => 'all tabs in the current window',
 
   allTabs: () => 'all tabs',
 
+  allTabsDescription: () => 'all tabs, ungrouped',
+
   allWindowsAndTabs: () => 'all windows and tabs',
+
+  allWindowsAndTabsDescription: () => 'all tabs, grouped by window',
 
   // ----- copy format -----
 
@@ -83,11 +92,11 @@ export const intl = {
 
   // ----- options (key must match key in `options` object in `@/options`) -----
 
-  notifyOnCopy: () => 'notify on copy',
-
   ignorePinnedTabs: () => 'ignore pinned tabs',
 
   showInContextMenu: () => 'show in context menu',
+
+  notifyOnCopy: () => 'notify on copy',
 
   grayscaleIcon: () => 'grayscale icon',
 
