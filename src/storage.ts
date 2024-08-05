@@ -8,9 +8,9 @@ import {
   MIN_VISIBLE_FORMAT_COUNT,
   isCustomFormatId,
   FormatId,
-  FormatWithOptionId,
+  FormatWithOptsId,
   CustomFormatId,
-  FormatOptions,
+  FormatOpts,
 } from '@/format'
 import { newId } from '@/util/id'
 
@@ -293,10 +293,7 @@ export async function getFormatOption<T extends FormatId>(id: T) {
 }
 
 // todo: validate id? (isBuiltinFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
-export async function setFormatOption<T extends FormatWithOptionId>(
-  id: T,
-  value: FormatOptions[T],
-) {
+export async function setFormatOption<T extends FormatWithOptsId>(id: T, value: FormatOpts[T]) {
   const allFormatOptions = await getAllFormatOptions()
 
   return storage.set({
@@ -307,7 +304,7 @@ export async function setFormatOption<T extends FormatWithOptionId>(
   })
 }
 
-async function removeFormatOption(id: FormatWithOptionId) {
+async function removeFormatOption(id: FormatWithOptsId) {
   const allFormatOptions = await getAllFormatOptions()
 
   if (id in allFormatOptions) {
@@ -316,7 +313,7 @@ async function removeFormatOption(id: FormatWithOptionId) {
   }
 }
 
-async function getAllFormatOptions(): Promise<Partial<FormatOptions>> {
+async function getAllFormatOptions(): Promise<Partial<FormatOpts>> {
   const { formatOptions } = await storage.get('formatOptions')
   return formatOptions ?? {}
 }
