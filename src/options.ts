@@ -4,9 +4,9 @@ import { KeyOfType } from '@/util/typescript'
 // --- 1. add new option below by way of declaring defaults ---
 
 export const options = {
-  notifyOnCopy: false,
   ignorePinnedTabs: false,
   showInContextMenu: true,
+  notifyOnCopy: false,
   grayscaleIcon: false,
 }
 
