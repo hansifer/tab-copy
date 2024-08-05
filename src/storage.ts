@@ -2,7 +2,7 @@ import throttle from 'lodash.throttle'
 
 import { selectOption, Options, OptionId } from '@/options'
 import { OptionTipId } from '@/option-tips'
-import { scopeIds, MIN_VISIBLE_SCOPE_COUNT, ScopeId } from '@/scope'
+import { scopes, MIN_VISIBLE_SCOPE_COUNT, ScopeId } from '@/scope'
 import {
   builtinFormatIds,
   MIN_VISIBLE_FORMAT_COUNT,
@@ -73,9 +73,9 @@ export async function getHiddenOptionTipIds(): Promise<OptionTipId[]> {
 
 // ----- scopes -----
 
-export async function getVisibleScopeIds() {
+export async function getVisibleScopes() {
   const hiddenScopeIds = await getHiddenScopeIds()
-  return scopeIds.filter((id) => !hiddenScopeIds.includes(id))
+  return scopes.filter(({ id }) => !hiddenScopeIds.includes(id))
 }
 
 export async function toggleVisibleScopeId(id: ScopeId, visible?: boolean) {
@@ -103,8 +103,8 @@ export async function toggleVisibleScopeId(id: ScopeId, visible?: boolean) {
 }
 
 async function hasMinimumVisibleScopeCount() {
-  const visibleScopeIds = await getVisibleScopeIds()
-  return visibleScopeIds.length <= MIN_VISIBLE_SCOPE_COUNT
+  const visibleScopes = await getVisibleScopes()
+  return visibleScopes.length <= MIN_VISIBLE_SCOPE_COUNT
 }
 
 async function getHiddenScopeIds(): Promise<ScopeId[]> {
