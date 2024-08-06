@@ -1,5 +1,5 @@
-import { copyTabs } from '@/copy'
-import { ScopeId } from '@/scope'
+import { copyTabs, copyWindows } from '@/copy'
+import { isTabScopeId, ScopeId } from '@/scope'
 import { FormatId } from '@/format'
 import { getConfiguredFormat, getConfiguredFormats } from '@/configured-format'
 import {
@@ -11,7 +11,7 @@ import {
 } from '@/storage'
 import { hasSecondaryActionKeyModifier, hasTernaryActionKeyModifier } from '@/keyboard'
 import { intl } from '@/intl'
-import { getTabs } from '@/util/tabs'
+import { getScopedTabs } from '@/util/tabs'
 import {
   // wrap
   isButton,
@@ -24,11 +24,6 @@ import {
 import { sentenceCase } from '@/util/string'
 
 import './popup.css'
-
-type CopyScope =
-  | 'copy-tab' // represents all highlighted tabs in the current window (commonly just the current tab)
-  | 'copy-window-tabs'
-  | 'copy-all-tabs'
 
 // ----- format overrides -----
 
@@ -82,12 +77,18 @@ async function initCopyButtons() {
 
   const visibleScopes = await getVisibleScopes()
 
+  const highlightedTabs = await getScopedTabs('highlighted-tabs')
+
+  const tabsInfo = {
+    highlightedTabCount: highlightedTabs.length,
+  }
+
   for (const scope of visibleScopes) {
     const button = document.createElement('button')
 
-    button.dataset.scope = scope
+    button.dataset.scope = scope.id
     button.classList.add('button-primary')
-    button.textContent = await getCopyButtonLabel(scope)
+    button.textContent = sentenceCase(scope.label(tabsInfo))
 
     copyButtonsContainer.appendChild(button)
   }
@@ -111,8 +112,16 @@ async function initCopyButtons() {
   const handleCopyClickOrKeydown = (e: MouseEvent | KeyboardEvent) => {
     if (isButton(e.currentTarget)) {
       setFormatVariation(getFormatVariation(e))
-      const scope = e.currentTarget.getAttribute('id') as CopyScope
-      handleCopy(scope)
+
+      try {
+        handleCopy(e.currentTarget.dataset.scope as ScopeId)
+      } catch (ex) {
+        console.error(ex)
+
+        copyButtons.forEach(
+          (button) => (button.style.backgroundColor = e.currentTarget === button ? '#7a2c2c' : ''),
+        )
+      }
     }
   }
 
@@ -140,31 +149,17 @@ async function initCopyButtons() {
     })
   }, 100)
 
-  async function handleCopy(scope: CopyScope) {
-    const tabs = await getTabs()
-
-    const scopedTabs =
-      scope === 'copy-tab'
-        ? tabs.highlighted
-        : scope === 'copy-window-tabs'
-          ? tabs.inCurrentWin
-          : tabs.all
-
+  async function handleCopy(scopeId: ScopeId) {
     const format = await getEffectiveFormat()
 
-    try {
-      await copyTabs(scopedTabs, format)
-      flashActionIcon()
-      window.close()
-    } catch (ex) {
-      console.error(ex)
-
-      const scopeButton = getButton(scope)
-
-      copyButtons.forEach(
-        (button) => (button.style.backgroundColor = scopeButton === button ? '#7a2c2c' : ''),
-      )
+    if (isTabScopeId(scopeId)) {
+      await copyTabs(scopeId, format)
+    } else {
+      await copyWindows(format)
     }
+
+    flashActionIcon()
+    window.close()
   }
 }
 
@@ -352,30 +347,4 @@ function clearFormatVariation() {
 function setFormatVariation(variation: FormatVariation | null) {
   formatVariation = variation
   refreshEffectiveFormat()
-}
-
-async function getCopyButtonLabel(id: ScopeId) {
-  if (id === 'highlighted-tabs') {
-    const { highlighted } = await getTabs()
-
-    return sentenceCase(
-      highlighted.length > 1 // wrap
-        ? intl.selectedTabs()
-        : intl.thisTab(),
-    )
-  }
-
-  if (id === 'window-tabs') {
-    return sentenceCase(intl.thisWindowsTabs())
-  }
-
-  if (id === 'all-tabs') {
-    return sentenceCase(intl.allTabs())
-  }
-
-  if (id === 'all-windows-and-tabs') {
-    return sentenceCase(intl.allWindowsAndTabs())
-  }
-
-  return ''
 }
