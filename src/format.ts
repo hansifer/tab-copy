@@ -23,6 +23,7 @@ export type CustomFormatId = `custom-${string}`
 
 export type FormatId = BuiltinFormatId | CustomFormatId
 export type FormatWithOptsId = BuiltinFormatWithOptsId | CustomFormatId
+export type FormatWithOpts = BuiltinFormatWithOpts | CustomFormat
 
 export type FormatOpts = {
   [k in Exclude<BuiltinFormatId, BuiltinFormatWithOptsId>]?: undefined
@@ -35,7 +36,7 @@ export type FormatOpts = {
 const builtinFormats = [
   {
     id: 'link',
-    label: () => intl.link(),
+    label: () => sentenceCase(intl.link()),
     transforms: () => ({
       text: {
         tab: ({ tab }) => tab.url ?? '',
@@ -58,7 +59,7 @@ const builtinFormats = [
   },
   {
     id: 'titleUrl1Line',
-    label: (opts) => getTitleUrl1LineText(intl.title(), intl.url(), opts?.separator),
+    label: (opts) => sentenceCase(getTitleUrl1LineText(intl.title(), intl.url(), opts?.separator)),
     transforms: (opts) => ({
       text: {
         window: ({ seq }) => `${intl.window()} ${seq}`,
@@ -74,7 +75,7 @@ const builtinFormats = [
   },
   {
     id: 'titleUrl2Line',
-    label: () => intl.conjoin(intl.title(), intl.url()),
+    label: () => sentenceCase(intl.conjoin(intl.title(), intl.url())),
     transforms: () => ({
       text: {
         window: ({ seq }) => `${intl.window()} ${seq}`,
@@ -85,7 +86,7 @@ const builtinFormats = [
   },
   {
     id: 'title',
-    label: () => intl.title(),
+    label: () => sentenceCase(intl.title()),
     transforms: () => ({
       text: {
         window: ({ seq }) => `${intl.window()} ${seq}`,
@@ -177,7 +178,7 @@ const builtinFormats = [
   },
   {
     id: 'htmlTable',
-    label: () => intl.htmlTable(),
+    label: () => sentenceCase(intl.htmlTable()),
     transforms: () => ({
       text: {
         tab: ({ tab }) => getAnchorTagHtml(tab),
@@ -300,6 +301,10 @@ export function getFormat<T extends FormatId>(id: T) {
 
 // --- user-defined type guards
 
+export function isFormatWithOptsId(id: FormatId): id is FormatWithOptsId {
+  return isBuiltinFormatWithOptsId(id) || isCustomFormatId(id)
+}
+
 const builtinFormatWithOptsIds = builtinFormats
   .filter((format) => 'opts' in format)
   .map(({ id }) => id)
@@ -311,6 +316,8 @@ export function isBuiltinFormatWithOptsId(id: FormatId): id is BuiltinFormatWith
 export function isCustomFormatId(id: FormatId): id is CustomFormatId {
   return id.startsWith('custom-')
 }
+
+// --- helpers
 
 function getTitleUrl1LineText(
   title = '(untitled)',

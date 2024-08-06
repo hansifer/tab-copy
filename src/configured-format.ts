@@ -12,7 +12,6 @@ import {
   getAllFormatIds,
   getFormatOption,
 } from '@/storage'
-import { sentenceCase } from '@/util/string'
 
 export type ConfiguredFormat<T extends FormatId> = {
   id: T
@@ -53,7 +52,7 @@ async function makeConfiguredFormat<T extends FormatId>(
 
   return {
     id,
-    label: sentenceCase(format.label(opts)),
+    label: format.label(opts),
     visible: visibleFormatIds.includes(id),
     isDefault: visibleFormatIds[0] === id,
     transforms: format.transforms(opts),
