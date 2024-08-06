@@ -4,6 +4,7 @@ export const MIN_VISIBLE_SCOPE_COUNT = 1
 
 export type Scope = (typeof scopes)[number]
 export type ScopeId = Scope['id']
+export type TabScopeId = Exclude<ScopeId, 'all-windows-and-tabs'>
 
 export const scopes = [
   {
@@ -39,4 +40,8 @@ type ScopeTemplate = {
 
 type TabsInfo = {
   highlightedTabCount?: number // count of highlighted tabs in the current window
+}
+
+export function isTabScopeId(id: ScopeId): id is TabScopeId {
+  return id !== 'all-windows-and-tabs'
 }
