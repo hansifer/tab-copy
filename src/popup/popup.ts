@@ -109,17 +109,19 @@ async function initCopyButtons() {
     }
   }
 
-  const handleCopyClickOrKeydown = (e: MouseEvent | KeyboardEvent) => {
-    if (isButton(e.currentTarget)) {
+  const handleCopyClickOrKeydown = async (e: MouseEvent | KeyboardEvent) => {
+    const el = e.currentTarget // capture to account for mutation
+
+    if (isButton(el)) {
       setFormatVariation(getFormatVariation(e))
 
       try {
-        handleCopy(e.currentTarget.dataset.scope as ScopeId)
+        await handleCopy(el.dataset.scope as ScopeId)
       } catch (ex) {
         console.error(ex)
 
         copyButtons.forEach(
-          (button) => (button.style.backgroundColor = e.currentTarget === button ? '#7a2c2c' : ''),
+          (button) => (button.style.backgroundColor = el === button ? '#7a2c2c' : ''),
         )
       }
     }
