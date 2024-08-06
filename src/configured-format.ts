@@ -1,17 +1,26 @@
-import { getFormatLabel, FormatId, FormatOptions } from '@/format'
+import {
+  getFormat,
+  isFormatWithOptsId,
+  FormatId,
+  FormatOpts,
+  FormatWithOpts,
+  Transforms,
+} from '@/format'
 import {
   // wrap
   getVisibleFormatIds,
   getAllFormatIds,
   getFormatOption,
 } from '@/storage'
+import { sentenceCase } from '@/util/string'
 
 export type ConfiguredFormat<T extends FormatId> = {
   id: T
   label: string
   visible: boolean
   isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from visibleFormats[0] (currently only 1 instance (in popup.ts) would need to be updated)
-  option: FormatOptions[T]
+  transforms: Transforms
+  opts: FormatOpts[T]
 }
 
 export async function getConfiguredFormat<T extends FormatId>(id: T) {
@@ -34,14 +43,20 @@ async function makeConfiguredFormat<T extends FormatId>(
   id: T,
   visibleFormatIds: FormatId[],
 ): Promise<ConfiguredFormat<T>> {
-  const label = await getFormatLabel(id)
-  const option = await getFormatOption(id)
+  const format = getFormat(id)
+
+  const opts = (
+    isFormatWithOptsId(id)
+      ? (await getFormatOption(id)) ?? (format as FormatWithOpts).opts // fall back to default opts
+      : undefined
+  ) as FormatOpts[T]
 
   return {
     id,
-    label,
+    label: sentenceCase(format.label(opts)),
     visible: visibleFormatIds.includes(id),
     isDefault: visibleFormatIds[0] === id,
-    option,
+    transforms: format.transforms(opts),
+    opts,
   }
 }
