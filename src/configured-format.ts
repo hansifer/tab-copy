@@ -13,7 +13,7 @@ import {
   getFormatOption,
 } from '@/storage'
 
-export type ConfiguredFormat<T extends FormatId> = {
+export type ConfiguredFormat<T extends FormatId = FormatId> = {
   id: T
   label: string
   visible: boolean
