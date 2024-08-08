@@ -1,5 +1,5 @@
-import { copyTabs, copyWindows } from '@/copy'
-import { isTabScopeId, ScopeId } from '@/scope'
+import { copy } from '@/copy'
+import { ScopeId } from '@/scope'
 import { FormatId } from '@/format'
 import { getConfiguredFormat, getConfiguredFormats } from '@/configured-format'
 import {
@@ -95,7 +95,7 @@ async function initCopyButtons() {
 
   // ----- reveal UI -----
 
-  copyButtonsContainer.style.display = ''
+  copyButtonsContainer.style.removeProperty('display')
 
   const copyButtons = Array.from(copyButtonsContainer.children) as HTMLButtonElement[]
 
@@ -115,8 +115,14 @@ async function initCopyButtons() {
     if (isButton(el)) {
       setFormatVariation(getFormatVariation(e))
 
+      const scopeId = el.dataset.scope as ScopeId
+      const format = await getEffectiveFormat()
+
       try {
-        await handleCopy(el.dataset.scope as ScopeId)
+        await copy(scopeId, format)
+
+        flashActionIcon()
+        window.close()
       } catch (ex) {
         console.error(ex)
 
@@ -150,19 +156,6 @@ async function initCopyButtons() {
       }
     })
   }, 100)
-
-  async function handleCopy(scopeId: ScopeId) {
-    const format = await getEffectiveFormat()
-
-    if (isTabScopeId(scopeId)) {
-      await copyTabs(scopeId, format)
-    } else {
-      await copyWindows(format)
-    }
-
-    flashActionIcon()
-    window.close()
-  }
 }
 
 async function initFormats() {
@@ -223,7 +216,7 @@ async function initFormats() {
 
   // reveal UI
 
-  getDiv('format-section').style.display = ''
+  getDiv('format-section').style.removeProperty('display')
 }
 
 function initKeyboardInteraction() {
