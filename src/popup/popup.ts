@@ -2,6 +2,7 @@ import { copy } from '@/copy'
 import { ScopeId } from '@/scope'
 import { FormatId } from '@/format'
 import { getConfiguredFormat, getConfiguredFormats } from '@/configured-format'
+import { getOption } from '@/options'
 import {
   // wrap
   getVisibleScopes,
@@ -32,6 +33,8 @@ type FormatVariation = 'secondary' | 'ternary'
 let formatVariation: FormatVariation | null = null // set when key modifiers are engaged
 let oneTimeFormatId: FormatId | null = null // set when selecting a non-default format. takes precedence over formatVariation during copy.
 
+let keepFormatSelectorExpanded = false
+
 initApp()
 
 function initApp() {
@@ -58,7 +61,7 @@ function initApp() {
   chrome.storage.onChanged.addListener(
     makeStorageChangeHandler(
       () => {
-        refreshFormats()
+        refreshFormats({ refocus: true })
       },
       {
         listen: formatChanges,
@@ -159,6 +162,9 @@ async function initCopyButtons() {
 }
 
 async function initFormats() {
+  const keepFormatSelectorExpandedOption = await getOption('keepFormatSelectorExpanded')
+  keepFormatSelectorExpanded = keepFormatSelectorExpandedOption.value
+
   await refreshFormats()
 
   // handle format click (via event delegation)
@@ -175,7 +181,14 @@ async function initFormats() {
 
       refreshFormats() // no db impact, so force refresh
       closeFormatSelector()
-      queryElement('.button-primary')?.focus()
+
+      // timeout is needed in case of click when format selector is kept expanded since click focuses
+      setTimeout(
+        () => {
+          queryElement('.button-primary')?.focus()
+        },
+        keepFormatSelectorExpanded ? 100 : 0,
+      )
     }
   }
 
@@ -200,19 +213,26 @@ async function initFormats() {
     }
   })
 
-  // handle default format click
-
   const defaultFormatBtn = getButton('default-format-btn')
 
-  defaultFormatBtn.addEventListener('click', () => {
-    toggleFormatSelector()
-  })
+  if (!keepFormatSelectorExpanded) {
+    // handle default format click
+    defaultFormatBtn.addEventListener('click', () => {
+      toggleFormatSelector()
+    })
 
-  // suppress format selector close
+    // suppress format selector close
+    addListener([formatSelector, defaultFormatBtn], 'mousedown', (e) => {
+      e.stopPropagation()
+    })
+  }
 
-  addListener([formatSelector, defaultFormatBtn], 'mousedown', (e) => {
-    e.stopPropagation()
-  })
+  if (keepFormatSelectorExpanded) {
+    defaultFormatBtn.classList.add('keep-expanded')
+    defaultFormatBtn.setAttribute('disabled', 'disabled') // make unfocusable
+  }
+
+  toggleFormatSelector(keepFormatSelectorExpanded)
 
   // reveal UI
 
@@ -238,16 +258,15 @@ function initKeyboardInteraction() {
   })
 }
 
-async function refreshFormats() {
+async function refreshFormats({ refocus }: { refocus?: boolean } = {}) {
   const visibleFormats = await getConfiguredFormats({ visibleOnly: true })
 
   const formatSelector = getDiv('format-selector')
   const buttons = Array.from(formatSelector.querySelectorAll('button'))
 
   // capture focused format id before clearing formatSelector
-  const focusedFormatId = buttons
-    .find((button) => button === document.activeElement)
-    ?.getAttribute('id')
+  const focusedFormatId =
+    refocus && buttons.find((button) => button === document.activeElement)?.getAttribute('id')
 
   formatSelector.innerHTML = ''
 
@@ -265,7 +284,7 @@ async function refreshFormats() {
 
       formatSelector.appendChild(button)
 
-      if (format.id === focusedFormatId) {
+      if (focusedFormatId && format.id === focusedFormatId) {
         button.focus()
       }
     }
@@ -297,7 +316,9 @@ function toggleFormatSelector(expanded?: boolean) {
 }
 
 function closeFormatSelector() {
-  toggleFormatSelector(false)
+  if (!keepFormatSelectorExpanded) {
+    toggleFormatSelector(false)
+  }
 }
 
 function flashActionIcon() {

@@ -201,6 +201,21 @@ button {
 #default-format-btn {
   margin-left: auto;
   border-color: transparent;
+
+  &.keep-expanded {
+    cursor: default;
+    color: #000;
+    font-weight: 500;
+
+    @media (prefers-color-scheme: dark) {
+      color: #fff;
+      font-weight: normal;
+    }
+
+    .icon {
+      display: none;
+    }
+  }
 }
 
 #default-format-btn:hover {
