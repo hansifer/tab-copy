@@ -18,7 +18,7 @@ export const intl = {
   selectedTabs: () => 'selected tabs',
 
   selectedTabsDescription: () =>
-    'selected tabs\nin the current window\n(usually just the current tab)',
+    'selected tabs in\nthe current window\n(usually just the current tab)',
 
   thisWindowsTabs: () => "this window's tabs",
 
@@ -97,15 +97,28 @@ export const intl = {
 
   addFormat: () => 'add format',
 
-  // ----- options (key must match key in `options` object in `@/options`) -----
+  // ----- options -----
 
-  ignorePinnedTabs: () => 'ignore pinned tabs',
+  keepFormatSelectorExpanded: () => 'keep format selector expanded',
+
+  keepFormatSelectorExpandedDescription: () =>
+    'always show all available formats in the Tab Copy popup',
 
   showInContextMenu: () => 'show in context menu',
 
+  showInContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
+
+  ignorePinnedTabs: () => 'ignore pinned tabs',
+
+  ignorePinnedTabsDescription: () => 'omit pinned tabs from\nthe tabs that are copied',
+
   notifyOnCopy: () => 'notify on copy',
 
+  notifyOnCopyDescription: () => 'show a notification\nwhenever tabs are copied',
+
   grayscaleIcon: () => 'grayscale icon',
+
+  grayscaleIconDescription: () => 'change the style of\nthe Tab Copy icon',
 
   editKeyboardShortcuts: () => 'edit keyboard shortcuts...',
 
