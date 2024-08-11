@@ -1,14 +1,15 @@
-import { selectOption } from '@/options'
-import { makeStorageChangeHandler, getOption } from '@/storage'
+import { getOption } from '@/options'
+import { makeStorageChangeHandler } from '@/storage'
+import { log } from '@/util/log'
 
 let actionIconFlashTimer: ReturnType<typeof setTimeout>
 
-console.log(`service worker loaded ${new Date().toLocaleString()}`)
+log(`service worker loaded ${new Date().toLocaleString()}`)
 
-overrideIcon()
+setIcon('logo')
 
 chrome.runtime.onStartup.addListener(() => {
-  overrideIcon()
+  setIcon('logo')
 })
 
 // listening for `copied` storage event instead of using `chrome.runtime` messaging because `window.close()` interrupts the message
@@ -25,26 +26,19 @@ chrome.storage.onChanged.addListener(
     }
 
     if (changes.options) {
-      setIconPaths(selectOption('grayscaleIcon', changes.options.newValue) ? 'logo-gray' : 'logo')
+      setIcon('logo')
     }
   }),
 )
 
-async function overrideIcon() {
-  const grayscaleIcon = await getOption('grayscaleIcon')
-  if (grayscaleIcon) setIconPaths('logo-gray')
-}
-
 async function setIcon(name: 'logo' | 'success') {
   const filename =
-    name === 'logo' && (await getOption('grayscaleIcon')) // wrap
-      ? 'logo-gray'
-      : name
+    name === 'logo' // wrap
+      ? (await getOption('grayscaleIcon')).value
+        ? 'logo-gray'
+        : 'logo'
+      : 'success'
 
-  return setIconPaths(filename)
-}
-
-function setIconPaths(filename: 'logo' | 'logo-gray' | 'success') {
   return chrome.action.setIcon({
     path: {
       16: `img/${filename}-16.png`,
