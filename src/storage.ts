@@ -1,6 +1,6 @@
 import throttle from 'lodash.throttle'
 
-import { selectOption, Options, OptionId } from '@/options'
+import { OptionId, OptionValue } from '@/options'
 import { OptionTipId } from '@/option-tips'
 import { scopes, MIN_VISIBLE_SCOPE_COUNT, ScopeId } from '@/scope'
 import {
@@ -33,23 +33,25 @@ const storage = chrome.storage.local
 // ----- options -----
 
 // generic is necessary to get specific return type for given id
-export async function getOption<T extends OptionId>(id: T) {
-  const allOptions = await getAllOptions()
-  return selectOption(id, allOptions)
+export async function getOptionValue<T extends OptionId>(id: T) {
+  const allOptionValues = await getAllOptionValues()
+  return allOptionValues[id]
 }
 
-export async function setOption<T extends OptionId>(id: T, value: Options[T]) {
-  const allOptions = await getAllOptions()
+export async function setOptionValue<T extends OptionId>(id: T, value: OptionValue<T>) {
+  const allOptionValues = await getAllOptionValues()
 
   return storage.set({
     options: {
-      ...allOptions,
+      ...allOptionValues,
       [id]: value,
     },
   })
 }
 
-async function getAllOptions(): Promise<Partial<Options>> {
+async function getAllOptionValues(): Promise<{
+  [P in OptionId]?: OptionValue<P>
+}> {
   const { options } = await storage.get('options')
   return options ?? {}
 }
