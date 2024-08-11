@@ -1,26 +1,68 @@
 import { intl } from '@/intl'
-import { KeyOfType } from '@/util/typescript'
+import { getOptionValue } from '@/storage'
 
-// --- 1. add new option below by way of declaring defaults ---
+type OptionSpec = (typeof options)[number]
 
-export const options = {
-  ignorePinnedTabs: false,
-  showInContextMenu: true,
-  notifyOnCopy: false,
-  grayscaleIcon: false,
+// Option distributive conditional type adds value prop with type inferred from def prop
+type Option<T = OptionSpec> = T extends OptionSpec ? T & { value: T['def'] } : never
+export type OptionId = Option['id']
+export type OptionValue<T extends OptionId> = Extract<OptionSpec, { id: T }>['def']
+
+export type BooleanOption = Extract<Option, { def: boolean }>
+export type BooleanOptionId = BooleanOption['id']
+
+// widen def prop type to allow value prop type to be inferred appropriately
+const options = [
+  {
+    id: 'keepFormatSelectorExpanded',
+    def: false as boolean,
+    label: () => intl.keepFormatSelectorExpanded(),
+    description: () => intl.keepFormatSelectorExpandedDescription(),
+  },
+  {
+    id: 'showInContextMenu',
+    def: true as boolean,
+    label: () => intl.showInContextMenu(),
+    description: () => intl.showInContextMenuDescription(),
+  },
+  {
+    id: 'ignorePinnedTabs',
+    def: false as boolean,
+    label: () => intl.ignorePinnedTabs(),
+    description: () => intl.ignorePinnedTabsDescription(),
+  },
+  {
+    id: 'notifyOnCopy',
+    def: false as boolean,
+    label: () => intl.notifyOnCopy(),
+    description: () => intl.notifyOnCopyDescription(),
+  },
+  {
+    id: 'grayscaleIcon',
+    def: false as boolean,
+    label: () => intl.grayscaleIcon(),
+    description: () => intl.grayscaleIconDescription(),
+  },
+] as const satisfies OptionSpecTemplate[]
+
+type OptionSpecTemplate = {
+  id: string
+  def: any
+  label: () => string
+  description?: () => string
 }
 
-export type Options = typeof options
-export type OptionId = keyof Options
-export type BooleanOptionId = KeyOfType<Options, boolean>
+export const booleanOptionIds = options
+  .filter((option) => typeof option.def === 'boolean') // destructuring here leads to incorrect booleanOptionIds type inference
+  .map(({ id }) => id)
 
-// --- 2. add label for new option by creating an intl function with same name as option id ---
+export async function getOption<T extends OptionId>(id: T) {
+  const option = options.find((option) => option.id === id) as Extract<OptionSpec, { id: T }>
 
-export function getOptionLabel(id: OptionId) {
-  return intl[id]()
-}
+  const value = (await getOptionValue(id)) ?? option.def
 
-// select option value with default fallback
-export function selectOption<T extends OptionId>(id: T, lookup?: Partial<Options>) {
-  return lookup?.[id] ?? options[id]
+  return {
+    ...option,
+    value,
+  } as Option<typeof option>
 }
