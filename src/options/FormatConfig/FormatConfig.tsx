@@ -5,10 +5,10 @@ import { Checkbox } from '../Checkbox/Checkbox'
 import { OptionIcon } from './OptionIcon'
 import { useRaisedShadow } from './useRaisedShadow'
 import {
-  isBuiltinFormatWithOptionId,
-  isCustomFormatId,
+  // wrap
+  isFormatWithOptsId,
   FormatId,
-  FormatWithOptionId,
+  FormatWithOptsId,
 } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { classy } from '@/util/css'
@@ -16,11 +16,11 @@ import { classy } from '@/util/css'
 import classes from './FormatConfig.module.css'
 
 type FormatConfigProps = {
-  format: ConfiguredFormat<FormatId>
+  format: ConfiguredFormat
   disabled?: boolean
   description?: string
   onClick: (id: FormatId) => void
-  onOptionClick?: (id: FormatWithOptionId) => void
+  onOptionClick?: (id: FormatWithOptsId) => void
 }
 
 export const FormatConfig = ({
@@ -82,12 +82,12 @@ export const FormatConfig = ({
           e.stopPropagation()
         }}
       >
-        {format.option ? (
+        {format.opts ? (
           <button
             onClick={
               allowClick
                 ? () => {
-                    if (isBuiltinFormatWithOptionId(format.id) || isCustomFormatId(format.id)) {
+                    if (isFormatWithOptsId(format.id)) {
                       onOptionClick?.(format.id)
                     }
                   }
