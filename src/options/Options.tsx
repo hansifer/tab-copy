@@ -8,7 +8,7 @@ import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
 import { booleanOptionIds } from '@/options'
 import { formatOptionTips, getOptionTipText } from '@/option-tips'
-import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatId, FormatWithOptsId } from '@/format'
+import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatWithOptsId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
   setOrderedFormatIds,
@@ -37,7 +37,7 @@ declare module 'react' {
 
 // todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const Options = () => {
-  const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat<FormatId>[]>([])
+  const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat[]>([])
   // formatId associated with format option being edited
   const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptsId>()
 
@@ -248,10 +248,7 @@ export const Options = () => {
   )
 }
 
-function getFormatDescription(
-  format: ConfiguredFormat<FormatId>,
-  visibleFormats: ConfiguredFormat<FormatId>[],
-) {
+function getFormatDescription(format: ConfiguredFormat, visibleFormats: ConfiguredFormat[]) {
   if (!format.visible) {
     return sentenceCase(intl.hidden())
   }
