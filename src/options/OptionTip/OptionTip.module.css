@@ -4,15 +4,13 @@
   justify-content: space-between;
   gap: 24px;
   padding: 14px 16px;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
   font-size: 0.7rem;
   border-radius: 10px;
-  background-color: #fff;
-  box-shadow: 0 0 16px 10px #86868611;
+  border: 1px solid #b4b4b4;
 
   @media (prefers-color-scheme: dark) {
-    background-color: #ffffff1c;
-    box-shadow: 0 0 16px 10px #00000011;
+    border: 1px solid #ffffff38;
   }
 }
 
