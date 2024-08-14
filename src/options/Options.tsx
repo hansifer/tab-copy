@@ -7,7 +7,7 @@ import { FormatOptionEditor } from './FormatOptionEditor/FormatOptionEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
 import { booleanOptionIds } from '@/options'
-import { formatOptionTips, getOptionTipText } from '@/option-tips'
+import { formatOptionTips } from '@/option-tips'
 import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatWithOptsId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
@@ -176,11 +176,11 @@ export const Options = () => {
         <h3>{intl.formats()}</h3>
         {visibleFormatOptionTips.length ? (
           <div className={classes.formatOptionTips}>
-            {visibleFormatOptionTips.map(({ id, icon }) => (
+            {visibleFormatOptionTips.map(({ id, icon, text }) => (
               <OptionTip
                 key={id}
                 icon={icon}
-                text={sentenceCase(getOptionTipText(id))}
+                text={sentenceCase(text())}
                 onDismiss={() => {
                   hideOptionTip(id)
                 }}
