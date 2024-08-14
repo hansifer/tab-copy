@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback } from 'react'
 
 import { Checkbox } from '../Checkbox/Checkbox'
-import { selectOption, getOptionLabel, BooleanOptionId } from '@/options'
-import { getOption, setOption, makeStorageChangeHandler } from '@/storage'
+import { getOption, BooleanOption, BooleanOptionId } from '@/options'
+import { setOptionValue, makeStorageChangeHandler } from '@/storage'
 import { sentenceCase } from '@/util/string'
 
 type BinaryOptionProps = {
@@ -11,16 +11,16 @@ type BinaryOptionProps = {
 
 // todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const BinaryOption = ({ id }: BinaryOptionProps) => {
-  const [checked, setChecked] = useState<boolean>(false)
+  const [option, setOption] = useState<BooleanOption | null>(null)
 
   useEffect(() => {
-    getOption(id).then(setChecked)
+    getOption(id).then(setOption)
   }, [id])
 
   useEffect(() => {
     const handleStorageChanged = makeStorageChangeHandler((changes) => {
       if (changes.options) {
-        setChecked(selectOption(id, changes.options.newValue))
+        getOption(id).then(setOption)
       }
     })
 
@@ -32,14 +32,17 @@ export const BinaryOption = ({ id }: BinaryOptionProps) => {
   }, [id])
 
   const handleClick = useCallback(() => {
-    setOption(id, !checked)
-  }, [id, checked])
+    if (!option) return
+    setOptionValue(id, !option.value)
+  }, [id, option?.value])
 
   return (
     <Checkbox
-      label={sentenceCase(getOptionLabel(id))}
-      checked={checked}
-      onClick={handleClick}
+      label={sentenceCase(option?.label())}
+      tip={sentenceCase(option && 'description' in option ? option.description() : '')}
+      checked={option?.value}
+      disabled={!option}
+      onClick={() => handleClick()}
     />
   )
 }
