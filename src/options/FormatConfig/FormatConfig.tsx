@@ -78,9 +78,13 @@ export const FormatConfig = ({
       </span>
       <span
         className={classy(classes.side, classes.right)}
-        onClick={(e) => {
-          e.stopPropagation()
-        }}
+        onClick={
+          format.opts
+            ? (e) => {
+                e.stopPropagation()
+              }
+            : undefined
+        }
       >
         {format.opts ? (
           <button
