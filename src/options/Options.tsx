@@ -6,9 +6,9 @@ import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOptionEditor } from './FormatOptionEditor/FormatOptionEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
-import { BooleanOptionId, options } from '@/options'
+import { booleanOptionIds } from '@/options'
 import { formatOptionTips, getOptionTipText } from '@/option-tips'
-import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatId, FormatWithOptionId } from '@/format'
+import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatId, FormatWithOptsId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
   setOrderedFormatIds,
@@ -39,7 +39,7 @@ declare module 'react' {
 export const Options = () => {
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat<FormatId>[]>([])
   // formatId associated with format option being edited
-  const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptionId>()
+  const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptsId>()
 
   const [editError, setEditError] = useState<string>('')
 
@@ -91,7 +91,8 @@ export const Options = () => {
     setEditError('')
   }
 
-  const deleteFormat = async (formatId: FormatWithOptionId) => {
+  const deleteFormat = async (formatId: FormatWithOptsId) => {
+    // use type CustomFormatId?
     try {
       if (isCustomFormatId(formatId)) {
         await removeCustomFormat(formatId)
@@ -126,14 +127,12 @@ export const Options = () => {
         inert={inert}
       >
         <div className={classes.generalSubSection}>
-          {Object.entries(options)
-            .filter(([, defaultVal]) => defaultVal === true || defaultVal === false) // only consider boolean options
-            .map(([optionId]) => (
-              <BinaryOption
-                key={optionId}
-                id={optionId as BooleanOptionId}
-              />
-            ))}
+          {booleanOptionIds.map((id) => (
+            <BinaryOption
+              key={id}
+              id={id}
+            />
+          ))}
         </div>
         <button
           className={classes.primaryAction}
