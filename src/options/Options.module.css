@@ -149,31 +149,25 @@ input {
   }
 }
 
-.generalSection {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 20px;
-}
-
-.generalSubSection {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-.formatsSection {
+.section {
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-bottom: 3em;
-  margin: 24px 0;
 }
 
-.formatOptionTips {
+.subsection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.optionTips {
   padding-bottom: 16px;
 }
 
-.formats {
-  margin-top: 16px;
+.addFormat {
+  margin-bottom: 24px;
 }

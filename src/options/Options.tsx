@@ -24,7 +24,7 @@ import {
 import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
-import { prefersColorSchemeDark } from '@/util/css'
+import { prefersColorSchemeDark, classy } from '@/util/css'
 
 import classes from './Options.module.css'
 
@@ -123,10 +123,10 @@ export const Options = () => {
         <h3>{intl.tabCopyOptions()}</h3>
       </div>
       <div
-        className={classes.generalSection}
+        className={classes.section}
         inert={inert}
       >
-        <div className={classes.generalSubSection}>
+        <div className={classes.subsection}>
           {booleanOptionIds.map((id) => (
             <BinaryOption
               key={id}
@@ -170,12 +170,12 @@ export const Options = () => {
         </button>
       </div>
       <div
-        className={classes.formatsSection}
+        className={classes.section}
         inert={inert}
       >
         <h3>{intl.formats()}</h3>
         {visibleFormatOptionTips.length ? (
-          <div className={classes.formatOptionTips}>
+          <div className={classes.optionTips}>
             {visibleFormatOptionTips.map(({ id, icon, text }) => (
               <OptionTip
                 key={id}
@@ -189,7 +189,7 @@ export const Options = () => {
           </div>
         ) : null}
         <button
-          className={classes.primaryAction}
+          className={classy(classes.primaryAction, classes.addFormat)}
           onClick={addCustomFormat}
         >
           <svg
@@ -206,7 +206,7 @@ export const Options = () => {
           </svg>
           {sentenceCase(intl.addFormat())}
         </button>
-        <div className={classes.formats}>
+        <div>
           <Reorder.Group
             axis="y"
             values={configuredFormats}
