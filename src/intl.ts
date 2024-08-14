@@ -77,6 +77,8 @@ export const intl = {
 
   tabCopyOptions: () => 'tab copy options',
 
+  copyButtons: () => 'copy buttons',
+
   format: (count = 1) => (count === 1 ? 'format' : 'formats'),
 
   formats: () => intl.format(2),

@@ -2,15 +2,18 @@ import { useState, useEffect, useCallback } from 'react'
 import { Reorder } from 'framer-motion'
 
 import { BinaryOption } from './BinaryOption/BinaryOption'
+import { ScopeTile } from './ScopeTile/ScopeTile'
 import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOptionEditor } from './FormatOptionEditor/FormatOptionEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
 import { booleanOptionIds } from '@/options'
-import { formatOptionTips } from '@/option-tips'
+import { scopeOptionTips, formatOptionTips } from '@/option-tips'
+import { scopes, Scope } from '@/scope'
 import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatWithOptsId } from '@/format'
 import { getConfiguredFormats, ConfiguredFormat } from '@/configured-format'
 import {
+  getVisibleScopes,
   setOrderedFormatIds,
   toggleVisibleFormatId,
   addCustomFormat,
@@ -37,11 +40,17 @@ declare module 'react' {
 
 // todo: consider useSyncExternalStore instead of useState, useEffect (possible because storage api has snapshot and subscription features)
 export const Options = () => {
+  const [visibleScopes, setVisibleScopes] = useState<Scope[]>([])
+
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat[]>([])
   // formatId associated with format option being edited
   const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptsId>()
 
   const [editError, setEditError] = useState<string>('')
+
+  const [visibleScopeOptionTips, setVisibleScopeOptionTips] = useState<
+    (typeof scopeOptionTips)[number][]
+  >([])
 
   const [visibleFormatOptionTips, setVisibleFormatOptionTips] = useState<
     (typeof formatOptionTips)[number][]
@@ -49,20 +58,29 @@ export const Options = () => {
 
   const refreshVisibleOptionTips = useCallback(() => {
     getHiddenOptionTipIds().then((hiddenOptionTipIds) => {
+      setVisibleScopeOptionTips(
+        scopeOptionTips.filter(({ id }) => !hiddenOptionTipIds.includes(id)),
+      )
+
       setVisibleFormatOptionTips(
         formatOptionTips.filter(({ id }) => !hiddenOptionTipIds.includes(id)),
       )
     })
-  }, [setVisibleFormatOptionTips])
+  }, [])
+
+  const refreshVisibleScopes = useCallback(() => {
+    getVisibleScopes().then(setVisibleScopes)
+  }, [])
 
   const refreshConfiguredFormats = useCallback(() => {
     getConfiguredFormats().then(setConfiguredFormats)
-  }, [setConfiguredFormats])
+  }, [])
 
   const applyStorageState = useCallback(() => {
     refreshVisibleOptionTips()
+    refreshVisibleScopes()
     refreshConfiguredFormats()
-  }, [refreshVisibleOptionTips, refreshConfiguredFormats])
+  }, [refreshVisibleOptionTips, refreshVisibleScopes, refreshConfiguredFormats])
 
   // apply storage state on mount
   useEffect(() => {
@@ -168,6 +186,35 @@ export const Options = () => {
           </svg>
           {sentenceCase(intl.editKeyboardShortcuts())}
         </button>
+      </div>
+      <div
+        className={classes.section}
+        inert={inert}
+      >
+        <h3>{intl.copyButtons()}</h3>
+        {visibleScopeOptionTips.length ? (
+          <div className={classes.optionTips}>
+            {visibleScopeOptionTips.map(({ id, icon, text }) => (
+              <OptionTip
+                key={id}
+                icon={icon}
+                text={sentenceCase(text())}
+                onDismiss={() => {
+                  hideOptionTip(id)
+                }}
+              />
+            ))}
+          </div>
+        ) : null}
+        <div>
+          {scopes.map((scope) => (
+            <ScopeTile
+              key={scope.id}
+              scope={scope}
+              visibleScopes={visibleScopes}
+            />
+          ))}
+        </div>
       </div>
       <div
         className={classes.section}
