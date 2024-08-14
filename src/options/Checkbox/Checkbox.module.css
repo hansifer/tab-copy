@@ -1,4 +1,5 @@
 .Checkbox {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 20px;
@@ -11,6 +12,59 @@
   .label {
     user-select: none;
     cursor: pointer;
+  }
+
+  .tip {
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    width: max-content;
+    max-width: 170px;
+    padding: 8px 12px;
+    margin-left: 20px;
+    font-size: 0.7rem;
+    border: 1px solid #00000058;
+    border-radius: 6px;
+    text-align: center;
+    white-space: pre-wrap;
+    background-color: #f7f7f7;
+    visibility: hidden;
+    opacity: 0;
+
+    .label:hover+& {
+      visibility: visible;
+      opacity: 1;
+      transition: opacity 300ms ease-in;
+    }
+
+    &::after {
+      content: '';
+      position: absolute;
+      display: inline-block;
+      top: 50%;
+      right: 100%;
+      width: 8px;
+      height: 8px;
+      /* intentional higher alpha */
+      border-left: 1px solid #00000088;
+      border-bottom: 1px solid #00000088;
+      background-color: #f7f7f7;
+      transform-origin: center;
+      transform: translateY(-50%) translateX(50%) rotate(45deg);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid #ffffff58;
+      background-color: #242424;
+
+      &::after {
+        /* intentional higher alpha */
+        border-left: 1px solid #ffffff88;
+        border-bottom: 1px solid #ffffff88;
+        background-color: #242424;
+      }
+    }
   }
 }
 
