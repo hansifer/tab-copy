@@ -1,10 +1,10 @@
 import { useState, useEffect, FC } from 'react'
 
 import {
-  isBuiltinFormatWithOptionId,
-  BuiltinFormatWithOptionId,
-  FormatWithOptionId,
-  FormatOptions,
+  isBuiltinFormatWithOptsId,
+  BuiltinFormatWithOptsId,
+  FormatWithOptsId,
+  FormatOpts,
 } from '@/format'
 import { getConfiguredFormat, ConfiguredFormat } from '@/configured-format'
 import { intl } from '@/intl'
@@ -21,17 +21,17 @@ import optionsClasses from '../Options.module.css'
 const builtinFormatOptionContent = {
   htmlTable: HtmlTable,
   titleUrl1Line: TitleUrl1Line,
-} satisfies { [k in BuiltinFormatWithOptionId]: FC<ContentProps<k>> }
+} satisfies { [k in BuiltinFormatWithOptsId]: FC<ContentProps<k>> }
 
-type FormatOptionEditorProps<T extends FormatWithOptionId> = {
+type FormatOptionEditorProps<T extends FormatWithOptsId> = {
   formatId?: T
   error?: string
   onCancel: () => void
-  onOK: (formatId: T, option: FormatOptions[T]) => void
+  onOK: (formatId: T, opts: FormatOpts[T]) => void
   onDelete?: (formatId: T) => void
 }
 
-export const FormatOptionEditor = <T extends FormatWithOptionId>({
+export const FormatOptionEditor = <T extends FormatWithOptsId>({
   formatId,
   error,
   onCancel,
@@ -62,7 +62,7 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
           e.target instanceof Element &&
           e.target.tagName === 'INPUT'
         ) {
-          onOK(format.id, format.option)
+          onOK(format.id, format.opts)
         }
       }
     }
@@ -83,14 +83,14 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
   ) : (
     (() => {
       // todo: eliminate need for TS assertion
-      const ContentComp = (isBuiltinFormatWithOptionId(format.id)
+      const ContentComp = (isBuiltinFormatWithOptsId(format.id)
         ? builtinFormatOptionContent[format.id]
         : Custom) as unknown as FC<ContentProps<T>>
 
       return (
         <ContentComp
-          option={format.option}
-          onChange={(option) => setFormat({ ...format, option })}
+          option={format.opts}
+          onChange={(opts) => setFormat({ ...format, opts })}
           onConfirmDelete={() => setConfirmDelete(true)}
           onValidChanged={(valid) => {
             setOKDisabled(!valid)
@@ -135,7 +135,7 @@ export const FormatOptionEditor = <T extends FormatWithOptionId>({
       <button
         className={optionsClasses.primaryAction}
         onClick={() => {
-          onOK(format.id, format.option)
+          onOK(format.id, format.opts)
         }}
         disabled={okDisabled}
       >
