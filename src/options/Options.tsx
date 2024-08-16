@@ -206,7 +206,7 @@ export const Options = () => {
             ))}
           </div>
         ) : null}
-        <div>
+        <div className={classes.scopes}>
           {scopes.map((scope) => (
             <ScopeTile
               key={scope.id}
