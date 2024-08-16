@@ -13,6 +13,7 @@ import { sentenceCase } from '@/util/string'
 import { ContentProps } from './content/interface'
 import { HtmlTable } from './content/HtmlTable'
 import { TitleUrl1Line } from './content/TitleUrl1Line'
+import { Json } from './content/Json'
 import { Custom } from './content/Custom'
 
 import classes from './FormatOptionEditor.module.css'
@@ -21,6 +22,7 @@ import optionsClasses from '../Options.module.css'
 const builtinFormatOptionContent = {
   htmlTable: HtmlTable,
   titleUrl1Line: TitleUrl1Line,
+  json: Json,
 } satisfies { [k in BuiltinFormatWithOptsId]: FC<ContentProps<k>> }
 
 type FormatOptionEditorProps<T extends FormatWithOptsId> = {
