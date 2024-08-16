@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, HTMLInputTypeAttribute } from 'react'
 
 import { sentenceCase } from '@/util/string'
 import { insertInputText } from '@/util/dom'
@@ -18,6 +18,10 @@ const MAX_COLLAPSED_TOKENS = 3
 type TextOptionProps = {
   label: string
   value: string
+  type?: Extract<
+    HTMLInputTypeAttribute,
+    'text' | 'number' | 'date' | 'datetime-local' | 'email' | 'month' | 'time' | 'url' | 'week'
+  >
   width?: string
   maxLength?: number
   autoFocus?: boolean
@@ -29,6 +33,7 @@ export const TextOption = ({
   // wrap
   label,
   value,
+  type = 'text',
   width = '100%',
   maxLength,
   autoFocus,
@@ -53,7 +58,7 @@ export const TextOption = ({
       <div style={{ width }}>
         <input
           ref={inputRef}
-          type="text"
+          type={type}
           maxLength={maxLength}
           onInput={({ currentTarget }) => {
             onChange(currentTarget.value)
