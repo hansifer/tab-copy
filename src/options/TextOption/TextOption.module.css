@@ -4,6 +4,10 @@
   align-items: center;
   white-space: nowrap;
 
+  &.disabled {
+    opacity: 0.5;
+  }
+
   .label {
     margin-bottom: 2px;
     font-size: 0.8rem;

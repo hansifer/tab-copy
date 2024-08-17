@@ -2,6 +2,7 @@ import { useState, useEffect, useRef, HTMLInputTypeAttribute } from 'react'
 
 import { sentenceCase } from '@/util/string'
 import { insertInputText } from '@/util/dom'
+import { classy } from '@/util/css'
 import {
   Token,
   makeTokenRegExp,
@@ -18,6 +19,7 @@ const MAX_COLLAPSED_TOKENS = 3
 type TextOptionProps = {
   label: string
   value: string
+  disabled?: boolean
   type?: Extract<
     HTMLInputTypeAttribute,
     'text' | 'number' | 'date' | 'datetime-local' | 'email' | 'month' | 'time' | 'url' | 'week'
@@ -33,6 +35,7 @@ export const TextOption = ({
   // wrap
   label,
   value,
+  disabled,
   type = 'text',
   width = '100%',
   maxLength,
@@ -46,18 +49,29 @@ export const TextOption = ({
 
   const tokenRegExp = makeTokenRegExp(tokens)
 
+  // use inert to ensure token selector gets hidden when comp is disabled
+  const inert = disabled ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
+
   useEffect(() => {
     if (autoFocus) {
       inputRef.current?.focus()
     }
   }, [autoFocus])
 
+  const rootClasses = classy(classes.TextOption, {
+    [classes.disabled]: disabled,
+  })
+
   return (
-    <div className={classes.TextOption}>
+    <div
+      className={rootClasses}
+      inert={inert}
+    >
       <div className={classes.label}>{sentenceCase(label)}</div>
       <div style={{ width }}>
         <input
           ref={inputRef}
+          disabled={disabled}
           type={type}
           maxLength={maxLength}
           onInput={({ currentTarget }) => {
