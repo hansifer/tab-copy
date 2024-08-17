@@ -1,6 +1,7 @@
 import { intl } from '@/intl'
 
 import { TextOption } from '@/options/TextOption/TextOption'
+
 import { ContentProps } from './interface'
 
 // content components receive up-to-date option and are responsible for reporting option changes

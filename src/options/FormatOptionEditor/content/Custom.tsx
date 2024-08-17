@@ -3,10 +3,12 @@ import { sentenceCase } from '@/util/string'
 import { classy } from '@/util/css'
 
 import { TextOption } from '@/options/TextOption/TextOption'
+
 import { ContentProps } from './interface'
+import { tokens } from './tokens'
+
 import classes from './Custom.module.css'
 import optionsClasses from '../../Options.module.css'
-import { tokens } from './tokens'
 
 // content components receive up-to-date option and are responsible for reporting option changes
 

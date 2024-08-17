@@ -1,6 +1,7 @@
-import { Checkbox } from '../../Checkbox/Checkbox'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
+
+import { Checkbox } from '@/options/Checkbox/Checkbox'
 
 import { ContentProps } from './interface'
 
