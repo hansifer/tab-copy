@@ -191,3 +191,35 @@ input[type=number] {
 .addFormat {
   margin-bottom: 24px;
 }
+
+.optsSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 150px;
+  max-width: 272px;
+  padding: 14px 20px 20px;
+  border-radius: 8px;
+  overflow: hidden;
+  overflow: clip;
+  overflow-clip-margin: content-box;
+  background-color: #0000000c;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #ffffff0c;
+  }
+
+  .optsSectionHeader {
+    width: 100%;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    text-align: center;
+    border-bottom: 1px solid #0000003d;
+
+    @media (prefers-color-scheme: dark) {
+      border-bottom: 1px solid #ffffff3d;
+    }
+  }
+}
