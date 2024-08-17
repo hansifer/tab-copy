@@ -12,6 +12,11 @@
   .label {
     user-select: none;
     cursor: pointer;
+
+    .Checkbox.disabled & {
+      opacity: 0.5;
+      pointer-events: none;
+    }
   }
 
   .tip {
