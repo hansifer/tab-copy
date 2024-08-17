@@ -2,7 +2,7 @@
   position: relative;
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
   white-space: nowrap;
 
   :is(button) {
@@ -10,6 +10,7 @@
   }
 
   .label {
+    line-height: 1;
     user-select: none;
     cursor: pointer;
 
