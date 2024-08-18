@@ -34,7 +34,7 @@ chrome.storage.onChanged.addListener(
 async function setIcon(name: 'logo' | 'success') {
   const filename =
     name === 'logo' // wrap
-      ? (await getOption('grayscaleIcon')).value
+      ? (await getOption('grayIcon')).value
         ? 'logo-gray'
         : 'logo'
       : 'success'

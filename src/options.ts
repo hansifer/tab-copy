@@ -38,10 +38,10 @@ const options = [
     description: () => intl.notifyOnCopyDescription(),
   },
   {
-    id: 'grayscaleIcon',
+    id: 'grayIcon',
     def: false as boolean,
-    label: () => intl.grayscaleIcon(),
-    description: () => intl.grayscaleIconDescription(),
+    label: () => intl.grayIcon(),
+    description: () => intl.grayIconDescription(),
   },
 ] as const satisfies OptionSpecTemplate[]
 

@@ -126,9 +126,9 @@ export const intl = {
 
   notifyOnCopyDescription: () => 'show a notification\nwhenever tabs are copied',
 
-  grayscaleIcon: () => 'grayscale icon',
+  grayIcon: () => 'gray icon',
 
-  grayscaleIconDescription: () => 'change the style of\nthe Tab Copy icon',
+  grayIconDescription: () => 'change the style of\nthe Tab Copy icon',
 
   editKeyboardShortcuts: () => 'edit keyboard shortcuts...',
 
