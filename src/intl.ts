@@ -44,11 +44,19 @@ export const intl = {
 
   default: () => 'default',
 
-  // ----- format option -----
+  // ----- format opts -----
 
   separator: () => 'separator',
 
   includeHeader: () => 'include header',
+
+  properties: () => 'properties',
+
+  layout: () => 'layout',
+
+  pretty: () => 'pretty',
+
+  indent: () => 'indent',
 
   name: () => 'name',
 
