@@ -10,7 +10,7 @@ import {
   // wrap
   getVisibleFormatIds,
   getAllFormatIds,
-  getFormatOption,
+  getFormatOpts,
 } from '@/storage'
 
 export type ConfiguredFormat<T extends FormatId = FormatId> = {
@@ -46,7 +46,7 @@ async function makeConfiguredFormat<T extends FormatId>(
 
   const opts = (
     isFormatWithOptsId(id)
-      ? (await getFormatOption(id)) ?? (format as FormatWithOpts).opts // fall back to default opts
+      ? ((await getFormatOpts(id)) ?? (format as FormatWithOpts).opts) // fall back to default opts
       : undefined
   ) as FormatOpts[T]
 

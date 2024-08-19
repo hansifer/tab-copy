@@ -165,7 +165,7 @@ export async function removeCustomFormat(id: CustomFormatId) {
 
   await toggleVisibleFormatId(id, true)
 
-  return removeFormatOption(id)
+  return removeFormatOpts(id)
 }
 
 async function addCustomFormatId(id: CustomFormatId) {
@@ -289,12 +289,12 @@ function setHiddenFormatIds(ids: FormatId[]) {
 // ----- format opts -----
 
 // generic is necessary to get specific return type for given id
-export async function getFormatOption<T extends FormatId>(id: T) {
+export async function getFormatOpts<T extends FormatId>(id: T) {
   const allFormatOpts = await getAllFormatOpts()
   return allFormatOpts[id]
 }
 
-// todo: validate id? (isBuiltinFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
+// todo: validate id? (isBuiltinFormatWithOptsId(), isCustomFormatId(), isLegitFormatId())
 export async function setFormatOpts<T extends FormatWithOptsId>(id: T, value: FormatOpts[T]) {
   const allFormatOpts = await getAllFormatOpts()
 
@@ -306,7 +306,7 @@ export async function setFormatOpts<T extends FormatWithOptsId>(id: T, value: Fo
   })
 }
 
-async function removeFormatOption(id: FormatWithOptsId) {
+async function removeFormatOpts(id: FormatWithOptsId) {
   const allFormatOpts = await getAllFormatOpts()
 
   if (id in allFormatOpts) {
