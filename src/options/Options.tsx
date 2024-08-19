@@ -44,7 +44,7 @@ export const Options = () => {
 
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat[]>([])
   // formatId associated with format opts being edited
-  const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptsId>()
+  const [optsEditFormatId, setOptsEditFormatId] = useState<FormatWithOptsId>()
 
   const [editError, setEditError] = useState<string>('')
 
@@ -102,10 +102,10 @@ export const Options = () => {
 
   const isMinVisibleFormatCount = visibleFormats.length <= MIN_VISIBLE_FORMAT_COUNT
 
-  const inert = optionEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
+  const inert = optsEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
 
   const closeFormatOptsEditor = () => {
-    setOptionEditFormatId(undefined)
+    setOptsEditFormatId(undefined)
     setEditError('')
   }
 
@@ -269,7 +269,7 @@ export const Options = () => {
                 disabled={format.visible && isMinVisibleFormatCount}
                 onClick={toggleVisibleFormatId}
                 onOptsClick={(formatId) => {
-                  setOptionEditFormatId(formatId)
+                  setOptsEditFormatId(formatId)
                 }}
               />
             ))}
@@ -277,9 +277,9 @@ export const Options = () => {
         </div>
       </div>
       <FormatOptsEditor
-        key={optionEditFormatId} // force remount to clear deleteMode
+        key={optsEditFormatId} // force remount to clear deleteMode
         error={editError}
-        formatId={optionEditFormatId}
+        formatId={optsEditFormatId}
         onCancel={() => {
           closeFormatOptsEditor()
         }}
