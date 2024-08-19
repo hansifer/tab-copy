@@ -10,19 +10,19 @@ import { tokens } from './tokens'
 import classes from './Custom.module.css'
 import optionsClasses from '../../Options.module.css'
 
-// content components receive up-to-date option and are responsible for reporting option changes
+// content components receive up-to-date opts and are responsible for reporting opts changes
 
 // todo: add more validation
 
 const TEMPLATE_FIELD_WIDTH = '265px'
 
 export const Custom = ({
-  option,
+  opts,
   onChange,
   onConfirmDelete,
   onValidChanged,
 }: ContentProps<'custom-*'>) => {
-  const valid = !!option.name.trim()
+  const valid = !!opts.name.trim()
 
   const previewText = ''
 
@@ -44,7 +44,7 @@ export const Custom = ({
     <>
       <TextOption
         label={intl.name()}
-        value={option.name}
+        value={opts.name}
         maxLength={30}
         width="200px"
         autoFocus
@@ -56,7 +56,7 @@ export const Custom = ({
           }
 
           onChange({
-            ...option,
+            ...opts,
             name,
           })
         }}
@@ -64,7 +64,7 @@ export const Custom = ({
       <div className={classes.template}>
         <TextOption
           label={intl.header()}
-          value={option.template.header}
+          value={opts.template.header}
           width={TEMPLATE_FIELD_WIDTH}
           tokens={[
             tokens.tabCount,
@@ -77,9 +77,9 @@ export const Custom = ({
           ]}
           onChange={(header) => {
             onChange({
-              ...option,
+              ...opts,
               template: {
-                ...option.template,
+                ...opts.template,
                 header,
               },
             })
@@ -87,7 +87,7 @@ export const Custom = ({
         />
         <TextOption
           label={intl.tab()}
-          value={option.template.tab}
+          value={opts.template.tab}
           width={TEMPLATE_FIELD_WIDTH}
           tokens={[
             tokens.tabTitle,
@@ -107,9 +107,9 @@ export const Custom = ({
           ]}
           onChange={(tab) => {
             onChange({
-              ...option,
+              ...opts,
               template: {
-                ...option.template,
+                ...opts.template,
                 tab,
               },
             })
@@ -117,7 +117,7 @@ export const Custom = ({
         />
         <TextOption
           label={intl.tabDelimiter()}
-          value={option.template.delimiter}
+          value={opts.template.delimiter}
           width={TEMPLATE_FIELD_WIDTH}
           tokens={[
             // wrap
@@ -126,9 +126,9 @@ export const Custom = ({
           ]}
           onChange={(delimiter) => {
             onChange({
-              ...option,
+              ...opts,
               template: {
-                ...option.template,
+                ...opts.template,
                 delimiter,
               },
             })
@@ -136,7 +136,7 @@ export const Custom = ({
         />
         <TextOption
           label={intl.footer()}
-          value={option.template.footer}
+          value={opts.template.footer}
           width={TEMPLATE_FIELD_WIDTH}
           tokens={[
             tokens.tabCount,
@@ -149,9 +149,9 @@ export const Custom = ({
           ]}
           onChange={(footer) => {
             onChange({
-              ...option,
+              ...opts,
               template: {
-                ...option.template,
+                ...opts.template,
                 footer,
               },
             })

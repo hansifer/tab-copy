@@ -5,17 +5,17 @@ import { Checkbox } from '@/options/Checkbox/Checkbox'
 
 import { ContentProps } from './interface'
 
-// content components receive up-to-date option and are responsible for reporting option changes
+// content components receive up-to-date opts and are responsible for reporting opts changes
 
-export const HtmlTable = ({ option, onChange }: ContentProps<'htmlTable'>) => {
+export const HtmlTable = ({ opts, onChange }: ContentProps<'htmlTable'>) => {
   return (
     <Checkbox
       label={sentenceCase(intl.includeHeader())}
-      checked={option.includeHeader}
+      checked={opts.includeHeader}
       onClick={() => {
         onChange({
-          ...option,
-          includeHeader: !option.includeHeader,
+          ...opts,
+          includeHeader: !opts.includeHeader,
         })
       }}
     />

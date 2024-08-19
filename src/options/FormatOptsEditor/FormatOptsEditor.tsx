@@ -91,7 +91,7 @@ export const FormatOptsEditor = <T extends FormatWithOptsId>({
 
       return (
         <ContentComp
-          option={format.opts}
+          opts={format.opts}
           onChange={(opts) => setFormat({ ...format, opts })}
           onConfirmDelete={() => setConfirmDelete(true)}
           onValidChanged={(valid) => {
