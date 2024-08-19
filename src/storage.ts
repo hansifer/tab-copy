@@ -290,13 +290,13 @@ function setHiddenFormatIds(ids: FormatId[]) {
 
 // generic is necessary to get specific return type for given id
 export async function getFormatOption<T extends FormatId>(id: T) {
-  const allFormatOpts = await getAllFormatOptions()
+  const allFormatOpts = await getAllFormatOpts()
   return allFormatOpts[id]
 }
 
 // todo: validate id? (isBuiltinFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
 export async function setFormatOption<T extends FormatWithOptsId>(id: T, value: FormatOpts[T]) {
-  const allFormatOpts = await getAllFormatOptions()
+  const allFormatOpts = await getAllFormatOpts()
 
   return storage.set({
     formatOpts: {
@@ -307,7 +307,7 @@ export async function setFormatOption<T extends FormatWithOptsId>(id: T, value: 
 }
 
 async function removeFormatOption(id: FormatWithOptsId) {
-  const allFormatOpts = await getAllFormatOptions()
+  const allFormatOpts = await getAllFormatOpts()
 
   if (id in allFormatOpts) {
     const { [id]: _, ...rest } = allFormatOpts
@@ -315,7 +315,7 @@ async function removeFormatOption(id: FormatWithOptsId) {
   }
 }
 
-async function getAllFormatOptions(): Promise<Partial<FormatOpts>> {
+async function getAllFormatOpts(): Promise<Partial<FormatOpts>> {
   const { formatOpts } = await storage.get('formatOpts')
   return formatOpts ?? {}
 }
