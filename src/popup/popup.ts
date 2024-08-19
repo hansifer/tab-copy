@@ -12,7 +12,7 @@ import {
 } from '@/storage'
 import { hasSecondaryActionKeyModifier, hasTernaryActionKeyModifier } from '@/keyboard'
 import { intl } from '@/intl'
-import { getScopedTabs } from '@/util/tabs'
+import { getTabs } from '@/util/tabs'
 import {
   // wrap
   isButton,
@@ -80,7 +80,7 @@ async function initCopyButtons() {
 
   const visibleScopes = await getVisibleScopes()
 
-  const highlightedTabs = await getScopedTabs('highlighted-tabs')
+  const highlightedTabs = await getTabs('highlighted-tabs')
 
   const tabsInfo = {
     highlightedTabCount: highlightedTabs.length,

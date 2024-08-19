@@ -2,14 +2,14 @@ import { ScopeId, isTabScopeId } from '@/scope'
 import { Transforms } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { clipboardWrite } from '@/util/clipboard'
-import { getWindowsAndTabs, getScopedTabs } from '@/util/tabs'
+import { getWindowsAndTabs, getTabs } from '@/util/tabs'
 import { log } from '@/util/log'
 
 export async function copy(scopeId: ScopeId, format: ConfiguredFormat) {
   log(`copying scope ${scopeId}...`, { separate: true })
 
   return isTabScopeId(scopeId)
-    ? copyHelper(await getScopedTabs(scopeId), applyTextTransformToTabs, format)
+    ? copyHelper(await getTabs(scopeId), applyTextTransformToTabs, format)
     : copyHelper(await getWindowsAndTabs(), applyTextTransformToWindows, format)
 }
 
