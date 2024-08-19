@@ -7,7 +7,7 @@ import {
   Token,
   makeTokenRegExp,
   selectionOverlapsToken,
-} from '@/options/FormatOptionEditor/content/tokens'
+} from '@/options/FormatOptsEditor/content/tokens'
 import { intl } from '@/intl'
 
 import classes from './TextOption.module.css'
