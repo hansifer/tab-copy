@@ -299,7 +299,7 @@ export async function setFormatOption<T extends FormatWithOptsId>(id: T, value: 
   const allFormatOpts = await getAllFormatOptions()
 
   return storage.set({
-    formatOptions: {
+    formatOpts: {
       ...allFormatOpts,
       [id]: value,
     },
@@ -311,13 +311,13 @@ async function removeFormatOption(id: FormatWithOptsId) {
 
   if (id in allFormatOpts) {
     const { [id]: _, ...rest } = allFormatOpts
-    return storage.set({ formatOptions: rest })
+    return storage.set({ formatOpts: rest })
   }
 }
 
 async function getAllFormatOptions(): Promise<Partial<FormatOpts>> {
-  const { formatOptions } = await storage.get('formatOptions')
-  return formatOptions ?? {}
+  const { formatOpts } = await storage.get('formatOpts')
+  return formatOpts ?? {}
 }
 
 // ----- copied timestamp/trigger -----

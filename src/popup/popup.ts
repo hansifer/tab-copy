@@ -55,7 +55,7 @@ function initApp() {
     'customFormatIds',
     'orderedFormatIds',
     'hiddenFormatIds',
-    'formatOptions',
+    'formatOpts',
   ]
 
   chrome.storage.onChanged.addListener(
