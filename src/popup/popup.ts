@@ -119,7 +119,7 @@ async function initCopyButtons() {
       setFormatVariation(getFormatVariation(e))
 
       const scopeId = el.dataset.scope as ScopeId
-      const format = await getEffectiveFormat()
+      const format = await getApplicableFormat()
 
       try {
         await copy(scopeId, format)
@@ -306,7 +306,7 @@ async function refreshEffectiveFormat() {
     }:`,
   )
 
-  const format = await getEffectiveFormat()
+  const format = await getApplicableFormat()
 
   getSpan('default-format-label').textContent = format.label
 }
@@ -326,7 +326,7 @@ function flashActionIcon() {
   setCopied()
 }
 
-async function getEffectiveFormat() {
+async function getApplicableFormat() {
   // oneTimeFormatId must take precedence over formatVariation to avoid quirks related to auto focus of first copy button after a key-modified format selection
   if (oneTimeFormatId) {
     return getConfiguredFormat(oneTimeFormatId)
