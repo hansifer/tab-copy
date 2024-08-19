@@ -268,7 +268,7 @@ export const Options = () => {
                 description={getFormatDescription(format, visibleFormats)}
                 disabled={format.visible && isMinVisibleFormatCount}
                 onClick={toggleVisibleFormatId}
-                onOptionClick={(formatId) => {
+                onOptsClick={(formatId) => {
                   setOptionEditFormatId(formatId)
                 }}
               />

@@ -20,7 +20,7 @@ type FormatConfigProps = {
   disabled?: boolean
   description?: string
   onClick: (id: FormatId) => void
-  onOptionClick?: (id: FormatWithOptsId) => void
+  onOptsClick?: (id: FormatWithOptsId) => void
 }
 
 export const FormatConfig = ({
@@ -28,7 +28,7 @@ export const FormatConfig = ({
   disabled,
   description,
   onClick,
-  onOptionClick,
+  onOptsClick,
 }: FormatConfigProps) => {
   // used to prevent click event from firing on drag end
   // todo: consider using a ref instead
@@ -92,7 +92,7 @@ export const FormatConfig = ({
               allowClick
                 ? () => {
                     if (isFormatWithOptsId(format.id)) {
-                      onOptionClick?.(format.id)
+                      onOptsClick?.(format.id)
                     }
                   }
                 : undefined
