@@ -25,7 +25,7 @@ const builtinFormatOptionContent = {
   json: Json,
 } satisfies { [k in BuiltinFormatWithOptsId]: FC<ContentProps<k>> }
 
-type FormatOptionEditorProps<T extends FormatWithOptsId> = {
+type FormatOptsEditorProps<T extends FormatWithOptsId> = {
   formatId?: T
   error?: string
   onCancel: () => void
@@ -33,13 +33,13 @@ type FormatOptionEditorProps<T extends FormatWithOptsId> = {
   onDelete?: (formatId: T) => void
 }
 
-export const FormatOptionEditor = <T extends FormatWithOptsId>({
+export const FormatOptsEditor = <T extends FormatWithOptsId>({
   formatId,
   error,
   onCancel,
   onOK,
   onDelete,
-}: FormatOptionEditorProps<T>) => {
+}: FormatOptsEditorProps<T>) => {
   const [format, setFormat] = useState<ConfiguredFormat<T>>()
 
   const [okDisabled, setOKDisabled] = useState<boolean>(false)
@@ -152,7 +152,7 @@ export const FormatOptionEditor = <T extends FormatWithOptsId>({
       onMouseDown={() => onCancel()}
     >
       <div
-        className={classes.FormatOptionEditor}
+        className={classes.FormatOptsEditor}
         onMouseDown={(e) => e.stopPropagation()}
       >
         <h1>{format.label}</h1>
