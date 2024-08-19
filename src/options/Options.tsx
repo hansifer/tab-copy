@@ -104,7 +104,7 @@ export const Options = () => {
 
   const inert = optionEditFormatId ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
 
-  const closeFormatOptionEditor = () => {
+  const closeFormatOptsEditor = () => {
     setOptionEditFormatId(undefined)
     setEditError('')
   }
@@ -114,7 +114,7 @@ export const Options = () => {
     try {
       if (isCustomFormatId(formatId)) {
         await removeCustomFormat(formatId)
-        closeFormatOptionEditor()
+        closeFormatOptsEditor()
       } else {
         setEditError(sentenceCase(intl.genericFormatDeleteError()))
       }
@@ -281,11 +281,11 @@ export const Options = () => {
         error={editError}
         formatId={optionEditFormatId}
         onCancel={() => {
-          closeFormatOptionEditor()
+          closeFormatOptsEditor()
         }}
         onOK={(formatId, option) => {
           setFormatOption(formatId, option)
-          closeFormatOptionEditor()
+          closeFormatOptsEditor()
         }}
         onDelete={(formatId) => {
           deleteFormat(formatId)
