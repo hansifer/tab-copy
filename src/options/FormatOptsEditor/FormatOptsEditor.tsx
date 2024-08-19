@@ -19,7 +19,7 @@ import { Custom } from './content/Custom'
 import classes from './FormatOptsEditor.module.css'
 import optionsClasses from '../Options.module.css'
 
-const builtinFormatOptionContent = {
+const builtinFormatOptsContent = {
   htmlTable: HtmlTable,
   titleUrl1Line: TitleUrl1Line,
   json: Json,
@@ -86,7 +86,7 @@ export const FormatOptsEditor = <T extends FormatWithOptsId>({
     (() => {
       // todo: eliminate need for TS assertion
       const ContentComp = (isBuiltinFormatWithOptsId(format.id)
-        ? builtinFormatOptionContent[format.id]
+        ? builtinFormatOptsContent[format.id]
         : Custom) as unknown as FC<ContentProps<T>>
 
       return (
