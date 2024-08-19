@@ -52,7 +52,7 @@ const builtinFormats = [
     label: () => intl.url(),
     transforms: () => ({
       text: {
-        window: ({ seq }) => `${sentenceCase(intl.window())} ${seq}\n\n`,
+        windowStart: ({ seq }) => `${sentenceCase(intl.window())} ${seq}\n\n`,
         tab: ({ tab }) => tab.url ?? '',
       },
     }),
@@ -62,7 +62,7 @@ const builtinFormats = [
     label: (opts) => sentenceCase(getTitleUrl1LineText(intl.title(), intl.url(), opts?.separator)),
     transforms: (opts) => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
         tab: ({ tab: { title, url } }) => getTitleUrl1LineText(title, url, opts?.separator),
         tabDelimiter: '',
       },
@@ -78,7 +78,7 @@ const builtinFormats = [
     label: () => sentenceCase(intl.conjoin(intl.title(), intl.url())),
     transforms: () => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
         tab: ({ tab: { title, url } }) => title || url || '',
         tabDelimiter: '',
       },
@@ -89,7 +89,7 @@ const builtinFormats = [
     label: () => sentenceCase(intl.title()),
     transforms: () => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
         tab: ({ tab: { title, url } }) => title || url || '',
         tabDelimiter: '',
       },
@@ -100,7 +100,7 @@ const builtinFormats = [
     label: () => 'Markdown',
     transforms: () => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
         tab: ({ tab: { title, url } }) => title || url || '',
         tabDelimiter: '',
       },
@@ -111,7 +111,7 @@ const builtinFormats = [
     label: () => 'BBCode',
     transforms: () => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
         tab: ({ tab: { title, url } }) => title || url || '',
         tabDelimiter: '',
       },
@@ -122,7 +122,7 @@ const builtinFormats = [
     label: () => 'CSV',
     transforms: (opts) => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq} ${opts}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq} ${opts}`,
         tab: ({ tab: { title, url } }) => title || url || '',
         tabDelimiter: '',
       },
@@ -133,7 +133,7 @@ const builtinFormats = [
     label: () => 'JSON',
     transforms: () => ({
       text: {
-        header: () => '[\n',
+        start: () => '[\n',
         tab: ({ tab: { title, url } }) =>
           indent(
             JSON.stringify(
@@ -148,7 +148,7 @@ const builtinFormats = [
             3,
           ),
         tabDelimiter: ',\n',
-        footer: () => '\n]',
+        end: () => '\n]',
       },
     }),
     opts: {
@@ -170,7 +170,7 @@ const builtinFormats = [
     label: () => 'HTML',
     transforms: (opts) => ({
       text: {
-        window: ({ seq }) => `${intl.window()} ${seq}`,
+        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
         tab: ({ tab: { title, url } }) => title || url || '',
         tabDelimiter: '',
       },
@@ -242,17 +242,19 @@ export type Transforms = {
 }
 
 export type TextTransform = {
-  header?: ({
+  start?: ({
     formatName,
     windowCount,
     tabCount,
+    scopeType,
   }: {
     formatName: string
     windowCount?: number // missing for tab-only scopes
     tabCount: number
+    scopeType: 'window' | 'tab'
   }) => string
 
-  window?: ({
+  windowStart?: ({
     window,
     seq,
     windowTabCount,
@@ -262,21 +264,33 @@ export type TextTransform = {
     windowTabCount: number
   }) => string
 
-  windowDelimiter?: string // default: `\n\n` // todo: confirm this is the case
-
   tab?: ({
     tab,
     globalSeq,
     windowTabSeq,
+    windowSeq,
   }: {
     tab: chrome.tabs.Tab
-    globalSeq: number
-    windowTabSeq?: number // missing for tab-only scopes
+    globalSeq: number // sequence across all tabs
+    windowTabSeq?: number // sequence within window; missing for tab-only scopes
+    windowSeq?: number // sequence of the parent window; missing for tab-only scopes
   }) => string
 
-  tabDelimiter?: string // default: `\n` // todo: confirm this is the case
+  tabDelimiter?: string
 
-  footer?: ({
+  windowEnd?: ({
+    window,
+    seq,
+    windowTabCount,
+  }: {
+    window: chrome.windows.Window
+    seq: number
+    windowTabCount: number
+  }) => string
+
+  windowDelimiter?: string
+
+  end?: ({
     formatName,
     windowCount,
     tabCount,
