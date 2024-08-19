@@ -18,7 +18,7 @@ import {
   toggleVisibleFormatId,
   addCustomFormat,
   makeStorageChangeHandler,
-  setFormatOption,
+  setFormatOpts,
   removeCustomFormat,
   MinVisibleFormatExceededError,
   getHiddenOptionTipIds,
@@ -284,7 +284,7 @@ export const Options = () => {
           closeFormatOptsEditor()
         }}
         onOK={(formatId, opts) => {
-          setFormatOption(formatId, opts)
+          setFormatOpts(formatId, opts)
           closeFormatOptsEditor()
         }}
         onDelete={(formatId) => {

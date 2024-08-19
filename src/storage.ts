@@ -295,7 +295,7 @@ export async function getFormatOption<T extends FormatId>(id: T) {
 }
 
 // todo: validate id? (isBuiltinFormatWithOptionId(), isCustomFormatId(), isLegitFormatId())
-export async function setFormatOption<T extends FormatWithOptsId>(id: T, value: FormatOpts[T]) {
+export async function setFormatOpts<T extends FormatWithOptsId>(id: T, value: FormatOpts[T]) {
   const allFormatOpts = await getAllFormatOpts()
 
   return storage.set({
