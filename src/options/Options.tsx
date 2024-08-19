@@ -43,7 +43,7 @@ export const Options = () => {
   const [visibleScopes, setVisibleScopes] = useState<Scope[]>([])
 
   const [configuredFormats, setConfiguredFormats] = useState<ConfiguredFormat[]>([])
-  // formatId associated with format option being edited
+  // formatId associated with format opts being edited
   const [optionEditFormatId, setOptionEditFormatId] = useState<FormatWithOptsId>()
 
   const [editError, setEditError] = useState<string>('')
@@ -283,8 +283,8 @@ export const Options = () => {
         onCancel={() => {
           closeFormatOptsEditor()
         }}
-        onOK={(formatId, option) => {
-          setFormatOption(formatId, option)
+        onOK={(formatId, opts) => {
+          setFormatOption(formatId, opts)
           closeFormatOptsEditor()
         }}
         onDelete={(formatId) => {
