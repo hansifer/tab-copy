@@ -38,12 +38,15 @@ const builtinFormats = [
     id: 'link',
     label: () => sentenceCase(intl.link()),
     transforms: () => ({
-      text: {
-        tab: ({ tab }) => tab.url ?? '',
-      },
+      text: urlTextTransform,
       html: {
+        windowStart: ({ seq }) => `${getNumberedWindowText(seq)}<br>\n<br>\n`,
+
         tab: ({ tab }) => getAnchorTagHtml(tab),
+
         tabDelimiter: '<br>\n',
+
+        windowDelimiter: '<br>\n<br>\n',
       },
     }),
   },
@@ -354,10 +357,10 @@ const urlTextTransform: TextTransform = {
 
 function getTitleUrlText(
   url: string,
-  title = '(untitled)',
+  title?: string,
   separator = DEFAULT_TITLE_URL_1_LINE_SEPARATOR,
 ) {
-  return `${title}${separator}${url}`
+  return `${title || '(untitled)'}${separator}${url}`
 }
 
 function getAnchorTagHtml(tab: chrome.tabs.Tab) {
