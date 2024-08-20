@@ -2,19 +2,21 @@ import { TabScopeId } from '@/scope'
 
 type TabPredicate = (tab: chrome.tabs.Tab) => boolean
 
+// - excludes tabs without URL (possible?)
+// - excludes windows without tabs (possible with filter)
+// - may return empty array
 export async function getWindowsAndTabs(filter?: TabPredicate) {
   const windows = await chrome.windows.getAll({ populate: true })
-
-  if (!filter) return windows
 
   return windows
     .map((win) => ({
       ...win,
-      tabs: (win.tabs ?? []).filter((tab) => filter(tab)),
+      tabs: (win.tabs ?? []).filter((tab) => tab.url && (!filter || filter(tab))),
     }))
     .filter(({ tabs }) => tabs.length)
 }
 
+// - may return empty array
 export async function getTabs(scopeId: TabScopeId = 'all-tabs', filter?: TabPredicate) {
   const windows = await getWindowsAndTabs(filter)
   const allTabs = windows.flatMap(({ tabs }) => tabs).filter((tab) => !!tab)
