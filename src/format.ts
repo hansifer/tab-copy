@@ -56,12 +56,16 @@ const builtinFormats = [
   },
   {
     id: 'titleUrl1Line',
-    label: (opts) => sentenceCase(getTitleUrl1LineText(intl.title(), intl.url(), opts?.separator)),
+    label: (opts) => sentenceCase(getTitleUrlText(intl.url(), intl.title(), opts?.separator)),
     transforms: (opts) => ({
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
-        tab: ({ tab: { title, url } }) => getTitleUrl1LineText(title, url, opts?.separator),
-        tabDelimiter: '',
+        windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
+
+        tab: ({ tab: { title, url } }) => getTitleUrlText(url!, title, opts?.separator), // app guarantees tab.url is truthy
+
+        tabDelimiter: '\n',
+
+        windowDelimiter: '\n\n',
       },
     }),
     opts: {
@@ -75,9 +79,13 @@ const builtinFormats = [
     label: () => sentenceCase(intl.conjoin(intl.title(), intl.url())),
     transforms: () => ({
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
-        tab: ({ tab: { title, url } }) => title || url || '',
-        tabDelimiter: '',
+        windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
+
+        tab: ({ tab: { title, url } }) => getTitleUrlText(url!, title, '\n'), // app guarantees tab.url is truthy
+
+        tabDelimiter: '\n\n',
+
+        windowDelimiter: '\n\n',
       },
     }),
   },
@@ -86,9 +94,13 @@ const builtinFormats = [
     label: () => sentenceCase(intl.title()),
     transforms: () => ({
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
-        tab: ({ tab: { title, url } }) => title || url || '',
-        tabDelimiter: '',
+        windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
+
+        tab: ({ tab: { title, url } }) => title || url!, // app guarantees tab.url is truthy
+
+        tabDelimiter: '\n',
+
+        windowDelimiter: '\n\n',
       },
     }),
   },
@@ -332,14 +344,17 @@ export function isCustomFormatId(id: FormatId): id is CustomFormatId {
 
 const urlTextTransform: TextTransform = {
   windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
-  windowDelimiter: '\n\n',
+
   tab: ({ tab }) => tab.url!, // app guarantees tab.url is truthy
+
   tabDelimiter: '\n',
+
+  windowDelimiter: '\n\n',
 }
 
-function getTitleUrl1LineText(
+function getTitleUrlText(
+  url: string,
   title = '(untitled)',
-  url = '(unknown)',
   separator = DEFAULT_TITLE_URL_1_LINE_SEPARATOR,
 ) {
   return `${title}${separator}${url}`
