@@ -51,10 +51,7 @@ const builtinFormats = [
     id: 'url',
     label: () => intl.url(),
     transforms: () => ({
-      text: {
-        windowStart: ({ seq }) => `${sentenceCase(intl.window())} ${seq}\n\n`,
-        tab: ({ tab }) => tab.url ?? '',
-      },
+      text: urlTextTransform,
     }),
   },
   {
@@ -333,6 +330,13 @@ export function isCustomFormatId(id: FormatId): id is CustomFormatId {
 
 // --- helpers
 
+const urlTextTransform: TextTransform = {
+  windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
+  windowDelimiter: '\n\n',
+  tab: ({ tab }) => tab.url!, // app guarantees tab.url is truthy
+  tabDelimiter: '\n',
+}
+
 function getTitleUrl1LineText(
   title = '(untitled)',
   url = '(unknown)',
@@ -345,4 +349,8 @@ function getAnchorTagHtml(tab: chrome.tabs.Tab) {
   return tab.url // wrap
     ? `<a href="${tab.url}">${encodeHtml(tab.title || tab.url)}</a>`
     : ''
+}
+
+function getNumberedWindowText(seq: number) {
+  return `${sentenceCase(intl.window())} ${seq}`
 }
