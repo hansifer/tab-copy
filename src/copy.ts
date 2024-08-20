@@ -47,11 +47,15 @@ function applyTextTransformToTabs(
     throw new Error(`no transform for ${representation} in format "${formatName}"`)
   }
 
-  log(
-    `transforming ${tabs.length} ${
-      tabs.length === 1 ? 'tab' : 'tabs'
-    } to "${formatName}" ${representation}`,
-  )
+  if (!tabs.length) {
+    console.warn(`no tabs to copy as "${formatName}" ${representation}. check filter options.`)
+  } else {
+    log(
+      `transforming ${tabs.length} ${
+        tabs.length === 1 ? 'tab' : 'tabs'
+      } to "${formatName}" ${representation}`,
+    )
+  }
 
   return `${
     transform.start?.({
@@ -81,11 +85,15 @@ function applyTextTransformToWindows(
     throw new Error(`no transform for ${representation} in format "${formatName}"`)
   }
 
-  log(
-    `transforming ${windows.length} ${
-      windows.length === 1 ? 'window' : 'windows'
-    } to "${formatName}" ${representation}`,
-  )
+  if (!windows.length) {
+    console.warn(`no windows to copy as "${formatName}" ${representation}. check filter options.`)
+  } else {
+    log(
+      `transforming ${windows.length} ${
+        windows.length === 1 ? 'window' : 'windows'
+      } to "${formatName}" ${representation}`,
+    )
+  }
 
   const allTabs = windows.flatMap(({ tabs }) => tabs).filter((tab): tab is chrome.tabs.Tab => !!tab)
 
