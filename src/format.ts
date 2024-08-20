@@ -33,6 +33,7 @@ export type FormatOpts = {
   [k: CustomFormatId]: CustomFormat['opts']
 }
 
+// app guarantees tab.url is truthy
 const builtinFormats = [
   {
     id: 'link',
@@ -64,7 +65,7 @@ const builtinFormats = [
       text: {
         windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
 
-        tab: ({ tab: { title, url } }) => getTitleUrlText(url!, title, opts?.separator), // app guarantees tab.url is truthy
+        tab: ({ tab: { title, url } }) => getTitleUrlText(url!, title, opts?.separator),
 
         tabDelimiter: '\n',
 
@@ -84,7 +85,7 @@ const builtinFormats = [
       text: {
         windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
 
-        tab: ({ tab: { title, url } }) => getTitleUrlText(url!, title, '\n'), // app guarantees tab.url is truthy
+        tab: ({ tab: { title, url } }) => getTitleUrlText(url!, title, '\n'),
 
         tabDelimiter: '\n\n',
 
@@ -99,7 +100,7 @@ const builtinFormats = [
       text: {
         windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
 
-        tab: ({ tab: { title, url } }) => title || url!, // app guarantees tab.url is truthy
+        tab: ({ tab: { title, url } }) => title || url!,
 
         tabDelimiter: '\n',
 
@@ -111,10 +112,26 @@ const builtinFormats = [
     id: 'markdown',
     label: () => 'Markdown',
     transforms: () => ({
+      // todo: make special char escaping more robust across popular markdown renderers (github, etc); https://stackoverflow.com/questions/13824669/how-do-you-write-a-link-containing-a-closing-bracket-in-markdown-syntax
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
-        tab: ({ tab: { title, url } }) => title || url || '',
-        tabDelimiter: '',
+        windowStart: ({ seq }) => `## ${getNumberedWindowText(seq)}\n\n`,
+
+        tab: ({ tab: { title, url } }) =>
+          `[${
+            // wrap
+            (title || url!) // wrap
+              .replace(/\[/g, '\\[')
+              .replace(/\]/g, '\\]')
+          }](${
+            // wrap
+            url! // wrap
+              .replace(/\(/g, '\\(')
+              .replace(/\)/g, '\\)')
+          })`,
+
+        tabDelimiter: '\n',
+
+        windowDelimiter: '\n\n',
       },
     }),
   },
@@ -122,10 +139,18 @@ const builtinFormats = [
     id: 'bbcode',
     label: () => 'BBCode',
     transforms: () => ({
+      // todo: need to escape embedded bracket chars in url and title or are bbcode interpreters generally smart enough to handle them?
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
-        tab: ({ tab: { title, url } }) => title || url || '',
-        tabDelimiter: '',
+        windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
+
+        tab: ({ tab: { title, url } }) =>
+          title // wrap
+            ? `[url=${url}]${title}[/url]`
+            : `[url]${url}[/url]`,
+
+        tabDelimiter: '\n',
+
+        windowDelimiter: '\n\n',
       },
     }),
   },
