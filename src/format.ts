@@ -1,5 +1,6 @@
 import { intl } from '@/intl'
 import { sentenceCase, indent, encodeHtml } from '@/util/string'
+import { stringifyCSVRow } from '@/util/csv'
 import { NxsMimeContent } from '@/util/nxs-mime-type'
 
 // This file contains hardcoded builtin and custom format specs
@@ -50,6 +51,7 @@ const builtinFormats = [
         windowDelimiter: '<br>\n<br>\n',
       },
     }),
+    // todo: potential opt: plaintext fallback (title or url)
   },
   {
     id: 'url',
@@ -129,11 +131,13 @@ const builtinFormats = [
               .replace(/\)/g, '\\)')
           })`,
 
-        tabDelimiter: '\n',
+        tabDelimiter: '\n\n',
 
         windowDelimiter: '\n\n',
       },
     }),
+    // todo: potential opt: markdown flavor
+    // todo: potential opt: window header level (h1, h2, etc)
   },
   {
     id: 'bbcode',
@@ -157,13 +161,26 @@ const builtinFormats = [
   {
     id: 'csv',
     label: () => 'CSV',
-    transforms: (opts) => ({
+    transforms: () => ({
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq} ${opts}`,
-        tab: ({ tab: { title, url } }) => title || url || '',
-        tabDelimiter: '',
+        start: ({ scopeType, tabCount }) =>
+          tabCount ? `${scopeType === 'window' ? 'Window,' : ''}Title,URL\n` : '',
+
+        tab: ({ tab: { title, url }, windowSeq }) =>
+          stringifyCSVRow(
+            [
+              windowSeq ? getNumberedWindowText(windowSeq) : undefined, // no windowSeq means scopeType is 'tab'
+              title || null,
+              url,
+            ].filter((item) => item !== undefined),
+          ),
+
+        tabDelimiter: '\n',
+
+        windowDelimiter: '\n',
       },
     }),
+    // todo: potential opt: properties
   },
   {
     id: 'json',
