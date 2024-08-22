@@ -13,6 +13,7 @@ export const MIN_VISIBLE_FORMAT_COUNT = 3
 
 const DEFAULT_TITLE_URL_1_LINE_SEPARATOR = ': '
 const DEFAULT_CUSTOM_FORMAT_NAME = 'Custom format'
+const DEFAULT_INDENT_SIZE = 3
 
 type BuiltinFormat = (typeof builtinFormats)[number]
 type BuiltinFormatWithOpts = Extract<BuiltinFormat, { opts: Record<string, any> }>
@@ -185,38 +186,85 @@ const builtinFormats = [
   {
     id: 'json',
     label: () => 'JSON',
-    transforms: () => ({
-      text: {
-        start: () => '[\n',
-        tab: ({ tab: { title, url } }) =>
-          indent(
-            JSON.stringify(
-              {
-                ...(title ? { title: title } : null),
-                url: url,
-                // ...(favIconUrl ? { favIconUrl: favIconUrl } : null), // omit for now. need decision on how to handle view transforms during copy
-              },
-              undefined,
-              3,
-            ),
-            3,
-          ),
-        tabDelimiter: ',\n',
-        end: () => '\n]',
-      },
-    }),
+    transforms: (opts) => {
+      const newline = opts?.pretty ? '\n' : ''
+
+      let indentSize = 0
+
+      if (opts?.pretty) {
+        const configuredIndent = parseInt(opts?.indent, 10)
+
+        indentSize =
+          configuredIndent || configuredIndent === 0 // wrap
+            ? configuredIndent
+            : DEFAULT_INDENT_SIZE
+      }
+
+      const noProperties = !opts?.properties?.length
+
+      return {
+        text: {
+          start: () => `[`,
+
+          windowStart: ({ seq }) =>
+            `${newline}${indent(
+              JSON.stringify(
+                {
+                  title: getNumberedWindowText(seq),
+                  tabs: [], // .replace below opens up this array
+                },
+                undefined,
+                indentSize,
+              ).replace(/\[\][\s\n]*\}$/, '['),
+              indentSize,
+            )}`,
+
+          tab: ({ tab: { title, url, favIconUrl }, windowSeq }) =>
+            `${newline}${indent(
+              JSON.stringify(
+                {
+                  ...(title && (noProperties || opts.properties.includes('title'))
+                    ? { title }
+                    : null),
+
+                  ...(url && (noProperties || opts.properties.includes('url')) // wrap
+                    ? { url }
+                    : null),
+
+                  ...(favIconUrl && (noProperties || opts.properties.includes('favIconUrl'))
+                    ? { favIconUrl }
+                    : null),
+                },
+                undefined,
+                indentSize,
+              ),
+              windowSeq ? indentSize * 3 : indentSize,
+            )}`,
+
+          tabDelimiter: ',',
+
+          windowEnd: () =>
+            `${newline}${indent(']', indentSize * 2)}${newline}${indent('}', indentSize)}`,
+
+          windowDelimiter: ',',
+
+          end: () => `${newline}]`,
+        },
+        // todo: html representation for syntax-highlighted JSON?
+      }
+    },
     opts: {
-      pretty: true,
-      indent: '3',
       properties: [
         // wrap
         'title',
         'url',
       ],
+      pretty: true,
+      indent: `${DEFAULT_INDENT_SIZE}`,
     } as {
+      properties: (keyof Pick<chrome.tabs.Tab, 'title' | 'url' | 'favIconUrl'>)[]
       pretty: boolean
       indent: string
-      properties: (keyof chrome.tabs.Tab)[]
     },
   },
   {
