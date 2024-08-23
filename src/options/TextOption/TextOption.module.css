@@ -11,7 +11,7 @@
   .label {
     margin-bottom: 2px;
     font-size: 0.8rem;
-    color: #aaa;
+    color: #00000080;
 
     @media (prefers-color-scheme: dark) {
       color: #888;
@@ -22,6 +22,10 @@
     width: 100%;
     box-sizing: border-box;
     text-align: center;
+
+    .TextOption.invalid & {
+      color: #ff6767;
+    }
   }
 
   .tokenSelector {
@@ -42,7 +46,7 @@
       'Helvetica Neue',
       sans-serif;
     overflow: hidden;
-    color: #aaa;
+    color: #00000080;
     opacity: 0;
     max-height: 22px;
     pointer-events: none;

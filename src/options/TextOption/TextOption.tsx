@@ -20,10 +20,13 @@ type TextOptionProps = {
   label: string
   value: string
   disabled?: boolean
+  invalid?: boolean
   type?: Extract<
     HTMLInputTypeAttribute,
     'text' | 'number' | 'date' | 'datetime-local' | 'email' | 'month' | 'time' | 'url' | 'week'
   >
+  min?: number
+  max?: number
   width?: string
   maxLength?: number
   autoFocus?: boolean
@@ -36,7 +39,10 @@ export const TextOption = ({
   label,
   value,
   disabled,
+  invalid,
   type = 'text',
+  min,
+  max,
   width = '100%',
   maxLength,
   autoFocus,
@@ -60,6 +66,7 @@ export const TextOption = ({
 
   const rootClasses = classy(classes.TextOption, {
     [classes.disabled]: disabled,
+    [classes.invalid]: invalid,
   })
 
   return (
@@ -73,6 +80,8 @@ export const TextOption = ({
           ref={inputRef}
           disabled={disabled}
           type={type}
+          min={min}
+          max={max}
           maxLength={maxLength}
           onInput={({ currentTarget }) => {
             onChange(currentTarget.value)
