@@ -16,14 +16,7 @@ import optionsClasses from '../../Options.module.css'
 
 const TEMPLATE_FIELD_WIDTH = '265px'
 
-export const Custom = ({
-  opts,
-  onChange,
-  onConfirmDelete,
-  onValidChanged,
-}: ContentProps<'custom-*'>) => {
-  const valid = !!opts.name.trim()
-
+export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
   const previewText = ''
 
   //   const previewText = `[8:46:18 AM]
@@ -49,12 +42,6 @@ export const Custom = ({
         width="200px"
         autoFocus
         onChange={(name) => {
-          const newValid = !!name.trim()
-
-          if (onValidChanged && newValid !== valid) {
-            onValidChanged(newValid)
-          }
-
           onChange({
             ...opts,
             name,
