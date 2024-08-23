@@ -242,7 +242,7 @@ const builtinFormats = [
 
           windowDelimiter: ',',
 
-          end: () => `${newline}]`,
+          end: ({ tabCount }) => `${tabCount ? newline : ''}]`,
         },
         // todo: html representation for syntax-highlighted JSON?
       }
