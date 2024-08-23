@@ -14,6 +14,7 @@ export const MIN_VISIBLE_FORMAT_COUNT = 3
 const DEFAULT_TITLE_URL_1_LINE_SEPARATOR = ': '
 const DEFAULT_CUSTOM_FORMAT_NAME = 'Custom format'
 const DEFAULT_INDENT_SIZE = 3
+export const MAX_INDENT_SIZE = 10 // consistent with JSON.stringify() max
 
 type BuiltinFormat = (typeof builtinFormats)[number]
 type BuiltinFormatWithOpts = Extract<BuiltinFormat, { opts: Record<string, any> }>
@@ -189,16 +190,9 @@ const builtinFormats = [
     transforms: (opts) => {
       const newline = opts?.pretty ? '\n' : ''
 
-      let indentSize = 0
-
-      if (opts?.pretty) {
-        const configuredIndent = parseInt(opts?.indent, 10)
-
-        indentSize =
-          configuredIndent || configuredIndent === 0 // wrap
-            ? configuredIndent
-            : DEFAULT_INDENT_SIZE
-      }
+      const indentSize = opts?.pretty // wrap
+        ? parseIndent(opts?.indent) || DEFAULT_INDENT_SIZE
+        : 0
 
       const noProperties = !opts?.properties?.length
 
@@ -461,4 +455,13 @@ function getAnchorTagHtml(tab: chrome.tabs.Tab) {
 
 function getNumberedWindowText(seq: number) {
   return `${sentenceCase(intl.window())} ${seq}`
+}
+
+// return indent number or undefined if 0, NaN, or out of range
+function parseIndent(indent: string) {
+  const indentNum = parseInt(indent, 10)
+
+  if (indentNum && indentNum <= MAX_INDENT_SIZE && indentNum >= 1) {
+    return indentNum
+  }
 }
