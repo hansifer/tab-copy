@@ -20,6 +20,7 @@ export type ConfiguredFormat<T extends FormatId = FormatId> = {
   isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from visibleFormats[0] (currently only 1 instance (in popup.ts) would need to be updated)
   transforms: Transforms
   opts: FormatOpts[T]
+  isInvalid?: (opts: Record<string, any>) => boolean
 }
 
 export async function getConfiguredFormat<T extends FormatId>(id: T) {
@@ -57,5 +58,6 @@ async function makeConfiguredFormat<T extends FormatId>(
     isDefault: visibleFormatIds[0] === id,
     transforms: format.transforms(opts),
     opts,
+    isInvalid: 'isInvalid' in format ? format.isInvalid : undefined,
   }
 }

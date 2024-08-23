@@ -260,6 +260,7 @@ const builtinFormats = [
       pretty: boolean
       indent: string
     },
+    isInvalid: (opts) => !!opts.pretty && !parseIndent(opts.indent),
   },
   {
     id: 'html',
@@ -317,6 +318,7 @@ const customFormat = {
       footer: string
     }
   },
+  isInvalid: (opts) => !opts.name?.trim(),
 } as const satisfies Omit<Format, 'id'>
 
 // todo: we want T to be inferred from the opts prop object literal so we can get type checking on opts function args, but TS does not yet support type argument inference in generic types
@@ -328,6 +330,7 @@ type Format<T extends Record<string, any> = Record<string, any> /* = infer */> =
   // icon: JSX.Element
   transforms: (opts?: T) => Transforms
   opts?: T
+  isInvalid?: (opts: T) => boolean
 }
 
 // a transform creates a ClipboardItem representation
@@ -458,7 +461,7 @@ function getNumberedWindowText(seq: number) {
 }
 
 // return indent number or undefined if 0, NaN, or out of range
-function parseIndent(indent: string) {
+export function parseIndent(indent: string) {
   const indentNum = parseInt(indent, 10)
 
   if (indentNum && indentNum <= MAX_INDENT_SIZE && indentNum >= 1) {
