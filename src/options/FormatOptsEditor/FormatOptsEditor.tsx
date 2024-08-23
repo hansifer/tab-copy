@@ -45,6 +45,12 @@ export const FormatOptsEditor = <T extends FormatWithOptsId>({
   const [okDisabled, setOKDisabled] = useState<boolean>(false)
   const [confirmDelete, setConfirmDelete] = useState<boolean>(false)
 
+  const isInvalid = !!format?.isInvalid?.(format.opts)
+
+  useEffect(() => {
+    setOKDisabled(isInvalid)
+  }, [isInvalid])
+
   useEffect(() => {
     if (formatId) {
       getConfiguredFormat(formatId).then(setFormat)
@@ -94,9 +100,6 @@ export const FormatOptsEditor = <T extends FormatWithOptsId>({
           opts={format.opts}
           onChange={(opts) => setFormat({ ...format, opts })}
           onConfirmDelete={() => setConfirmDelete(true)}
-          onValidChanged={(valid) => {
-            setOKDisabled(!valid)
-          }}
         />
       )
     })()
