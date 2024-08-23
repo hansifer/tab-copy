@@ -265,13 +265,19 @@ const builtinFormats = [
   {
     id: 'html',
     label: () => 'HTML',
-    transforms: (opts) => ({
+    transforms: () => ({
       text: {
-        windowStart: ({ seq }) => `${intl.window()} ${seq}`,
-        tab: ({ tab: { title, url } }) => title || url || '',
-        tabDelimiter: '',
+        windowStart: ({ seq }) => `<h2>${getNumberedWindowText(seq)}</h2>\n\n`,
+
+        tab: ({ tab }) => getAnchorTagHtml(tab),
+
+        tabDelimiter: '<br>\n',
+
+        windowDelimiter: '\n\n',
       },
     }),
+    // todo: potential opt: window header level (h1, h2, etc)
+    // todo: potential opt: anchor tag target attribute
   },
   {
     id: 'htmlTable',
