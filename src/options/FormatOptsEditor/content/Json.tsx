@@ -2,7 +2,7 @@ import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 import { addOrRemove } from '@/util/array'
 
-import { MAX_INDENT_SIZE } from '@/format'
+import { MAX_INDENT_SIZE, parseIndent } from '@/format'
 import { Checkbox } from '@/options/Checkbox/Checkbox'
 import { TextOption } from '@/options/TextOption/TextOption'
 
@@ -13,7 +13,6 @@ import optionsClasses from '../../Options.module.css'
 
 // content components receive up-to-date opts and are responsible for reporting opts changes
 
-// todo: add validation
 // todo: consider range input for indent
 
 const availableTabProperties = [
@@ -66,6 +65,7 @@ export const Json = ({ opts, onChange }: ContentProps<'json'>) => {
             label={intl.indent()}
             value={opts.indent}
             disabled={!opts.pretty}
+            invalid={!parseIndent(opts.indent)}
             type="number"
             min={1}
             max={MAX_INDENT_SIZE}
@@ -74,7 +74,7 @@ export const Json = ({ opts, onChange }: ContentProps<'json'>) => {
             onChange={(indent) => {
               onChange({
                 ...opts,
-                indent: `${Math.min(MAX_INDENT, Math.max(0, parseInt(indent, 10) || 0))}`, // prevent decimals and enforce range
+                indent: `${parseInt(indent, 10) || ''}`, // prevent decimals
               })
             }}
           />
