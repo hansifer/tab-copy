@@ -25,6 +25,7 @@
 
     .TextOption.invalid & {
       color: #ff6767;
+      border-color: #ff6767;
     }
   }
 
