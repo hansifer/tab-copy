@@ -2,6 +2,7 @@ import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 import { addOrRemove } from '@/util/array'
 
+import { MAX_INDENT_SIZE } from '@/format'
 import { Checkbox } from '@/options/Checkbox/Checkbox'
 import { TextOption } from '@/options/TextOption/TextOption'
 
@@ -14,8 +15,6 @@ import optionsClasses from '../../Options.module.css'
 
 // todo: add validation
 // todo: consider range input for indent
-
-const MAX_INDENT = 12
 
 const availableTabProperties = [
   // wrap
@@ -68,6 +67,8 @@ export const Json = ({ opts, onChange }: ContentProps<'json'>) => {
             value={opts.indent}
             disabled={!opts.pretty}
             type="number"
+            min={1}
+            max={MAX_INDENT_SIZE}
             width="60px"
             autoFocus
             onChange={(indent) => {
