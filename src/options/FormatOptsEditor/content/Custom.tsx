@@ -48,102 +48,104 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
           })
         }}
       />
-      <div className={classes.template}>
-        <TextOption
-          label={intl.header()}
-          value={opts.template.header}
-          width={TEMPLATE_FIELD_WIDTH}
-          tokens={[
-            tokens.tabCount,
-            tokens.date,
-            tokens.time,
-            tokens.dateTime,
-            tokens.formatName,
-            tokens.newline,
-            tokens.tab,
-          ]}
-          onChange={(header) => {
-            onChange({
-              ...opts,
-              template: {
-                ...opts.template,
-                header,
-              },
-            })
-          }}
-        />
-        <TextOption
-          label={intl.tab()}
-          value={opts.template.tab}
-          width={TEMPLATE_FIELD_WIDTH}
-          tokens={[
-            tokens.tabTitle,
-            tokens.tabUrl,
-            tokens.tabLink,
-            tokens.tabUrlSchema,
-            tokens.tabUrlHost,
-            tokens.tabUrlPath,
-            tokens.tabUrlQuery,
-            tokens.tabUrlHash,
-            tokens.tabNumber,
-            tokens.date,
-            tokens.time,
-            tokens.dateTime,
-            tokens.newline,
-            tokens.tab,
-          ]}
-          onChange={(tab) => {
-            onChange({
-              ...opts,
-              template: {
-                ...opts.template,
-                tab,
-              },
-            })
-          }}
-        />
-        <TextOption
-          label={intl.tabDelimiter()}
-          value={opts.template.delimiter}
-          width={TEMPLATE_FIELD_WIDTH}
-          tokens={[
-            // wrap
-            tokens.newline,
-            tokens.tab,
-          ]}
-          onChange={(delimiter) => {
-            onChange({
-              ...opts,
-              template: {
-                ...opts.template,
-                delimiter,
-              },
-            })
-          }}
-        />
-        <TextOption
-          label={intl.footer()}
-          value={opts.template.footer}
-          width={TEMPLATE_FIELD_WIDTH}
-          tokens={[
-            tokens.tabCount,
-            tokens.date,
-            tokens.time,
-            tokens.dateTime,
-            tokens.formatName,
-            tokens.newline,
-            tokens.tab,
-          ]}
-          onChange={(footer) => {
-            onChange({
-              ...opts,
-              template: {
-                ...opts.template,
-                footer,
-              },
-            })
-          }}
-        />
+      <div className={classes.templateScroll}>
+        <div className={classes.template}>
+          <TextOption
+            label={intl.header()}
+            value={opts.template.header}
+            width={TEMPLATE_FIELD_WIDTH}
+            tokens={[
+              tokens.tabCount,
+              tokens.date,
+              tokens.time,
+              tokens.dateTime,
+              tokens.formatName,
+              tokens.newline,
+              tokens.tab,
+            ]}
+            onChange={(header) => {
+              onChange({
+                ...opts,
+                template: {
+                  ...opts.template,
+                  header,
+                },
+              })
+            }}
+          />
+          <TextOption
+            label={intl.tab()}
+            value={opts.template.tab}
+            width={TEMPLATE_FIELD_WIDTH}
+            tokens={[
+              tokens.tabTitle,
+              tokens.tabUrl,
+              tokens.tabLink,
+              tokens.tabUrlSchema,
+              tokens.tabUrlHost,
+              tokens.tabUrlPath,
+              tokens.tabUrlQuery,
+              tokens.tabUrlHash,
+              tokens.tabNumber,
+              tokens.date,
+              tokens.time,
+              tokens.dateTime,
+              tokens.newline,
+              tokens.tab,
+            ]}
+            onChange={(tab) => {
+              onChange({
+                ...opts,
+                template: {
+                  ...opts.template,
+                  tab,
+                },
+              })
+            }}
+          />
+          <TextOption
+            label={intl.tabDelimiter()}
+            value={opts.template.delimiter}
+            width={TEMPLATE_FIELD_WIDTH}
+            tokens={[
+              // wrap
+              tokens.newline,
+              tokens.tab,
+            ]}
+            onChange={(delimiter) => {
+              onChange({
+                ...opts,
+                template: {
+                  ...opts.template,
+                  delimiter,
+                },
+              })
+            }}
+          />
+          <TextOption
+            label={intl.footer()}
+            value={opts.template.footer}
+            width={TEMPLATE_FIELD_WIDTH}
+            tokens={[
+              tokens.tabCount,
+              tokens.date,
+              tokens.time,
+              tokens.dateTime,
+              tokens.formatName,
+              tokens.newline,
+              tokens.tab,
+            ]}
+            onChange={(footer) => {
+              onChange({
+                ...opts,
+                template: {
+                  ...opts.template,
+                  footer,
+                },
+              })
+            }}
+          />
+        </div>
       </div>
       {previewText ? (
         <div className={classes.preview}>

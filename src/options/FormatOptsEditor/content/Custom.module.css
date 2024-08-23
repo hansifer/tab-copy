@@ -1,8 +1,36 @@
+.templateScroll {
+  width: 330px;
+  max-height: 192px;
+  border: 6px solid transparent;
+  border-radius: 10px;
+  box-sizing: border-box;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  outline: none;
+  background-color: #0000000a;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #ffffff0c;
+  }
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 100px;
+    background-color: #99999955;
+  }
+}
+
 .template {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  margin-top: 10px;
+  padding: 16px 12px;
+  /* accommodate scrollbar */
+  margin-right: -6px;
 }
 
 .preview {
