@@ -203,7 +203,7 @@ input[type=number] {
   overflow: hidden;
   overflow: clip;
   overflow-clip-margin: content-box;
-  background-color: #0000000c;
+  background-color: #0000000a;
 
   @media (prefers-color-scheme: dark) {
     background-color: #ffffff0c;
