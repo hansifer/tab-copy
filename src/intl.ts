@@ -60,11 +60,11 @@ export const intl = {
 
   name: () => 'name',
 
-  header: () => 'header',
+  start: () => 'start',
 
   tabDelimiter: () => 'tab delimiter',
 
-  footer: () => 'footer',
+  end: () => 'end',
 
   insert: () => 'insert',
 

@@ -320,18 +320,18 @@ const customFormat = {
   opts: {
     name: DEFAULT_CUSTOM_FORMAT_NAME,
     template: {
-      header: '[date][n][n]',
+      start: '[date][n][n]',
       tab: '[#]) Title: [title][n]   URL:   [url]',
-      delimiter: '[n][n]',
-      footer: '',
+      tabDelimiter: '[n][n]',
+      end: '',
     },
   } as {
     name: string
     template: {
-      header: string
+      start: string
       tab: string
-      delimiter: string
-      footer: string
+      tabDelimiter: string
+      end: string
     }
   },
   isInvalid: (opts) => !opts.name?.trim(),

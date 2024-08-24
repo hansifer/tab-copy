@@ -51,8 +51,8 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
       <div className={classes.templateScroll}>
         <div className={classes.template}>
           <TextOption
-            label={intl.header()}
-            value={opts.template.header}
+            label={intl.start()}
+            value={opts.template.start}
             width={TEMPLATE_FIELD_WIDTH}
             tokens={[
               tokens.tabCount,
@@ -63,12 +63,12 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
               tokens.newline,
               tokens.tab,
             ]}
-            onChange={(header) => {
+            onChange={(start) => {
               onChange({
                 ...opts,
                 template: {
                   ...opts.template,
-                  header,
+                  start,
                 },
               })
             }}
@@ -105,26 +105,26 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
           />
           <TextOption
             label={intl.tabDelimiter()}
-            value={opts.template.delimiter}
+            value={opts.template.tabDelimiter}
             width={TEMPLATE_FIELD_WIDTH}
             tokens={[
               // wrap
               tokens.newline,
               tokens.tab,
             ]}
-            onChange={(delimiter) => {
+            onChange={(tabDelimiter) => {
               onChange({
                 ...opts,
                 template: {
                   ...opts.template,
-                  delimiter,
+                  tabDelimiter,
                 },
               })
             }}
           />
           <TextOption
-            label={intl.footer()}
-            value={opts.template.footer}
+            label={intl.end()}
+            value={opts.template.end}
             width={TEMPLATE_FIELD_WIDTH}
             tokens={[
               tokens.tabCount,
@@ -135,12 +135,12 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
               tokens.newline,
               tokens.tab,
             ]}
-            onChange={(footer) => {
+            onChange={(end) => {
               onChange({
                 ...opts,
                 template: {
                   ...opts.template,
-                  footer,
+                  end,
                 },
               })
             }}
