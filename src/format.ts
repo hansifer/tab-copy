@@ -13,7 +13,7 @@ export const MIN_VISIBLE_FORMAT_COUNT = 3
 
 const DEFAULT_TITLE_URL_1_LINE_SEPARATOR = ': '
 const DEFAULT_CUSTOM_FORMAT_NAME = 'Custom format'
-const DEFAULT_INDENT_SIZE = 3
+const DEFAULT_INDENT_SIZE = 2
 export const MAX_INDENT_SIZE = 10 // consistent with JSON.stringify() max
 
 type BuiltinFormat = (typeof builtinFormats)[number]
@@ -183,6 +183,7 @@ const builtinFormats = [
       },
     }),
     // todo: potential opt: properties
+    // todo: potential opt: include header
   },
   {
     id: 'json',
@@ -282,16 +283,22 @@ const builtinFormats = [
   {
     id: 'htmlTable',
     label: () => sentenceCase(intl.htmlTable()),
-    transforms: () => ({
+    transforms: (opts) => ({
       text: {
-        tab: ({ tab }) => getAnchorTagHtml(tab),
-        tabDelimiter: '<br>\n',
-      },
-      html: {
-        tab: ({ tab }) => getAnchorTagHtml(tab),
-        tabDelimiter: '<br>\n',
+        start: ({ scopeType }) =>
+          `<table>\n${
+            opts?.includeHeader
+              ? `${indent(getHtmlTableHeaderHtml(scopeType, DEFAULT_INDENT_SIZE), DEFAULT_INDENT_SIZE)}\n`
+              : ''
+          }${indent('<tbody>', DEFAULT_INDENT_SIZE)}\n`,
+
+        tab: ({ tab: { title, url }, windowSeq }) =>
+          `${indent(getHtmlTableTabHtml(title, url, windowSeq, DEFAULT_INDENT_SIZE), DEFAULT_INDENT_SIZE * 2)}\n`,
+
+        end: () => `${indent('</tbody>', DEFAULT_INDENT_SIZE)}\n</table>`,
       },
     }),
+    // todo: potential opt: indent size
     opts: {
       includeHeader: false,
     } as {
@@ -464,6 +471,48 @@ function getAnchorTagHtml(tab: chrome.tabs.Tab) {
 
 function getNumberedWindowText(seq: number) {
   return `${sentenceCase(intl.window())} ${seq}`
+}
+
+function getHtmlTableHeaderHtml(scopeType: 'window' | 'tab', contentIndent: number) {
+  return wrap(
+    wrap(
+      list(
+        // wrap
+        scopeType === 'window' ? '<th>Window</th>' : null,
+        '<th>Title</th>',
+        '<th>URL</th>',
+      ),
+      'tr',
+      contentIndent,
+    ),
+    'thead',
+    contentIndent,
+  )
+}
+
+function getHtmlTableTabHtml(
+  title: string | undefined,
+  url: string | undefined,
+  windowSeq: number | undefined,
+  contentIndent: number,
+) {
+  return wrap(
+    list(
+      windowSeq ? `<td>${getNumberedWindowText(windowSeq)}</td>` : null,
+      `<td>${title || ''}</td>`,
+      `<td>${url || ''}</td>`,
+    ),
+    'tr',
+    contentIndent,
+  )
+}
+
+function wrap(text: string, tag: string, contentIndent: number) {
+  return `<${tag}>\n${indent(text, contentIndent)}\n</${tag}>`
+}
+
+function list(...args: (string | null)[]) {
+  return args.filter(Boolean).join('\n')
 }
 
 // return indent number or undefined if 0, NaN, or out of range
