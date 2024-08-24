@@ -285,17 +285,20 @@ const builtinFormats = [
     label: () => sentenceCase(intl.htmlTable()),
     transforms: (opts) => ({
       text: {
-        start: ({ scopeType }) =>
-          `<table>\n${
-            opts?.includeHeader
-              ? `${indent(getHtmlTableHeaderHtml(scopeType, DEFAULT_INDENT_SIZE), DEFAULT_INDENT_SIZE)}\n`
-              : ''
-          }${indent('<tbody>', DEFAULT_INDENT_SIZE)}\n`,
+        start: ({ scopeType, tabCount }) =>
+          tabCount
+            ? `<table>\n${
+                opts?.includeHeader
+                  ? `${indent(getHtmlTableHeaderHtml(scopeType, DEFAULT_INDENT_SIZE), DEFAULT_INDENT_SIZE)}\n`
+                  : ''
+              }${indent('<tbody>', DEFAULT_INDENT_SIZE)}\n`
+            : '',
 
         tab: ({ tab: { title, url }, windowSeq }) =>
           `${indent(getHtmlTableTabHtml(title, url, windowSeq, DEFAULT_INDENT_SIZE), DEFAULT_INDENT_SIZE * 2)}\n`,
 
-        end: () => `${indent('</tbody>', DEFAULT_INDENT_SIZE)}\n</table>`,
+        end: ({ tabCount }) =>
+          tabCount ? `${indent('</tbody>', DEFAULT_INDENT_SIZE)}\n</table>` : '',
       },
     }),
     // todo: potential opt: indent size
