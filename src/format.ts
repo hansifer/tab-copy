@@ -356,7 +356,7 @@ export type Transforms = {
   nxs?: NxsTransform
 }
 
-export type TextTransform = {
+type TextTransform = {
   start?: ({
     formatName,
     windowCount,
