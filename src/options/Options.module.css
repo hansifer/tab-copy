@@ -27,7 +27,7 @@ button {
 
 :root {
   color-scheme: light dark;
-  background-color: #ededed;
+  background-color: #edededdd;
 
   @media (prefers-color-scheme: dark) {
     background-color: #242424;
