@@ -170,4 +170,20 @@ li {
       background-color: #242424;
     }
   }
+
+  .tipFormatDescription {
+    display: initial;
+
+    .side.right:has(button:hover)+.tip & {
+      display: none;
+    }
+  }
+
+  .tipFormatOpts {
+    display: none;
+
+    .side.right:has(button:hover)+.tip & {
+      display: initial;
+    }
+  }
 }

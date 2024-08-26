@@ -12,6 +12,8 @@ import {
 } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { classy } from '@/util/css'
+import { sentenceCase } from '@/util/string'
+import { intl } from '@/intl'
 
 import classes from './FormatConfig.module.css'
 
@@ -103,7 +105,10 @@ export const FormatConfig = ({
         ) : null}
       </span>
       {format.description && !dragging ? (
-        <div className={classes.tip}>{format.description}</div>
+        <div className={classes.tip}>
+          <span className={classes.tipFormatDescription}>{format.description}</span>
+          <span className={classes.tipFormatOpts}>{sentenceCase(intl.formatOpts())}</span>
+        </div>
       ) : null}
     </Reorder.Item>
   )

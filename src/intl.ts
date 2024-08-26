@@ -56,6 +56,8 @@ export const intl = {
 
   // ----- format opts -----
 
+  formatOpts: () => 'format options',
+
   separator: () => 'separator',
 
   includeHeader: () => 'include header',
