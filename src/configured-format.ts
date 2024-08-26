@@ -16,6 +16,7 @@ import {
 export type ConfiguredFormat<T extends FormatId = FormatId> = {
   id: T
   label: string
+  description?: string
   visible: boolean
   isDefault: boolean // `default` is a JS reserved keyword; todo: consider removing this field and instead having implementation infer default format from visibleFormats[0] (currently only 1 instance (in popup.ts) would need to be updated)
   transforms: Transforms
@@ -54,6 +55,7 @@ async function makeConfiguredFormat<T extends FormatId>(
   return {
     id,
     label: format.label(opts),
+    description: 'description' in format ? format.description() : undefined,
     visible: visibleFormatIds.includes(id),
     isDefault: visibleFormatIds[0] === id,
     transforms: format.transforms(opts),
