@@ -1,6 +1,6 @@
 import { TabScopeId } from '@/scope'
 
-type TabPredicate = (tab: chrome.tabs.Tab) => boolean
+export type TabPredicate = (tab: chrome.tabs.Tab) => boolean
 
 // - excludes tabs without URL (possible?)
 // - excludes windows without tabs (possible with filter)

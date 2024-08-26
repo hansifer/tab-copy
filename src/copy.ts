@@ -2,15 +2,19 @@ import { ScopeId, isTabScopeId } from '@/scope'
 import { Transforms } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { clipboardWrite } from '@/util/clipboard'
-import { getWindowsAndTabs, getTabs } from '@/util/tabs'
+import { getWindowsAndTabs, getTabs, TabPredicate } from '@/util/tabs'
 import { log } from '@/util/log'
 
-export async function copy(scopeId: ScopeId, format: ConfiguredFormat) {
+export async function copy(scopeId: ScopeId, format: ConfiguredFormat, filterPinnedTabs?: boolean) {
   log(`copying scope ${scopeId}...`, { separate: true })
 
+  const filter: TabPredicate | undefined = filterPinnedTabs // wrap
+    ? ({ pinned }) => !pinned
+    : undefined
+
   return isTabScopeId(scopeId)
-    ? copyHelper(await getTabs(scopeId), applyTextTransformToTabs, format)
-    : copyHelper(await getWindowsAndTabs(), applyTextTransformToWindows, format)
+    ? copyHelper(await getTabs(scopeId, filter), applyTextTransformToTabs, format)
+    : copyHelper(await getWindowsAndTabs(filter), applyTextTransformToWindows, format)
 }
 
 // TS helper
