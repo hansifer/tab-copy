@@ -122,7 +122,9 @@ async function initCopyButtons() {
       const format = await getApplicableFormat()
 
       try {
-        await copy(scopeId, format)
+        const { value: ignorePinnedTabs } = await getOption('ignorePinnedTabs')
+
+        await copy(scopeId, format, ignorePinnedTabs)
 
         flashActionIcon()
         window.close()
@@ -162,8 +164,7 @@ async function initCopyButtons() {
 }
 
 async function initFormats() {
-  const keepFormatSelectorExpandedOption = await getOption('keepFormatSelectorExpanded')
-  keepFormatSelectorExpanded = keepFormatSelectorExpandedOption.value
+  keepFormatSelectorExpanded = (await getOption('keepFormatSelectorExpanded')).value
 
   await refreshFormats()
 
