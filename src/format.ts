@@ -41,6 +41,7 @@ const builtinFormats = [
   {
     id: 'link',
     label: () => sentenceCase(intl.link()),
+    description: () => sentenceCase(intl.linkDescription()),
     transforms: () => ({
       text: urlTextTransform,
       html: {
@@ -65,6 +66,7 @@ const builtinFormats = [
   {
     id: 'titleUrl1Line',
     label: (opts) => sentenceCase(getTitleUrlText(intl.url(), intl.title(), opts?.separator)),
+    description: () => sentenceCase(intl.titleUrl1LineDescription()),
     transforms: (opts) => ({
       text: {
         windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
@@ -85,6 +87,7 @@ const builtinFormats = [
   {
     id: 'titleUrl2Line',
     label: () => sentenceCase(intl.conjoin(intl.title(), intl.url())),
+    description: () => sentenceCase(intl.titleUrl2LineDescription()),
     transforms: () => ({
       text: {
         windowStart: ({ seq }) => `${getNumberedWindowText(seq)}\n\n`,
@@ -144,6 +147,7 @@ const builtinFormats = [
   {
     id: 'bbcode',
     label: () => 'BBCode',
+    description: () => 'Bulletin Board Code',
     transforms: () => ({
       // todo: need to escape embedded bracket chars in url and title or are bbcode interpreters generally smart enough to handle them?
       text: {
@@ -163,6 +167,7 @@ const builtinFormats = [
   {
     id: 'csv',
     label: () => 'CSV',
+    description: () => sentenceCase(intl.csvDescription()),
     transforms: () => ({
       text: {
         start: ({ scopeType, tabCount }) =>
@@ -188,6 +193,7 @@ const builtinFormats = [
   {
     id: 'json',
     label: () => 'JSON',
+    description: () => 'JavaScript Object Notation',
     transforms: (opts) => {
       const newline = opts?.pretty ? '\n' : ''
 
@@ -312,6 +318,7 @@ const builtinFormats = [
 
 const customFormat = {
   label: (opts) => opts?.name ?? DEFAULT_CUSTOM_FORMAT_NAME,
+  description: () => sentenceCase(intl.customDescription()),
   transforms: () => ({
     text: {
       tab: ({ tab }) => `${tab.title}\n${tab.url}`,
@@ -344,6 +351,7 @@ type Format<T extends Record<string, any> = Record<string, any> /* = infer */> =
   id: string
   label: (opts?: T) => string
   // icon: JSX.Element
+  description?: () => string
   transforms: (opts?: T) => Transforms
   opts?: T
   isInvalid?: (opts: T) => boolean

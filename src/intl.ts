@@ -36,11 +36,21 @@ export const intl = {
 
   link: () => 'link',
 
+  linkDescription: () => 'clickable links when pasting into documents or emails.\nURLs otherwise.',
+
+  titleUrl1LineDescription: () => 'tab title and URL on a single line',
+
+  titleUrl2LineDescription: () => 'tab title and URL on separate lines',
+
   title: () => 'title',
 
   url: () => 'URL',
 
+  csvDescription: () => 'comma-separated values',
+
   htmlTable: () => 'HTML table',
+
+  customDescription: () => 'a format you created',
 
   default: () => 'default',
 
