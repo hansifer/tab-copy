@@ -62,7 +62,7 @@ export const FormatConfig = ({
       onDragStart={() => {
         setDragging(true)
       }}
-      onDragEnd={() => {
+      onDragTransitionEnd={() => {
         setDragging(false)
       }}
     >
@@ -102,6 +102,9 @@ export const FormatConfig = ({
           </button>
         ) : null}
       </span>
+      {format.description && !dragging ? (
+        <div className={classes.tip}>{format.description}</div>
+      ) : null}
     </Reorder.Item>
   )
 }
