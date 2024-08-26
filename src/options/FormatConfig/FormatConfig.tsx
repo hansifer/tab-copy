@@ -33,7 +33,7 @@ export const FormatConfig = ({
   // used to prevent click event from firing on drag end
   // todo: consider using a ref instead
   // todo: is there a cleaner way to do this? perhaps via a framer motion feature?
-  const [allowClick, setAllowClick] = useState<boolean>(true)
+  const [dragging, setDragging] = useState<boolean>(false)
 
   const y = useMotionValue(0)
   const dragControls = useDragControls()
@@ -53,17 +53,17 @@ export const FormatConfig = ({
       dragControls={dragControls}
       onPointerDown={(e) => dragControls.start(e)}
       onClick={
-        allowClick
-          ? () => {
+        dragging
+          ? undefined
+          : () => {
               onClick(format.id)
             }
-          : undefined
       }
       onDragStart={() => {
-        setAllowClick(false)
+        setDragging(true)
       }}
       onDragEnd={() => {
-        setAllowClick(true)
+        setDragging(false)
       }}
     >
       <span className={classy(classes.side, classes.left)}>
@@ -89,13 +89,13 @@ export const FormatConfig = ({
         {format.opts ? (
           <button
             onClick={
-              allowClick
-                ? () => {
+              dragging
+                ? undefined
+                : () => {
                     if (isFormatWithOptsId(format.id)) {
                       onOptsClick?.(format.id)
                     }
                   }
-                : undefined
             }
           >
             <OptionIcon />
