@@ -74,7 +74,13 @@ export const intl = {
 
   start: () => 'start',
 
+  windowStart: () => 'window start',
+
   tabDelimiter: () => 'tab delimiter',
+
+  windowEnd: () => 'window end',
+
+  windowDelimiter: () => 'window delimiter',
 
   end: () => 'end',
 
