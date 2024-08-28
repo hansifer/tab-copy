@@ -83,7 +83,13 @@ export const TextOption = ({
           value={value}
         />
         {tokens?.length ? (
-          <div className={classes.tokenSelector}>
+          <div
+            className={classes.tokenSelector}
+            onMouseDown={(e) => {
+              // prevent input blur
+              e.preventDefault()
+            }}
+          >
             <span className={classes.insert}>{`${sentenceCase(intl.insert())}:`}</span>
             {(showAllTokens ? tokens : tokens.slice(0, MAX_COLLAPSED_TOKENS)).map(
               ({ id, label, token }) => (
