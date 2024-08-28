@@ -1,3 +1,4 @@
+import { TemplateFieldId } from '@/template-field'
 import { intl } from '@/intl'
 import { sentenceCase, indent, encodeHtml } from '@/util/string'
 import { stringifyCSVRow } from '@/util/csv'
@@ -328,18 +329,16 @@ const customFormat = {
     name: DEFAULT_CUSTOM_FORMAT_NAME,
     template: {
       start: '[date][n][n]',
+      windowStart: '[#] Window: [title][n]',
       tab: '[#]) Title: [title][n]   URL:   [url]',
       tabDelimiter: '[n][n]',
+      windowEnd: '[n][n]',
+      windowDelimiter: '[n][n]',
       end: '',
     },
   } as {
     name: string
-    template: {
-      start: string
-      tab: string
-      tabDelimiter: string
-      end: string
-    }
+    template: Record<TemplateFieldId, string>
   },
   isInvalid: (opts) => !opts.name?.trim(),
 } as const satisfies Omit<Format, 'id'>
