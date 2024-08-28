@@ -1,3 +1,4 @@
+import { regExEscape } from '@/util/regex'
 import { intl } from '@/intl'
 
 // This file contains specs for the template fields used by custom formats
@@ -227,4 +228,12 @@ function selectTokens(...args: (typeof tokens)[number]['id'][]) {
   return args
     .map((id) => tokens.find((token) => token.id === id))
     .filter((token): token is (typeof tokens)[number] => !!token)
+}
+
+// creates a regular expression that matches one or more tokens, including aliases
+export function makeTokenRegExp(tokens: Token[]) {
+  return new RegExp(
+    `\\[\\s*(${tokens.flatMap(({ token, aliases = [] }) => [token, ...aliases].map((token) => regExEscape(token))).join('|')})\\s*]`,
+    'g',
+  )
 }
