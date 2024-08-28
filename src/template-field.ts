@@ -233,7 +233,7 @@ function selectTokens(...args: (typeof tokens)[number]['id'][]) {
 // creates a regular expression that matches one or more tokens, including aliases
 export function makeTokenRegExp(tokens: Token[]) {
   return new RegExp(
-    `\\[\\s*(${tokens.flatMap(({ token, aliases = [] }) => [token, ...aliases].map((token) => regExEscape(token))).join('|')})\\s*]`,
+    `\\[(\\s*(${tokens.flatMap(({ token, aliases = [] }) => [token, ...aliases].map((token) => regExEscape(token))).join('|')})\\s*)]`,
     'g',
   )
 }
