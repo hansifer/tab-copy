@@ -379,10 +379,12 @@ type TextTransform = {
   windowStart?: ({
     window,
     seq,
+    windowCount,
     windowTabCount,
   }: {
     window: chrome.windows.Window
     seq: number
+    windowCount: number
     windowTabCount: number
   }) => string
 
@@ -391,11 +393,13 @@ type TextTransform = {
     globalSeq,
     windowTabSeq,
     windowSeq,
+    windowCount,
   }: {
     tab: chrome.tabs.Tab
     globalSeq: number // sequence across all tabs
     windowTabSeq?: number // sequence within window; missing for tab-only scopes
     windowSeq?: number // sequence of the parent window; missing for tab-only scopes
+    windowCount?: number // missing for tab-only scopes
   }) => string
 
   tabDelimiter?: string
@@ -403,10 +407,12 @@ type TextTransform = {
   windowEnd?: ({
     window,
     seq,
+    windowCount,
     windowTabCount,
   }: {
     window: chrome.windows.Window
     seq: number
+    windowCount: number
     windowTabCount: number
   }) => string
 

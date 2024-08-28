@@ -117,6 +117,7 @@ function applyTextTransformToWindows(
           transform.windowStart?.({
             window,
             seq: wi + 1,
+            windowCount: windows.length,
             windowTabCount: (window.tabs ?? []).length,
           }) ?? ''
         }${(window.tabs ?? [])
@@ -127,12 +128,14 @@ function applyTextTransformToWindows(
                 globalSeq: globalSeq++,
                 windowTabSeq: ti + 1,
                 windowSeq: wi + 1,
+                windowCount: windows.length,
               }) ?? '',
           )
           .join(transform.tabDelimiter ?? '')}${
           transform.windowEnd?.({
             window,
             seq: wi + 1,
+            windowCount: windows.length,
             windowTabCount: (window.tabs ?? []).length,
           }) ?? ''
         }`,
