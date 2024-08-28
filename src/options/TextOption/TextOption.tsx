@@ -1,20 +1,16 @@
 import { useState, useEffect, useRef, HTMLInputTypeAttribute } from 'react'
 
+import { makeTokenRegExp, Token } from '@/template-field'
 import { sentenceCase } from '@/util/string'
 import { insertInputText } from '@/util/dom'
 import { classy } from '@/util/css'
-import {
-  Token,
-  makeTokenRegExp,
-  selectionOverlapsToken,
-} from '@/options/FormatOptsEditor/content/tokens'
 import { intl } from '@/intl'
 
 import classes from './TextOption.module.css'
 
 // todo: add validation feature
 
-const MAX_COLLAPSED_TOKENS = 3
+const MAX_COLLAPSED_TOKENS = 2
 
 type TextOptionProps = {
   label: string
@@ -53,8 +49,6 @@ export const TextOption = ({
 
   const inputRef = useRef<HTMLInputElement>(null)
 
-  const tokenRegExp = makeTokenRegExp(tokens)
-
   // use inert to ensure token selector gets hidden when comp is disabled
   const inert = disabled ? 'true' : undefined //  todo: update to boolean after this bug is fixed: https://github.com/facebook/react/pull/24730
 
@@ -88,7 +82,7 @@ export const TextOption = ({
           }}
           value={value}
         />
-        {tokens?.length && tokenRegExp ? (
+        {tokens?.length ? (
           <div className={classes.tokenSelector}>
             <span className={classes.insert}>{`${sentenceCase(intl.insert())}:`}</span>
             {(showAllTokens ? tokens : tokens.slice(0, MAX_COLLAPSED_TOKENS)).map(
@@ -109,7 +103,7 @@ export const TextOption = ({
                       input.value,
                       input.selectionStart,
                       input.selectionEnd,
-                      tokenRegExp,
+                      tokens,
                     )
 
                     // setting input value (via insertInputText()) below seems redundant since onChange will render the new value, but it's needed for cursor position update to work. setting an input value puts cursor at end of input unless value is same, so insertInputText() updates cursor position after setting the value and onChange will not disrupt this position since value will be same.; insertInputText() does not fire onInput
@@ -123,7 +117,7 @@ export const TextOption = ({
                     }
                   }}
                 >
-                  {label}
+                  {label()}
                 </button>
               ),
             )}
@@ -140,4 +134,44 @@ export const TextOption = ({
       </div>
     </div>
   )
+}
+
+// returns true if selectionStart or selectionEnd is inside of a token, otherwise false
+// exception: returns 'full' if selection fully spans the content of a single token (all chars between [ and ])
+function selectionOverlapsToken(
+  value: string,
+  selectionStart: number,
+  selectionEnd: number,
+  tokens: Token[],
+) {
+  // swap token delimiter brackets to facilitate counting. we know \n will not be included in the value since custom fields are single line.
+  const bracketSwap = '\n'
+  const bracketSwapRegExp = new RegExp(bracketSwap, 'g')
+
+  const workingValue = value.replace(makeTokenRegExp(tokens), `${bracketSwap}$1${bracketSwap}`)
+
+  const beforeSelection = workingValue.slice(0, selectionStart)
+  const beforeSelectionBracketCount = (beforeSelection.match(bracketSwapRegExp) ?? []).length
+  const isSelectionStartInsideOfToken = !!(beforeSelectionBracketCount % 2)
+
+  if (isSelectionStartInsideOfToken) {
+    if (
+      workingValue[selectionStart - 1] === bracketSwap &&
+      workingValue[selectionEnd] === bracketSwap
+    ) {
+      const selection = workingValue.slice(selectionStart, selectionEnd)
+
+      if (!selection.includes(bracketSwap)) {
+        return 'full'
+      }
+    }
+
+    return true
+  }
+
+  const afterSelection = workingValue.slice(selectionEnd)
+  const afterSelectionBracketCount = (afterSelection.match(bracketSwapRegExp) ?? []).length
+  const isSelectionEndInsideOfToken = !!(afterSelectionBracketCount % 2)
+
+  return isSelectionEndInsideOfToken
 }
