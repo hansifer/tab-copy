@@ -224,10 +224,16 @@ export const templateFields = [
   tokens: (typeof tokens)[number][]
 }[]
 
-function selectTokens(...args: (typeof tokens)[number]['id'][]) {
-  return args
-    .map((id) => tokens.find((token) => token.id === id))
-    .filter((token): token is (typeof tokens)[number] => !!token)
+function selectTokens<T extends (typeof tokens)[number]['id'][]>(...ids: T) {
+  return ids
+    .map(
+      (id) =>
+        tokens.find((token) => token.id === id) as Extract<
+          (typeof tokens)[number],
+          { id: T[number] }
+        >,
+    )
+    .filter(Boolean)
 }
 
 // creates a regular expression that matches one or more tokens, including aliases
