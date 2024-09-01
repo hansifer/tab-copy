@@ -1,26 +1,33 @@
-let creating: Promise<void> | null = null // avoid concurrency issues
+const creating = new Map<string, Promise<void>>() // avoid concurrency issues
 
-export async function setupOffscreenDocument(path: string) {
+// create a singleton offline doc
+export async function setupOffscreenDocument({
+  url,
+  reasons,
+  justification,
+}: chrome.offscreen.CreateParameters) {
   const docExists = !!(
     await chrome.runtime.getContexts({
       contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT],
-      documentUrls: [chrome.runtime.getURL(path)],
+      documentUrls: [chrome.runtime.getURL(url)],
     })
   ).length
 
   if (docExists) return
 
-  if (creating) {
-    await creating
+  if (creating.has(url)) {
+    await creating.get(url)
   } else {
-    creating = chrome.offscreen.createDocument({
-      url: path,
-      reasons: [chrome.offscreen.Reason.CLIPBOARD],
-      justification: 'Copy a tab or link to the clipboard from a context menu',
+    const promise = chrome.offscreen.createDocument({
+      url,
+      reasons,
+      justification,
     })
 
-    await creating
+    creating.set(url, promise)
 
-    creating = null
+    await promise
+
+    creating.delete(url)
   }
 }
