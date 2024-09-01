@@ -26,6 +26,7 @@ export function queryElement<T extends HTMLElement>(query: string) {
 export const getSpan = getElement<HTMLSpanElement>
 export const getDiv = getElement<HTMLDivElement>
 export const getButton = getElement<HTMLButtonElement>
+export const getTextArea = getElement<HTMLTextAreaElement>
 
 // inserts text at the current cursor position of an input element. replaces any selection.
 // sets cursor position to end of inserted text, adjusting for passed cursorOffset
