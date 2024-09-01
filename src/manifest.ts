@@ -6,7 +6,8 @@ export default defineManifest({
   version: pkg.version,
   description: 'Quickly copy tabs to the clipboard in a variety of formats',
   manifest_version: 3,
-  minimum_chrome_version: '90',
+  // https://developer.chrome.com/docs/extensions/reference/api/offscreen#before_chrome_116_check_if_an_offscreen_document_is_open
+  minimum_chrome_version: '116',
   icons: {
     16: 'img/logo-16.png',
     32: 'img/logo-32.png',
@@ -22,7 +23,8 @@ export default defineManifest({
     type: 'module',
   },
   options_page: 'options.html',
-  permissions: ['tabs', 'contextMenus', 'storage'],
+  // clipboardWrite is required for context menu-based copy only. if not present, `document.execCommand('copy')` fails and returns false, even when Clipboard web perm is granted.
+  permissions: ['tabs', 'storage', 'contextMenus', 'offscreen', 'clipboardWrite'],
   optional_permissions: ['notifications'],
   // optional_host_permissions: ['file:///*'],
   content_security_policy: {
