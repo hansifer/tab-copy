@@ -1,6 +1,6 @@
 const creating = new Map<string, Promise<void>>() // avoid concurrency issues
 
-// create a singleton offline doc
+// create a singleton offscreen doc
 export async function setupOffscreenDocument({
   url,
   reasons,
