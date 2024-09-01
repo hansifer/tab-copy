@@ -9,7 +9,7 @@ import { hasNavigatorPermission } from './permissions'
 
 // todo: uncomment read functions when needed
 
-type Representations = {
+export type Representations = {
   text: string
   html?: string
   nxs?: NxsMimeContent
@@ -50,6 +50,39 @@ export async function clipboardWrite({ text, html, nxs }: Representations) {
   })
 
   await navigator.clipboard.write([clipboardItem])
+}
+
+// `document.execCommand('copy')` does not support custom formats, so we consider only text and html representations
+// legacy clipboard write method is necessary for offscreen documents (because they cannot be focused), which are necessary for context menu-based copy (because Clipboard API is not available in service workers)
+export function legacyClipboardWrite(
+  // wrap
+  { text, html }: Representations,
+  el: HTMLTextAreaElement,
+) {
+  el.value = text
+  el.select()
+
+  const oncopy = document.oncopy
+
+  document.oncopy = function (e) {
+    e.preventDefault()
+
+    if (!e.clipboardData) {
+      throw new Error('legacy clipboard copy failed')
+    }
+
+    e.clipboardData.setData('text/plain', text)
+
+    if (html) {
+      e.clipboardData.setData('text/html', html)
+    }
+  }
+
+  if (!document.execCommand('copy')) {
+    throw new Error('legacy clipboard copy failed')
+  }
+
+  document.oncopy = oncopy
 }
 
 // export async function clipboardReadNxs() {
