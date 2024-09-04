@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@crxjs/vite-plugin": "^2.0.0-beta.25",
-    "@types/chrome": "^0.0.269",
+    "@types/chrome": "^0.0.270",
     "@types/lodash.isobject": "^3.0.9",
     "@types/lodash.throttle": "^4.1.9",
     "@types/node": "^18.19.42",
