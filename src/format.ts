@@ -59,7 +59,7 @@ const builtinFormats = [
   },
     {
     id: 'linkList',
-    label: () => 'Link List',
+    label: () => 'Link list',
     description: () => sentenceCase(intl.linkDescription()),
     transforms: () => ({
       text: urlTextTransform,
@@ -160,6 +160,35 @@ const builtinFormats = [
           })`,
 
         tabDelimiter: '\n\n',
+
+        windowDelimiter: '\n\n',
+      },
+    }),
+    // todo: potential opt: markdown flavor
+    // todo: potential opt: window header level (h1, h2, etc)
+  },
+  {
+    id: 'markdownList',
+    label: () => 'Markdown list',
+    transforms: () => ({
+      // todo: make special char escaping more robust across popular markdown renderers (github, etc); https://stackoverflow.com/questions/13824669/how-do-you-write-a-link-containing-a-closing-bracket-in-markdown-syntax
+      text: {
+        windowStart: ({ seq }) => `## ${getNumberedWindowText(seq)}\n\n`,
+
+        tab: ({ tab: { title, url } }) =>
+          `- [${
+            // wrap
+            (title || url!) // wrap
+              .replace(/\[/g, '\\[')
+              .replace(/\]/g, '\\]')
+          }](${
+            // wrap
+            url! // wrap
+              .replace(/\(/g, '\\(')
+              .replace(/\)/g, '\\)')
+          })`,
+
+        tabDelimiter: '\n',
 
         windowDelimiter: '\n\n',
       },
