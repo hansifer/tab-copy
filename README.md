@@ -36,7 +36,9 @@ Access the popup or options page directly with:
 
 ## Known issues
 
-- `npm run dev` does not copy all `/public` files to `/build`. Copy missing `/icons` and `/img` files manually.
+- `npm run dev` fails to:
+  - copy all `/public` files to `/build` (`/icons` and some `/img` files are missed)
+  - output pages listed in vite config's `build.rollupOptions.input`
 
 ## Tech notes
 
