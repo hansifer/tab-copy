@@ -57,6 +57,28 @@ const builtinFormats = [
     }),
     // todo: potential opt: plaintext fallback (title or url)
   },
+    {
+    id: 'linkList',
+    label: () => 'Link List',
+    description: () => sentenceCase(intl.linkDescription()),
+    transforms: () => ({
+      text: urlTextTransform,
+      html: {
+        windowStart: ({ seq }) => `${getNumberedWindowText(seq)}<br>\n<br>\n`,
+
+        start: () => '<ul>',
+
+        tab: ({ tab }) => `<li>${getAnchorTagHtml(tab)}</li>`,
+
+        end: () => '</ul>',
+        
+        tabDelimiter: '\n',
+
+        windowDelimiter: '\n\n',
+      },
+    }),
+    // todo: potential opt: plaintext fallback (title or url)
+  },
   {
     id: 'url',
     label: () => intl.url(),
