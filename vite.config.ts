@@ -12,6 +12,10 @@ export default defineConfig(({ mode }) => ({
     emptyOutDir: true,
     outDir: 'build',
     rollupOptions: {
+      input: {
+        // pages in addition to those in the extension manifest
+        offscreen: 'offscreen.html',
+      },
       output: {
         chunkFileNames: 'assets/chunk-[hash].js',
       },
