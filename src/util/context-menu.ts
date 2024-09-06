@@ -14,19 +14,27 @@ const allContexts = [
   'audio',
 ] as const satisfies chrome.contextMenus.ContextType[]
 
-export type MenuNode = {
+type MenuNodeBase = {
   title: string
   contexts?: (typeof allContexts)[number][]
-} & (
-  | {
-      // branch; id auto-generated
-      items: MenuNode[]
-    }
-  | {
-      // leaf
-      id: string // id required to map action in onClicked handler
-    }
-)
+}
+
+// top-level menu item receives id from `contextMenu()`
+export type MenuStructure = MenuNodeBase & {
+  items?: MenuNode[]
+}
+
+export type MenuNode = MenuNodeBase &
+  (
+    | {
+        // branch; id auto-generated
+        items: MenuNode[]
+      }
+    | {
+        // leaf
+        id: string // id required to map action in onClicked handler
+      }
+  )
 
 // generate unique ids for branch nodes. these can be dynamic since we don't reference them and only include them to satisfy chrome api's requirement.
 let idIncrement: number = 1
@@ -34,12 +42,11 @@ let idIncrement: number = 1
 // instantiates a controller for a top-level menu with optional submenus
 export function contextMenu(id: string) {
   const api = {
-    async refresh(structure: MenuNode) {
+    async refresh(structure: MenuStructure) {
       await api.remove()
 
       return create({
-        node: structure,
-        id,
+        node: { ...structure, id },
       })
     },
 
@@ -51,15 +58,14 @@ export function contextMenu(id: string) {
   return api
 
   async function create({
+    // wrap
     node,
-    id: nodeId,
     parentId,
   }: {
     node: MenuNode
-    id?: string
     parentId?: string
   }) {
-    const id = nodeId || ('id' in node && node.id) || `${idIncrement++}`
+    const id = ('id' in node && node.id) || `${idIncrement++}`
 
     await createContextMenu({
       id,
