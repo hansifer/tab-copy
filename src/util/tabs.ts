@@ -66,6 +66,7 @@ export function getDummyTab({
   id = itemId++,
   title,
   url = 'https://example.com',
+  favIconUrl,
   index = 0,
   windowId = 1,
   active = false,
@@ -73,6 +74,7 @@ export function getDummyTab({
   id?: number
   title?: string
   url?: string
+  favIconUrl?: string
   index?: number
   windowId?: number
   active?: boolean
@@ -81,6 +83,7 @@ export function getDummyTab({
     id,
     title,
     url,
+    favIconUrl,
     index,
     pinned: false,
     active,
