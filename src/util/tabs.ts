@@ -49,7 +49,7 @@ export function getDummyWindow({
 }: {
   id?: number
   tabs?: chrome.tabs.Tab[]
-}): chrome.windows.Window {
+} = {}): chrome.windows.Window {
   return {
     id,
     focused: false,
@@ -76,7 +76,7 @@ export function getDummyTab({
   index?: number
   windowId?: number
   active?: boolean
-}): chrome.tabs.Tab {
+} = {}): chrome.tabs.Tab {
   return {
     id,
     title,
