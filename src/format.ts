@@ -178,9 +178,10 @@ const builtinFormats = [
         tab: ({ tab: { title, url } }) =>
           `- [${
             // wrap
-            (title || url!) // wrap
+            (`${title || url!} | ${getDomain(url)}`) // wrap
               .replace(/\[/g, '\\[')
               .replace(/\]/g, '\\]')
+              .replace(/\./g, '·')
           }](${
             // wrap
             url! // wrap
@@ -530,10 +531,39 @@ function getTitleUrlText(
   return `${title || '(untitled)'}${separator}${url}`
 }
 
+  /**
+   * Returns an HTML string for an anchor tag wrapping the given tab's title and
+   * URL. If the tab has no title, the URL is used as the link text.
+   *
+   * @param tab The tab for which to generate the anchor tag.
+   * @returns An HTML string for an anchor tag, or an empty string if the tab has
+   * no URL.
+   */
 function getAnchorTagHtml(tab: chrome.tabs.Tab) {
   return tab.url // wrap
-    ? `<a href="${tab.url}">${encodeHtml(tab.title || tab.url)}</a>`
+    ? `<a href="${tab.url}">${encodeHtml(`${tab.title || tab.url} | ${getDomain(tab.url)}`)}</a>`
     : ''
+}
+
+  /**
+   * Returns the domain of a URL, stripping any leading "www." from the hostname.
+   * Returns an empty string if the input is not a valid URL.
+   */
+function getDomain(urlString: string | undefined) {
+  if (!urlString) {
+    return '';
+  }
+  try {
+    const url = new URL(urlString);
+    let hostname = url.hostname;
+    if (hostname.startsWith('www.')) {
+      hostname = hostname.slice(4);
+    }
+    return hostname;
+  } catch (error) {
+    console.error('Failed to parse URL:', error);
+    return '';
+  }
 }
 
 function getNumberedWindowText(seq: number) {

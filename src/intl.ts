@@ -7,7 +7,7 @@ export const intl = {
 
   copyAs: () => 'copy as',
 
-  copy1xAs: () => 'copy 1x as',
+  copy1xAs: () => 'copy as',
 
   holdWhenCopying: (keyModifier: string) => `hold ${keyModifier} when copying`,
 

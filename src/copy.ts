@@ -51,12 +51,18 @@ function applyTextTransformToTabs(
     throw new Error(`no transform for ${representation} in format "${formatName}"`)
   }
 
-  if (!tabs.length) {
+  // Filter out unwanted URLs
+  const filteredTabs = tabs.filter(tab => 
+    !(tab.url?.startsWith('https://calendar.google.com') || 
+      tab.url === 'https://drive.google.com/drive/home')
+  )
+
+  if (!filteredTabs.length) {
     console.warn(`no tabs to copy as "${formatName}" ${representation}. check filter options.`)
   } else {
     log(
-      `transforming ${tabs.length} ${
-        tabs.length === 1 ? 'tab' : 'tabs'
+      `transforming ${filteredTabs.length} ${
+        filteredTabs.length === 1 ? 'tab' : 'tabs'
       } to "${formatName}" ${representation}`,
     )
   }
@@ -64,15 +70,15 @@ function applyTextTransformToTabs(
   return `${
     transform.start?.({
       formatName,
-      tabCount: tabs.length,
+      tabCount: filteredTabs.length,
       scopeType: 'tab',
     }) ?? ''
-  }${tabs
+  }${filteredTabs
     .map((tab, i) => transform.tab?.({ tab, globalSeq: i + 1 }) ?? '')
     .join(transform.tabDelimiter ?? '')}${
     transform.end?.({
       formatName,
-      tabCount: tabs.length,
+      tabCount: filteredTabs.length,
     }) ?? ''
   }`
 }

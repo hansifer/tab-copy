@@ -16,4 +16,5 @@ export function encodeHtml(html: string) {
     .replace(/>/g, '&gt;')
     .replace(/'/g, '&#39;')
     .replace(/"/g, '&#34;')
+    .replace(/\./g, '&middot;') // replaces period with middle dot, to ensure that the title is not misinterpreted as a URL
 }
