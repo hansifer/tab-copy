@@ -35,3 +35,61 @@ export async function getTabs(scopeId: TabScopeId = 'all-tabs', filter?: TabPred
   // scopeId === 'highlighted-tabs'
   return windowTabs.filter(({ highlighted }) => !!highlighted)
 }
+
+let itemId = 1
+
+// used for previews
+export function getDummyWindow({
+  id = itemId++,
+  tabs = [
+    getDummyTab({
+      windowId: id,
+    }),
+  ],
+}: {
+  id?: number
+  tabs?: chrome.tabs.Tab[]
+}): chrome.windows.Window {
+  return {
+    id,
+    focused: false,
+    alwaysOnTop: false,
+    incognito: false,
+    state: 'normal',
+    type: 'normal',
+    tabs,
+  }
+}
+
+// used for previews and context-menu based link and src copy
+export function getDummyTab({
+  id = itemId++,
+  title,
+  url = 'https://example.com',
+  index = 0,
+  windowId = 1,
+  active = false,
+}: {
+  id?: number
+  title?: string
+  url?: string
+  index?: number
+  windowId?: number
+  active?: boolean
+}): chrome.tabs.Tab {
+  return {
+    id,
+    title,
+    url,
+    index,
+    pinned: false,
+    active,
+    highlighted: active,
+    selected: active,
+    windowId,
+    incognito: false,
+    discarded: false,
+    autoDiscardable: false,
+    groupId: -1,
+  }
+}
