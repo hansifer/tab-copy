@@ -2,9 +2,9 @@
   "cSpell.words": ["bbcode", "chromeos", "crxjs", "hansifer", "tabcopy"],
   "window.title": "${dirty}${activeEditorShort}${separator}tab-copy",
   "workbench.colorCustomizations": {
-    "statusBar.background": "#870061",
-    "statusBar.debuggingBackground": "#870061",
-    "statusBar.noFolderBackground": "#870061",
-    "statussBar.prominentBackground": "#870061"
+    "statusBar.background": "#135769",
+    "statusBar.debuggingBackground": "#135769",
+    "statusBar.noFolderBackground": "#135769",
+    "statussBar.prominentBackground": "#135769"
   }
 }
