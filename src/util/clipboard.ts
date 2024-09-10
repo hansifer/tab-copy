@@ -59,6 +59,8 @@ export function legacyClipboardWrite(
   { text, html }: Representations,
   el: HTMLTextAreaElement,
 ) {
+  // throw new Error('test')
+
   el.value = text
   el.select()
 
