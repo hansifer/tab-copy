@@ -110,9 +110,7 @@ async function hasMinimumVisibleScopeCount() {
 }
 
 async function getHiddenScopeIds(): Promise<ScopeId[]> {
-  const { hiddenScopeIds = <ScopeId[]>['all-windows-and-tabs'] } =
-    await storage.get('hiddenScopeIds')
-
+  const { hiddenScopeIds = [] } = await storage.get('hiddenScopeIds')
   return hiddenScopeIds
 }
 
