@@ -1,8 +1,8 @@
 <div align="center"><img src="https://tabcopy.com/logo-748.png" height="80"></div>
 
-# <p style="text-align:center;">Tab Copy</p>
+<h1 align="center">Tab Copy</h1>
 
-#### <p style="text-align:center;">A browser extension for copying tabs to the clipboard in a variety of formats</p>
+<h4 align="center">A browser extension for copying tabs to the clipboard in a variety of formats</h4>
 
 <div>&nbsp;</div>
 
