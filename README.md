@@ -1,14 +1,16 @@
-# Tab Copy
+<div align="center"><img src="https://tabcopy.com/logo-748.png" height="80"></div>
 
-#### A browser extension for copying tabs to the clipboard in a variety of formats
+# <p style="text-align:center;">Tab Copy</p>
 
-Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb)
+#### <p style="text-align:center;">A browser extension for copying tabs to the clipboard in a variety of formats</p>
+
+<div>&nbsp;</div>
+
+<div align="center"><img src="https://tabcopy.com/popup.png" height="400"></div>
 
 <div>&nbsp;</div>
 
-<div align="center"><img src="https://hansifer.com/hosted-assets/tab-copy/popup-side-by-side-2023-12-11.png" width="500"></div>
-
-<div>&nbsp;</div>
+_Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb)_
 
 ## Developing
 
@@ -46,6 +48,6 @@ This project was scaffolded with [create-chrome-ext](https://github.com/guocaoyi
 
 ### Direct DOM calls vs React
 
-The popup is implemented with static HTML and vanilla JS/direct DOM calls. The original intent of this was to optimize load speed, but the ultimate performance benefit and maintenance tradeoff are open to question.
+The popup is implemented with static HTML and vanilla JS/direct DOM calls. The original intent was to optimize load speed, but the ultimate performance benefit and maintenance tradeoffs are open to question.
 
-The options page is implemented in React for better maintainability and to more easily support complex interactions like drag-drop list re-ordering.
+The options page is implemented in React for better maintainability and support for complex interactions like drag-drop list re-ordering.
