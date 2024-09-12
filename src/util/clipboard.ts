@@ -66,25 +66,38 @@ export function legacyClipboardWrite(
 
   const oncopy = document.oncopy
 
-  document.oncopy = function (e) {
-    e.preventDefault()
+  try {
+    let onCopyError: string = ''
 
-    if (!e.clipboardData) {
+    document.oncopy = function (e) {
+      e.preventDefault()
+
+      if (!e.clipboardData) {
+        onCopyError = 'legacy clipboard copy failed'
+        return
+      }
+
+      try {
+        e.clipboardData.setData('text/plain', text)
+
+        if (html) {
+          e.clipboardData.setData('text/html', html)
+        }
+      } catch (ex: any) {
+        onCopyError = `${ex?.message || ex || 'legacy clipboard copy failed'}`
+      }
+    }
+
+    if (!document.execCommand('copy')) {
       throw new Error('legacy clipboard copy failed')
     }
 
-    e.clipboardData.setData('text/plain', text)
-
-    if (html) {
-      e.clipboardData.setData('text/html', html)
+    if (onCopyError) {
+      throw new Error(onCopyError)
     }
+  } finally {
+    document.oncopy = oncopy
   }
-
-  if (!document.execCommand('copy')) {
-    throw new Error('legacy clipboard copy failed')
-  }
-
-  document.oncopy = oncopy
 }
 
 // export async function clipboardReadNxs() {
