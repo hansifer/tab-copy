@@ -2,7 +2,13 @@ import throttle from 'lodash.throttle'
 
 import { OptionId, OptionValue } from '@/options'
 import { OptionTipId } from '@/option-tips'
-import { scopes, MIN_VISIBLE_SCOPE_COUNT, ScopeId } from '@/scope'
+import {
+  // wrap
+  scopes,
+  MIN_VISIBLE_SCOPE_COUNT,
+  ScopeId,
+  ScopeType,
+} from '@/scope'
 import {
   builtinFormatIds,
   MIN_VISIBLE_FORMAT_COUNT,
@@ -12,6 +18,7 @@ import {
   CustomFormatId,
   FormatOpts,
 } from '@/format'
+import { CopySubject } from '@/copy-menus'
 import { newId } from '@/util/id'
 
 class MinVisibleScopeExceededError extends Error {
@@ -318,10 +325,25 @@ async function getAllFormatOpts(): Promise<Partial<FormatOpts>> {
   return formatOpts ?? {}
 }
 
-// ----- copied timestamp/trigger -----
+// ----- copy status -----
 
-export function setCopied() {
-  return storage.set({ copied: performance.now() })
+export type CopyType = ScopeType | CopySubject
+
+export type CopyStatus = {
+  status: 'success' | 'fail'
+  type: CopyType // scope type or subject copied
+  count?: number // count of type copied
+  formatId: FormatId
+}
+
+// using storage event to communicate copy status instead of `chrome.runtime` messaging because popup `window.close()` interrupts the message
+export function setCopyStatus(status: CopyStatus) {
+  return storage.set({
+    copyStatus: {
+      ...status,
+      timestamp: Date.now(),
+    },
+  })
 }
 
 // ----- handle changes -----
@@ -329,6 +351,7 @@ export function setCopied() {
 type StorageChangeHandler = Parameters<typeof chrome.storage.onChanged.addListener>[0]
 type StorageChanges = { [key: string]: chrome.storage.StorageChange }
 
+// todo: support for debounce
 export function makeStorageChangeHandler(
   callback: (changes: StorageChanges) => void,
   { throttle: throttleTime = 0, listen }: { throttle?: number; listen?: string[] } = {},
