@@ -1,8 +1,11 @@
 import { getOption } from '@/options'
 import { makeStorageChangeHandler } from '@/storage'
+import { offscreenActions } from '@/offscreen-actions'
 import { log } from '@/util/log'
 
 import { refreshMenus, handleMenuAction } from './copy-menus'
+
+let prefersColorSchemeDarkCache: boolean | null = null
 
 let actionIconFlashTimer: ReturnType<typeof setTimeout>
 
@@ -41,7 +44,6 @@ chrome.storage.onChanged.addListener(
 )
 
 const optionAndFormatChanges = [
-  // wrap
   'options',
   'customFormatIds',
   'orderedFormatIds',
@@ -61,13 +63,13 @@ chrome.storage.onChanged.addListener(
   ),
 )
 
-async function setIcon(name: 'logo' | 'success') {
+async function setIcon(name: 'logo' | 'success' | 'fail') {
   const filename =
-    name === 'logo' // wrap
-      ? (await getOption('grayIcon')).value
-        ? 'logo-gray'
-        : 'logo'
-      : 'success'
+    name === 'fail' // wrap
+      ? 'fail'
+      : name === 'success'
+        ? 'success'
+        : await getLogoIconFilename()
 
   return chrome.action.setIcon({
     path: {
@@ -77,4 +79,19 @@ async function setIcon(name: 'logo' | 'success') {
       128: `img/${filename}-128.png`,
     },
   })
+}
+
+async function getLogoIconFilename() {
+  const darkMode = await getPrefersColorSchemeDark()
+  const invertIcon = (await getOption('invertIcon')).value
+
+  return (darkMode && !invertIcon) || (!darkMode && invertIcon)
+    ? 'logo-outline-white'
+    : 'logo-outline-black'
+}
+
+async function getPrefersColorSchemeDark() {
+  return prefersColorSchemeDarkCache === null
+    ? (prefersColorSchemeDarkCache = await offscreenActions.prefersColorSchemeDark())
+    : prefersColorSchemeDarkCache
 }
