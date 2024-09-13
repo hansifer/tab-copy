@@ -82,6 +82,7 @@ async function setIcon(name: 'logo' | 'success' | 'fail') {
 }
 
 async function getLogoIconFilename() {
+  // limitation: dark mode detection works fine in most cases except when the user has explicitly selected "Light" or "Dark" in Chrome `Settings > Appearance` and the system theme is the opposite of what was selected. we can only programmatically query the system theme.
   const darkMode = await getPrefersColorSchemeDark()
   const invertIcon = (await getOption('invertIcon')).value
 
