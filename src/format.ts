@@ -1,4 +1,5 @@
 import { TemplateFieldId } from '@/template-field'
+import { ScopeType } from '@/scope'
 import { intl } from '@/intl'
 import { sentenceCase, indent, encodeHtml } from '@/util/string'
 import { stringifyCSVRow } from '@/util/csv'
@@ -373,7 +374,7 @@ type TextTransform = {
     formatName: string
     windowCount?: number // missing for tab-only scopes
     tabCount: number
-    scopeType: 'window' | 'tab'
+    scopeType: ScopeType
   }) => string
 
   windowStart?: ({
@@ -489,7 +490,7 @@ function getNumberedWindowText(seq: number) {
   return `${sentenceCase(intl.window())} ${seq}`
 }
 
-function getHtmlTableHeaderHtml(scopeType: 'window' | 'tab', contentIndent: number) {
+function getHtmlTableHeaderHtml(scopeType: ScopeType, contentIndent: number) {
   return wrap(
     wrap(
       list(

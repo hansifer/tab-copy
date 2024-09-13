@@ -2,6 +2,8 @@ import { intl } from '@/intl'
 
 export const MIN_VISIBLE_SCOPE_COUNT = 1
 
+export type ScopeType = 'window' | 'tab'
+
 export type Scope = (typeof scopes)[number]
 export type ScopeId = Scope['id']
 export type TabScopeId = Exclude<ScopeId, 'all-windows-and-tabs'>
