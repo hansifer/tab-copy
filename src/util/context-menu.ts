@@ -14,9 +14,11 @@ const allContexts = [
   'audio',
 ] as const satisfies chrome.contextMenus.ContextType[]
 
+export type Context = (typeof allContexts)[number]
+
 type MenuNodeBase = {
   title: string
-  contexts?: (typeof allContexts)[number][]
+  contexts?: Context[]
 }
 
 // top-level menu item receives id from `contextMenu()`
