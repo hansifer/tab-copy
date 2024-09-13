@@ -1,5 +1,5 @@
 import { getOption } from '@/options'
-import { makeStorageChangeHandler } from '@/storage'
+import { makeStorageChangeHandler, CopyStatus } from '@/storage'
 import { offscreenActions } from '@/offscreen-actions'
 import { log } from '@/util/log'
 
@@ -24,13 +24,21 @@ chrome.runtime.onStartup.addListener(() => {
   setIcon('logo')
 })
 
-// listening for `copied` storage event instead of using `chrome.runtime` messaging because `window.close()` interrupts the message
+// listening for `copyStatus` storage event instead of using `chrome.runtime` messaging because popup `window.close()` interrupts the message
 chrome.storage.onChanged.addListener(
   makeStorageChangeHandler((changes) => {
-    if (changes.copied) {
+    if (changes.copyStatus?.newValue) {
       clearTimeout(actionIconFlashTimer)
 
-      setIcon('success')
+      const { status, type, count, formatId } = changes.copyStatus.newValue as CopyStatus
+
+      if (status === 'success') {
+        log(`${count ? `${count} ` : ''}${count === 1 ? type : `${type}s`} copied as ${formatId}`)
+      } else {
+        console.warn(`failed to copy type ${type} as ${formatId}`)
+      }
+
+      setIcon(status === 'success' ? 'success' : 'fail')
 
       actionIconFlashTimer = setTimeout(() => {
         setIcon('logo')
