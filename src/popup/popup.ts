@@ -7,7 +7,7 @@ import {
   // wrap
   getVisibleScopes,
   getDefaultFormatId,
-  setCopied,
+  setCopyStatus,
   makeStorageChangeHandler,
 } from '@/storage'
 import { hasSecondaryActionKeyModifier, hasTernaryActionKeyModifier } from '@/keyboard'
@@ -121,14 +121,28 @@ async function initCopyButtons() {
       const scopeId = el.dataset.scope as ScopeId
       const format = await getApplicableFormat()
 
+      const copyStatusProps = {
+        type: scopeId === 'all-windows-and-tabs' ? 'window' : 'tab',
+        formatId: format.id,
+      } as const
+
       try {
         const { value: ignorePinnedTabs } = await getOption('ignorePinnedTabs')
 
         await copy(scopeId, format, ignorePinnedTabs)
 
-        flashActionIcon()
+        setCopyStatus({
+          status: 'success',
+          ...copyStatusProps,
+        })
+
         window.close()
       } catch (ex) {
+        setCopyStatus({
+          status: 'fail',
+          ...copyStatusProps,
+        })
+
         console.error(ex)
 
         copyButtons.forEach(
@@ -320,11 +334,6 @@ function closeFormatSelector() {
   if (!keepFormatSelectorExpanded) {
     toggleFormatSelector(false)
   }
-}
-
-function flashActionIcon() {
-  // using storage instead of `chrome.runtime` messaging because `window.close()` interrupts the message
-  setCopied()
 }
 
 async function getApplicableFormat() {
