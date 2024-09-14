@@ -129,10 +129,11 @@ async function initCopyButtons() {
       try {
         const { value: ignorePinnedTabs } = await getOption('ignorePinnedTabs')
 
-        await copy(scopeId, format, ignorePinnedTabs)
+        const count = await copy(scopeId, format, ignorePinnedTabs)
 
         setCopyStatus({
           status: 'success',
+          count,
           ...copyStatusProps,
         })
 

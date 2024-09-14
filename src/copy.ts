@@ -1,24 +1,37 @@
 import { ScopeId, isTabScopeId } from '@/scope'
 import { Transforms } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
-import { clipboardWrite } from '@/util/clipboard'
+import { clipboardWrite, Representations } from '@/util/clipboard'
 import { getWindowsAndTabs, getTabs, TabPredicate } from '@/util/tabs'
 import { log } from '@/util/log'
 
-export async function copy(scopeId: ScopeId, format: ConfiguredFormat, filterPinnedTabs?: boolean) {
+export async function copy(scopeId: ScopeId, format: ConfiguredFormat, ignorePinnedTabs?: boolean) {
   log(`copying scope ${scopeId}...`, { separate: true })
 
-  const filter: TabPredicate | undefined = filterPinnedTabs // wrap
+  const filter: TabPredicate | undefined = ignorePinnedTabs // wrap
     ? ({ pinned }) => !pinned
     : undefined
 
-  return isTabScopeId(scopeId)
-    ? copyHelper(await getTabs(scopeId, filter), applyTextTransformToTabs, format)
-    : copyHelper(await getWindowsAndTabs(filter), applyTextTransformToWindows, format)
+  let items: chrome.tabs.Tab[] | chrome.windows.Window[]
+
+  await clipboardWrite(
+    isTabScopeId(scopeId)
+      ? getRepresentations(
+          (items = await getTabs(scopeId, filter)),
+          applyTextTransformToTabs,
+          format,
+        )
+      : getRepresentations(
+          (items = await getWindowsAndTabs(filter)),
+          applyTextTransformToWindows,
+          format,
+        ),
+  )
+
+  return items.length
 }
 
-// TS helper
-async function copyHelper<T extends chrome.tabs.Tab[] | chrome.windows.Window[]>(
+export function getRepresentations<T extends chrome.tabs.Tab[] | chrome.windows.Window[]>(
   items: T,
   applyTextTransform: (
     items: T,
@@ -27,19 +40,19 @@ async function copyHelper<T extends chrome.tabs.Tab[] | chrome.windows.Window[]>
     formatName: string,
   ) => string,
   format: ConfiguredFormat,
-) {
+): Representations {
   const { label, transforms } = format
 
   // todo: generate and normalize nxs output
 
-  await clipboardWrite({
+  return {
     text: applyTextTransform(items, transforms, 'text', label),
     ...(transforms.html ? { html: applyTextTransform(items, transforms, 'html', label) } : null),
     // ...(transforms.nxs ? { nxs: nxsTransform(items, transforms.nxs) } : null), // todo: use separate nxsTransform per scopeType?
-  })
+  }
 }
 
-function applyTextTransformToTabs(
+export function applyTextTransformToTabs(
   tabs: chrome.tabs.Tab[],
   transforms: Transforms,
   representation: 'text' | 'html',
@@ -77,7 +90,7 @@ function applyTextTransformToTabs(
   }`
 }
 
-function applyTextTransformToWindows(
+export function applyTextTransformToWindows(
   windows: chrome.windows.Window[],
   transforms: Transforms,
   representation: 'text' | 'html',
