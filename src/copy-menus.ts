@@ -1,6 +1,6 @@
 import { isFormatId, FormatId } from '@/format'
 import { getConfiguredFormats, getConfiguredFormat, ConfiguredFormat } from '@/configured-format'
-import { getRepresentations, applyTextTransformToTabs } from '@/copy'
+import { getRepresentationsForTabs } from '@/copy'
 import { getOption } from '@/options'
 import { getDefaultFormatId, setCopyStatus } from '@/storage'
 import { offscreenActions } from '@/offscreen-actions'
@@ -123,12 +123,10 @@ export async function handleMenuAction(
 
   // use offscreen action because extension service workers do not have direct access to the Clipboard API
   const success = await offscreenActions.copyToClipboard(
-    getRepresentations(
-      // wrap
-      [tabToCopy],
-      applyTextTransformToTabs,
+    getRepresentationsForTabs({
+      tabs: [tabToCopy],
       format,
-    ),
+    }),
   )
 
   setCopyStatus({

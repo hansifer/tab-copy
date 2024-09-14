@@ -16,22 +16,40 @@ export async function copy(scopeId: ScopeId, format: ConfiguredFormat, ignorePin
 
   await clipboardWrite(
     isTabScopeId(scopeId)
-      ? getRepresentations(
-          (items = await getTabs(scopeId, filter)),
-          applyTextTransformToTabs,
+      ? getRepresentationsForTabs({
+          tabs: (items = await getTabs(scopeId, filter)),
           format,
-        )
-      : getRepresentations(
-          (items = await getWindowsAndTabs(filter)),
-          applyTextTransformToWindows,
+        })
+      : getRepresentationsForWindows({
+          windows: (items = await getWindowsAndTabs(filter)),
           format,
-        ),
+        }),
   )
 
   return items.length
 }
 
-export function getRepresentations<T extends chrome.tabs.Tab[] | chrome.windows.Window[]>(
+export function getRepresentationsForTabs({
+  tabs,
+  format,
+}: {
+  tabs: chrome.tabs.Tab[]
+  format: ConfiguredFormat
+}) {
+  return getRepresentations(tabs, applyTextTransformToTabs, format)
+}
+
+function getRepresentationsForWindows({
+  windows,
+  format,
+}: {
+  windows: chrome.windows.Window[]
+  format: ConfiguredFormat
+}) {
+  return getRepresentations(windows, applyTextTransformToWindows, format)
+}
+
+function getRepresentations<T extends chrome.tabs.Tab[] | chrome.windows.Window[]>(
   items: T,
   applyTextTransform: (
     items: T,
@@ -52,7 +70,7 @@ export function getRepresentations<T extends chrome.tabs.Tab[] | chrome.windows.
   }
 }
 
-export function applyTextTransformToTabs(
+function applyTextTransformToTabs(
   tabs: chrome.tabs.Tab[],
   transforms: Transforms,
   representation: 'text' | 'html',
