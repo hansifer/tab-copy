@@ -20,10 +20,10 @@ const options = [
     description: () => intl.keepFormatSelectorExpandedDescription(),
   },
   {
-    id: 'showInContextMenu',
+    id: 'showContextMenu',
     def: true as boolean,
-    label: () => intl.showInContextMenu(),
-    description: () => intl.showInContextMenuDescription(),
+    label: () => intl.showContextMenu(),
+    description: () => intl.showContextMenuDescription(),
   },
   {
     id: 'ignorePinnedTabs',

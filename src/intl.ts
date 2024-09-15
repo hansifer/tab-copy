@@ -132,9 +132,9 @@ export const intl = {
   keepFormatSelectorExpandedDescription: () =>
     'always show all available formats in the Tab Copy popup',
 
-  showInContextMenu: () => 'show in context menu',
+  showContextMenu: () => 'show context menu',
 
-  showInContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
+  showContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
 
   ignorePinnedTabs: () => 'ignore pinned tabs',
 
