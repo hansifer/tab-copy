@@ -1,3 +1,9 @@
+// browser api notification wrapper that:
+// - adds a duration option
+// - checks extension and os-level permissions
+// - clears notification before creating a new one (making it more apparent that notification has updated)
+// - provides reasonable option defaults
+
 // auto-gen notificationId if not provided
 let idIncrement: number = 1
 
@@ -14,6 +20,9 @@ export function notification(notificationId?: string, globalOpts?: NotificationO
     async notify(opts?: NotificationOpts) {
       const mergedOpts: NotificationOpts = { ...globalOpts, ...opts }
 
+      // `chrome.notifications.create()` fails with unknown option properties
+      const { duration, ...mergedOptsWithoutDuration } = mergedOpts
+
       if (!mergedOpts.iconUrl) {
         throw new Error('notification requires iconUrl')
       }
@@ -25,7 +34,7 @@ export function notification(notificationId?: string, globalOpts?: NotificationO
       await api.clear()
 
       await createNotification(id, {
-        ...mergedOpts,
+        ...mergedOptsWithoutDuration,
 
         // required for create:
         iconUrl: mergedOpts.iconUrl!, // TS needs help here
@@ -37,7 +46,7 @@ export function notification(notificationId?: string, globalOpts?: NotificationO
 
       timeout = setTimeout(() => {
         api.clear()
-      }, mergedOpts.duration || 2_000)
+      }, duration || 2_000)
     },
 
     async clear() {
