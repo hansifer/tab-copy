@@ -100,7 +100,13 @@ async function getLogoIconFilename() {
 }
 
 async function getPrefersColorSchemeDark() {
-  return prefersColorSchemeDarkCache === null
-    ? (prefersColorSchemeDarkCache = await offscreenActions.prefersColorSchemeDark())
-    : prefersColorSchemeDarkCache
+  if (prefersColorSchemeDarkCache === null) {
+    try {
+      prefersColorSchemeDarkCache = await offscreenActions.prefersColorSchemeDark()
+    } catch (ex) {
+      console.error('failed to get theme preference (error sending offscreen action).', ex)
+    }
+  }
+
+  return prefersColorSchemeDarkCache ?? false
 }
