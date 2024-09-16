@@ -136,6 +136,11 @@ export const intl = {
 
   showContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
 
+  provideContextMenuFormatSelection: () => 'provide format selection',
+
+  provideContextMenuFormatSelectionDescription: () =>
+    'select a format when copying instead of always using\nthe default format',
+
   ignorePinnedTabs: () => 'ignore pinned tabs',
 
   ignorePinnedTabsDescription: () => 'omit pinned tabs from\nthe tabs that are copied',

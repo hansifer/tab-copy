@@ -26,6 +26,12 @@ const options = [
     description: () => intl.showContextMenuDescription(),
   },
   {
+    id: 'provideContextMenuFormatSelection',
+    def: true as boolean,
+    label: () => intl.provideContextMenuFormatSelection(),
+    description: () => intl.provideContextMenuFormatSelectionDescription(),
+  },
+  {
     id: 'ignorePinnedTabs',
     def: false as boolean,
     label: () => intl.ignorePinnedTabs(),
