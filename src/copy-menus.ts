@@ -141,7 +141,7 @@ export async function handleMenuAction(
       ...copyStatusProps,
     })
   } catch (ex) {
-    console.error(ex)
+    console.error('error sending offscreen action.', ex)
 
     setCopyStatus({
       status: 'fail',
