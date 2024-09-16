@@ -121,20 +121,33 @@ export async function handleMenuAction(
     throw new Error(`invalid format ${formatId}`)
   }
 
-  // use offscreen action because extension service workers do not have direct access to the Clipboard API
-  const success = await offscreenActions.copyToClipboard(
-    getRepresentationsForTabs({
-      tabs: [tabToCopy],
-      format,
-    }),
-  )
-
-  setCopyStatus({
-    status: success ? 'success' : 'fail',
+  const copyStatusProps = {
     type: copySubject,
     count: 1,
     formatId: format.id,
-  })
+  } as const
+
+  try {
+    // use offscreen action because extension service workers do not have direct access to the Clipboard API
+    const success = await offscreenActions.copyToClipboard(
+      getRepresentationsForTabs({
+        tabs: [tabToCopy],
+        format,
+      }),
+    )
+
+    setCopyStatus({
+      status: success ? 'success' : 'fail',
+      ...copyStatusProps,
+    })
+  } catch (ex) {
+    console.error(ex)
+
+    setCopyStatus({
+      status: 'fail',
+      ...copyStatusProps,
+    })
+  }
 
   // get copy item in tab form
   function getCopyItemTab({
