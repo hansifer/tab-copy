@@ -1,11 +1,17 @@
 import { getOption } from '@/options'
 import { makeStorageChangeHandler, CopyStatus } from '@/storage'
+import { getConfiguredFormat } from '@/configured-format'
 import { offscreenActions } from '@/offscreen-actions'
+import { notification } from '@/util/notification'
+import { sentenceCase } from '@/util/string'
 import { log } from '@/util/log'
+import { intl } from '@/intl'
 
 import { refreshMenus, handleMenuAction } from './copy-menus'
 
 let prefersColorSchemeDarkCache: boolean | null = null
+
+const copyNotification = notification('copy')
 
 let actionIconFlashTimer: ReturnType<typeof setTimeout>
 
@@ -24,25 +30,59 @@ chrome.runtime.onStartup.addListener(() => {
   setIcon('logo')
 })
 
-// listening for `copyStatus` storage event instead of using `chrome.runtime` messaging because popup `window.close()` interrupts the message
 chrome.storage.onChanged.addListener(
   makeStorageChangeHandler((changes) => {
+    // listening for `copyStatus` storage event instead of using `chrome.runtime` messaging because popup `window.close()` interrupts the message
     if (changes.copyStatus?.newValue) {
       clearTimeout(actionIconFlashTimer)
 
       const { status, type, count, formatId } = changes.copyStatus.newValue as CopyStatus
 
-      if (status === 'success') {
+      const success = status === 'success'
+
+      if (success) {
         log(`${count ? `${count} ` : ''}${count === 1 ? type : `${type}s`} copied as ${formatId}`)
       } else {
         console.warn(`failed to copy type ${type} as ${formatId}`)
       }
 
-      setIcon(status === 'success' ? 'success' : 'fail')
+      setIcon(success ? 'success' : 'fail')
 
       actionIconFlashTimer = setTimeout(() => {
         setIcon('logo')
       }, 1e3)
+
+      getOption('notifyOnCopy').then(async ({ value: notify }) => {
+        if (notify) {
+          try {
+            copyNotification.notify(
+              success
+                ? {
+                    iconUrl: 'img/success-128.png',
+                    title: sentenceCase(
+                      intl.copySuccess({
+                        count,
+                        type,
+                      }),
+                    ),
+                    message: sentenceCase(
+                      intl.copySuccess({
+                        count,
+                        type,
+                        formatLabel: (await getConfiguredFormat(formatId)).label,
+                      }),
+                    ),
+                  }
+                : {
+                    iconUrl: 'img/fail-128.png',
+                    message: sentenceCase(intl.copyFail()),
+                  },
+            )
+          } catch (ex) {
+            console.error('notification error', ex)
+          }
+        }
+      })
     }
 
     if (changes.options) {
