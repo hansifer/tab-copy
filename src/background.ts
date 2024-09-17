@@ -1,5 +1,5 @@
 import { getOption } from '@/options'
-import { makeStorageChangeHandler, CopyStatus } from '@/storage'
+import { makeStorageChangeHandler, CopyStatus, CopyType } from '@/storage'
 import { getConfiguredFormat } from '@/configured-format'
 import { offscreenActions } from '@/offscreen-actions'
 import { notification } from '@/util/notification'
@@ -55,6 +55,8 @@ chrome.storage.onChanged.addListener(
       getOption('notifyOnCopy').then(async ({ value: notify }) => {
         if (notify) {
           try {
+            const typeLabel = getCopyTypeLabel(type)
+
             copyNotification.notify(
               success
                 ? {
@@ -62,13 +64,13 @@ chrome.storage.onChanged.addListener(
                     title: sentenceCase(
                       intl.copySuccess({
                         count,
-                        type,
+                        typeLabel,
                       }),
                     ),
                     message: sentenceCase(
                       intl.copySuccess({
                         count,
-                        type,
+                        typeLabel,
                         formatLabel: (await getConfiguredFormat(formatId)).label,
                       }),
                     ),
@@ -149,4 +151,29 @@ async function getPrefersColorSchemeDark() {
   }
 
   return prefersColorSchemeDarkCache ?? false
+}
+
+function getCopyTypeLabel(type: CopyType): (count?: number) => string {
+  switch (type) {
+    case 'tab':
+      return intl.tab
+
+    case 'window':
+      return intl.window
+
+    case 'link':
+      return intl.link
+
+    case 'image':
+      return intl.image
+
+    case 'video':
+      return intl.video
+
+    case 'audio':
+      return intl.audio
+
+    default:
+      return intl.unknown
+  }
 }
