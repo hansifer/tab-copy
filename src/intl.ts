@@ -11,6 +11,40 @@ export const intl = {
 
   holdWhenCopying: (keyModifier: string) => `hold ${keyModifier} when copying`,
 
+  copyTab: () => 'copy tab',
+
+  copyTabAs: () => 'copy tab as',
+
+  tabAs: () => 'tab as',
+
+  linkAs: () => 'link as',
+
+  imageAs: () => 'image as',
+
+  videoAs: () => 'video as',
+
+  audioAs: () => 'audio as',
+
+  image: (count = 1) => (count === 1 ? 'image' : 'images'),
+
+  video: (count = 1) => (count === 1 ? 'video' : 'videos'),
+
+  audio: (count = 1) => (count === 1 ? 'audio' : 'audios'),
+
+  copySuccess: ({
+    // wrap
+    count,
+    typeLabel,
+    formatLabel,
+  }: {
+    count?: number
+    typeLabel: (count?: number) => string
+    formatLabel?: string
+  }) =>
+    `${count ? `${count} ` : ''}${typeLabel(count)} copied${formatLabel ? ` as ${formatLabel}` : ''}`,
+
+  copyFail: () => 'copy failed',
+
   // ----- copy scope -----
 
   thisTab: () => 'this tab',
@@ -33,8 +67,6 @@ export const intl = {
   allWindowsAndTabsDescription: () => 'all tabs, grouped by window',
 
   // ----- copy format -----
-
-  link: () => 'link',
 
   linkDescription: () => 'clickable links when pasting into documents or emails.\nURLs otherwise.',
 
@@ -173,6 +205,8 @@ export const intl = {
 
   tab: (count = 1) => (count === 1 ? 'tab' : 'tabs'),
 
+  link: (count = 1) => (count === 1 ? 'link' : 'links'),
+
   ok: () => 'OK',
 
   cancel: () => 'cancel',
@@ -184,4 +218,6 @@ export const intl = {
   hidden: () => 'hidden',
 
   delete: () => 'delete',
+
+  unknown: () => 'unknown',
 }
