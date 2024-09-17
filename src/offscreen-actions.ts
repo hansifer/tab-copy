@@ -16,7 +16,14 @@ const TARGET = 'offscreen'
 const actions = {
   copyToClipboard: async (data: Representations) => {
     // using legacy clipboard write because `navigator.clipboard` requires the window to be focused (even when Clipboard perm is granted) and offscreen documents cannot be focused
-    legacyClipboardWrite(data, getTextArea('clipboard'))
+    try {
+      legacyClipboardWrite(data, getTextArea('clipboard'))
+      return true
+    } catch (ex) {
+      console.error(ex) // won't be able to see this unless we force offscreen document to remain open (by commenting out `window.close()` below)
+    }
+
+    return false
   },
 } as const satisfies Record<string, (data: any) => Promise<any>>
 
