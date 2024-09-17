@@ -26,6 +26,12 @@ type ActionData<T extends ActionType> = (typeof actions)[T] extends (data: infer
   ? U
   : never
 
+type ActionReturnType<T extends ActionType> = (typeof actions)[T] extends (
+  data: ActionData<T>,
+) => infer U
+  ? U
+  : never
+
 type OffscreenMessage<T extends ActionType = ActionType> = T extends ActionType
   ? {
       type: T
@@ -38,13 +44,14 @@ type TargetedOffscreenMessage = OffscreenMessage & {
 }
 
 // provide methods to initiate offscreen actions
+// these methods return action response values asynchronously. a `null` response value indicates an error.
 export const offscreenActions = Object.fromEntries(
   (Object.keys(actions) as ActionType[]).map(<T extends ActionType>(type: T) => [
     type,
     (data: ActionData<T>) => sendOffscreenMessage({ type, data } as OffscreenMessage<T>),
   ]),
 ) as {
-  [k in ActionType]: (data: ActionData<k>) => Promise<any>
+  [k in ActionType]: (data: ActionData<k>) => ActionReturnType<k> | null
 }
 
 // --- messaging ---
@@ -60,8 +67,8 @@ export function listenForOffscreenMessage() {
             sendResponse(response)
           })
           .catch((ex) => {
-            console.error(`offscreen action ${type} failed`, ex)
-            sendResponse()
+            console.error(`offscreen action ${type} failed.`, ex)
+            sendResponse() // sends null
           })
           .finally(() => {
             window.close()
