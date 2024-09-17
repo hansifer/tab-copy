@@ -1,5 +1,6 @@
 import { legacyClipboardWrite, Representations } from '@/util/clipboard'
 import { getTextArea } from '@/util/dom'
+import { prefersColorSchemeDark } from '@/util/css'
 
 // only a single offscreen document may be created at a time, regardless of url. this file includes logic for the use cases serviced by this app's singular offscreen document.
 // - this module is used both by action consumers and the offscreen document itself. keeping this in mind, note that browser api's are unavailable at runtime in offscreen documents except for `chrome.runtime`.
@@ -25,6 +26,9 @@ const actions = {
 
     return false
   },
+
+  // specify void arg since empty args infers as unknown
+  prefersColorSchemeDark: async (_: void) => prefersColorSchemeDark(),
 } as const satisfies Record<string, (data: any) => Promise<any>>
 
 type ActionType = keyof typeof actions
@@ -58,7 +62,7 @@ export const offscreenActions = Object.fromEntries(
     (data: ActionData<T>) => sendOffscreenMessage({ type, data } as OffscreenMessage<T>),
   ]),
 ) as {
-  [k in ActionType]: (data: ActionData<k>) => ActionReturnType<k> | null
+  [k in ActionType]: (data: ActionData<k>) => ActionReturnType<k> | Promise<null>
 }
 
 // --- messaging ---
@@ -130,8 +134,9 @@ async function setupOffscreenDocument() {
   } else {
     creatingOffscreenDoc = chrome.offscreen.createDocument({
       url: RELATIVE_URL,
-      reasons: [chrome.offscreen.Reason.CLIPBOARD],
-      justification: 'Copy a tab or link to the clipboard from a context menu',
+      reasons: [chrome.offscreen.Reason.CLIPBOARD, chrome.offscreen.Reason.MATCH_MEDIA],
+      justification:
+        'Copy a tab or link to the clipboard from a context menu. Additionally, discover whether the user prefers dark or light mode.',
     })
 
     await creatingOffscreenDoc
