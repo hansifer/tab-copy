@@ -2,7 +2,7 @@ import { legacyClipboardWrite, Representations } from '@/util/clipboard'
 import { getTextArea } from '@/util/dom'
 
 // only a single offscreen document may be created at a time, regardless of url. this file includes logic for the use cases serviced by this app's singular offscreen document.
-// - this module is used both by action consumers and the offscreen document itself. keeping this in mind, note that the `chrome.offscreen` namespace is not available at runtime in the offscreen document.
+// - this module is used both by action consumers and the offscreen document itself. keeping this in mind, note that browser api's are unavailable at runtime in offscreen documents except for `chrome.runtime`.
 
 // to service additional use cases:
 // - add to `actions` object
@@ -11,18 +11,18 @@ import { getTextArea } from '@/util/dom'
 const RELATIVE_URL = 'offscreen.html'
 const TARGET = 'offscreen'
 
-// define action types and corresponding handlers
+// define action types and corresponding async handlers
 // `data` must be serializable
 const actions = {
-  copyToClipboard: (data: Representations) => {
+  copyToClipboard: async (data: Representations) => {
     // using legacy clipboard write because `navigator.clipboard` requires the window to be focused (even when Clipboard perm is granted) and offscreen documents cannot be focused
     legacyClipboardWrite(data, getTextArea('clipboard'))
   },
-} as const satisfies Record<string, (data: any) => void>
+} as const satisfies Record<string, (data: any) => Promise<any>>
 
 type ActionType = keyof typeof actions
 
-type ActionData<T extends ActionType> = (typeof actions)[T] extends (data: infer U) => void
+type ActionData<T extends ActionType> = (typeof actions)[T] extends (data: infer U) => Promise<any>
   ? U
   : never
 
@@ -51,25 +51,37 @@ export const offscreenActions = Object.fromEntries(
 
 // used by offscreen document
 export function listenForOffscreenMessage() {
-  chrome.runtime.onMessage.addListener(({ type, data, target }: TargetedOffscreenMessage) => {
-    if (target === TARGET) {
-      try {
+  chrome.runtime.onMessage.addListener(
+    ({ type, data, target }: TargetedOffscreenMessage, _, sendResponse) => {
+      if (target === TARGET) {
         // https://stackoverflow.com/a/76189736
-        return actions[type]?.(data as any)
-      } finally {
-        window.close()
+        actions[type](data as any)
+          .then((response) => {
+            sendResponse(response)
+          })
+          .catch((ex) => {
+            console.error(`offscreen action ${type} failed`, ex)
+            sendResponse()
+          })
+          .finally(() => {
+            window.close()
+          })
+
+        return true // signal to sender that response will be sent asynchronously
       }
-    }
-  })
+    },
+  )
 }
 
 async function sendOffscreenMessage(message: OffscreenMessage) {
   await setupOffscreenDocument()
 
-  return chrome.runtime.sendMessage({
+  const response = await chrome.runtime.sendMessage({
     ...message,
     target: TARGET,
   })
+
+  return response
 }
 
 let creatingOffscreenDoc: Promise<void> | null = null // avoid concurrency issues
