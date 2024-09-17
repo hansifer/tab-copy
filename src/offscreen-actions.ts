@@ -58,9 +58,14 @@ export const offscreenActions = Object.fromEntries(
 
 // used by offscreen document
 export function listenForOffscreenMessage() {
+  // delay closing offscreen document to allow time for clipboard write. see notes about "clipboard write race condition".
+  let timeout: NodeJS.Timeout
+
   chrome.runtime.onMessage.addListener(
     ({ type, data, target }: TargetedOffscreenMessage, _, sendResponse) => {
       if (target === TARGET) {
+        clearTimeout(timeout)
+
         // https://stackoverflow.com/a/76189736
         actions[type](data as any)
           .then((response) => {
@@ -71,7 +76,9 @@ export function listenForOffscreenMessage() {
             sendResponse() // sends null
           })
           .finally(() => {
-            window.close()
+            timeout = setTimeout(() => {
+              window.close()
+            }, 5_000)
           })
 
         return true // signal to sender that response will be sent asynchronously
