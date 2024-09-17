@@ -102,14 +102,21 @@ let creatingOffscreenDoc: Promise<void> | null = null // avoid concurrency issue
 
 // avoid error "Only a single offscreen document may be created"
 async function setupOffscreenDocument() {
-  const docExists = !!(
-    await chrome.runtime.getContexts({
-      contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT],
-      documentUrls: [chrome.runtime.getURL(RELATIVE_URL)],
-    })
-  ).length
+  const contexts = await chrome.runtime.getContexts({
+    contextTypes: [chrome.runtime.ContextType.OFFSCREEN_DOCUMENT],
+    documentUrls: [chrome.runtime.getURL(RELATIVE_URL)],
+  })
 
-  if (docExists) return
+  const docExists = contexts.length
+
+  if (docExists) {
+    // the offscreen document is not always ready to receive messages immediately after it is created. this can be a problem when `setupOffscreenDocument()` is called back-to-back (as when the service worker wakes due to context menu click, immediately causing both `copyToClipboard` and `prefersColorSchemeDark` messages to be sent). for this reason, we also need to await any pending creation here to prevent sendMessage error "Could not establish connection. Receiving end does not exist.".
+    if (creatingOffscreenDoc) {
+      await creatingOffscreenDoc
+    }
+
+    return
+  }
 
   if (creatingOffscreenDoc) {
     await creatingOffscreenDoc
