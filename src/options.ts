@@ -11,6 +11,11 @@ export type OptionValue<T extends OptionId> = Extract<OptionSpec, { id: T }>['de
 export type BooleanOption = Extract<Option, { def: boolean }>
 export type BooleanOptionId = BooleanOption['id']
 
+// a subOption is an option whose UI visibility requires the value of a depending boolean option to be `true`
+type SubOption = Extract<Option, { requires: string }>
+type TopLevelOption = Exclude<Option, SubOption>
+type TopLevelOptionId = TopLevelOption['id']
+
 // widen def prop type to allow value prop type to be inferred appropriately
 const options = [
   {
@@ -30,6 +35,7 @@ const options = [
     def: true as boolean,
     label: () => intl.provideContextMenuFormatSelection(),
     description: () => intl.provideContextMenuFormatSelectionDescription(),
+    requires: 'showContextMenu',
   },
   {
     id: 'ignorePinnedTabs',
@@ -56,11 +62,18 @@ type OptionSpecTemplate = {
   def: any
   label: () => string
   description?: () => string
+  requires?: string // top-level option id that this sub-option depends on
 }
 
-export const booleanOptionIds = options
-  .filter((option) => typeof option.def === 'boolean') // destructuring here leads to incorrect booleanOptionIds type inference
+export const topLevelBooleanOptionIds = options
+  .filter((option) => isTopLevelOption(option) && isBooleanOption(option))
   .map(({ id }) => id)
+
+export function getSubOptions<T extends TopLevelOptionId>(optionId: T) {
+  return options.filter(
+    (option) => isSubOption(option) && option.requires === optionId,
+  ) as unknown as Extract<OptionSpec, { requires: T }>
+}
 
 export async function getOption<T extends OptionId>(id: T) {
   const option = options.find((option) => option.id === id) as Extract<OptionSpec, { id: T }>
@@ -71,4 +84,16 @@ export async function getOption<T extends OptionId>(id: T) {
     ...option,
     value,
   } as Option<typeof option>
+}
+
+function isBooleanOption(option: OptionSpec): option is BooleanOption {
+  return typeof option.def === 'boolean'
+}
+
+function isSubOption(option: OptionSpec): option is SubOption {
+  return 'requires' in option
+}
+
+function isTopLevelOption(option: OptionSpec): option is TopLevelOption {
+  return !isSubOption(option)
 }
