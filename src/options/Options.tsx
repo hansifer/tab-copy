@@ -7,7 +7,7 @@ import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOptsEditor } from './FormatOptsEditor/FormatOptsEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
-import { booleanOptionIds } from '@/options'
+import { topLevelBooleanOptionIds, getSubOptions } from '@/options'
 import { scopeOptionTips, formatOptionTips } from '@/option-tips'
 import { scopes, Scope } from '@/scope'
 import { MIN_VISIBLE_FORMAT_COUNT, isCustomFormatId, FormatWithOptsId } from '@/format'
@@ -145,10 +145,11 @@ export const Options = () => {
         inert={inert}
       >
         <div className={classes.subsection}>
-          {booleanOptionIds.map((id) => (
+          {topLevelBooleanOptionIds.map((id) => (
             <BinaryOption
               key={id}
               id={id}
+              subOptions={getSubOptions(id)}
             />
           ))}
         </div>
