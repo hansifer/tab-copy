@@ -348,7 +348,7 @@ export function setCopyStatus(status: CopyStatus) {
 
 // ----- analytics -----
 
-export async function updateStats(stat: Omit<CopyStatus, 'status'>) {
+export async function updateCopyStats(stat: Omit<CopyStatus, 'status'>) {
   const {
     stats = {
       since: Date.now(),

@@ -1,5 +1,5 @@
 import { getOption } from '@/options'
-import { makeStorageChangeHandler, CopyStatus, CopyType } from '@/storage'
+import { makeStorageChangeHandler, updateCopyStats, CopyStatus, CopyType } from '@/storage'
 import { getConfiguredFormat } from '@/configured-format'
 import { offscreenActions } from '@/offscreen-actions'
 import { notification } from '@/util/notification'
@@ -40,17 +40,15 @@ chrome.storage.onChanged.addListener(
 
       const success = status === 'success'
 
-      if (success) {
-        log(`${count ? `${count} ` : ''}${count === 1 ? type : `${type}s`} copied as ${formatId}`)
-      } else {
-        console.warn(`failed to copy type ${type} as ${formatId}`)
-      }
+      // --- flash extension icon ---
 
       setIcon(success ? 'success' : 'fail')
 
       actionIconFlashTimer = setTimeout(() => {
         setIcon('logo')
       }, 1e3)
+
+      // --- notify ---
 
       getOption('notifyOnCopy').then(async ({ value: notify }) => {
         if (notify) {
@@ -85,6 +83,16 @@ chrome.storage.onChanged.addListener(
           }
         }
       })
+
+      // --- log ---
+
+      if (success) {
+        log(`${count ? `${count} ` : ''}${count === 1 ? type : `${type}s`} copied as ${formatId}`)
+        updateCopyStats({ type, count, formatId })
+      } else {
+        console.warn(`failed to copy type ${type} as ${formatId}`)
+        // todo: log failure to DB
+      }
     }
 
     if (changes.options) {
