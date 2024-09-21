@@ -1,4 +1,7 @@
 import { templateFields } from '@/template-field'
+import { customFormat } from '@/format'
+import { getPreviewWindows } from '@/preview'
+import { applyTextTransformToWindows } from '@/copy'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 import { classy } from '@/util/css'
@@ -16,21 +19,12 @@ import optionsClasses from '../../Options.module.css'
 // todo: add more validation
 
 export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
-  const previewText = ''
-
-  //   const previewText = `[8:46:18 AM]
-
-  // My format
-
-  // 1) Title: Example 1
-  //     URL:   https://www.example.com/
-
-  // 2) Title: Example 2
-  //     URL:   http://example.com/search?q=kittens
-
-  // 3) Title: Example 3
-  //     URL:   http://examsdfsdfsdfsdfsdfsfple.com/folder/doc.html#fragment
-  // `
+  const previewText = applyTextTransformToWindows(
+    getPreviewWindows(),
+    customFormat.transforms(opts),
+    'html',
+    customFormat.label(opts),
+  )
 
   return (
     <>
@@ -66,9 +60,9 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
           <div
             className={classes.previewText}
             tabIndex={-1}
-          >
-            {previewText}
-          </div>
+            // todo: sanitize previewText to future-proof shared formats
+            dangerouslySetInnerHTML={{ __html: previewText }}
+          />
           <div className={classes.previewLabel}>{sentenceCase(intl.preview())}</div>
         </div>
       ) : null}
