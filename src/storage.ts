@@ -346,6 +346,31 @@ export function setCopyStatus(status: CopyStatus) {
   })
 }
 
+// ----- analytics -----
+
+export async function updateStats(stat: Omit<CopyStatus, 'status'>) {
+  const {
+    stats = {
+      since: Date.now(),
+    },
+  } = await storage.get('stats')
+
+  const count = (stats.copy?.count ?? 0) + 1
+  const typeCount = (stats.copy?.typeCount ?? 0) + (stat.count ?? 0)
+
+  return storage.set({
+    stats: {
+      ...stats,
+      timestamp: Date.now(),
+      copy: {
+        ...stats.copy,
+        count,
+        typeCount,
+      },
+    },
+  })
+}
+
 // ----- handle changes -----
 
 type StorageChangeHandler = Parameters<typeof chrome.storage.onChanged.addListener>[0]
