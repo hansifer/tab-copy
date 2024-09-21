@@ -21,7 +21,7 @@ type BinaryOptionProps = {
 export const BinaryOption = ({ id }: BinaryOptionProps) => {
   const [option, setOption] = useState<BooleanOption | null>(null)
 
-  // display sub-options only if this option is checked
+  // only display sub-options if this option is checked
   const subOptions = option?.value // wrap
     ? getSubOptions(id)
     : []
@@ -44,8 +44,23 @@ export const BinaryOption = ({ id }: BinaryOptionProps) => {
     }
   }, [id])
 
-  const handleClick = useCallback(() => {
+  const handleClick = useCallback(async () => {
     if (!option) return
+
+    if ('requiresPermissions' in option && option.requiresPermissions) {
+      if (option.value) {
+        await chrome.permissions.remove({
+          permissions: option.requiresPermissions,
+        })
+      } else {
+        const granted = await chrome.permissions.request({
+          permissions: option.requiresPermissions,
+        })
+
+        if (!granted) return
+      }
+    }
+
     setOptionValue(id, !option.value)
   }, [id, option?.value])
 

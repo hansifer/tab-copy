@@ -47,6 +47,7 @@ const options = [
     def: false as boolean,
     label: () => intl.notifyOnCopy(),
     description: () => intl.notifyOnCopyDescription(),
+    requiresPermissions: ['notifications'],
   },
   {
     id: 'invertIcon',
@@ -61,6 +62,7 @@ type OptionSpecTemplate = {
   def: any
   label: () => string
   description?: () => string
+  requiresPermissions?: chrome.runtime.ManifestPermissions[]
   requires?: string // top-level option id that this sub-option depends on
 }
 
