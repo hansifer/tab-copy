@@ -104,10 +104,14 @@ export const FormatConfig = ({
           </button>
         ) : null}
       </span>
-      {format.description && !dragging ? (
+      {(format.description || format.opts) && !dragging ? (
         <div className={classes.tip}>
-          <span className={classes.tipFormatDescription}>{format.description}</span>
-          <span className={classes.tipFormatOpts}>{sentenceCase(intl.formatOpts())}</span>
+          {format.description ? (
+            <span className={classes.tipFormatDescription}>{format.description}</span>
+          ) : null}
+          {format.opts ? (
+            <span className={classes.tipFormatOpts}>{sentenceCase(intl.formatOpts())}</span>
+          ) : null}
         </div>
       ) : null}
     </Reorder.Item>

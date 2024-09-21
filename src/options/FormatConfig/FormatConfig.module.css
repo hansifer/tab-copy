@@ -137,7 +137,8 @@ li {
   visibility: hidden;
   opacity: 0;
 
-  li:hover & {
+  li:hover &:has(.tipFormatDescription),
+  .side.right:has(button:hover)+&:has(.tipFormatOpts) {
     visibility: visible;
     opacity: 1;
     transition: opacity 300ms ease-in;
