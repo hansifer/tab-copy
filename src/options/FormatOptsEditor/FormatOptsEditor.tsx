@@ -133,18 +133,18 @@ export const FormatOptsEditor = <T extends FormatWithOptsId>({
     <>
       <button
         className={optionsClasses.primaryAction}
-        onClick={() => onCancel()}
-      >
-        {sentenceCase(intl.cancel())}
-      </button>
-      <button
-        className={optionsClasses.primaryAction}
         onClick={() => {
           onOK(format.id, format.opts)
         }}
         disabled={okDisabled}
       >
         {intl.ok()}
+      </button>
+      <button
+        className={optionsClasses.primaryAction}
+        onClick={() => onCancel()}
+      >
+        {sentenceCase(intl.cancel())}
       </button>
     </>
   )
