@@ -14,7 +14,6 @@ export type BooleanOptionId = BooleanOption['id']
 // a subOption is an option whose UI visibility requires the value of a depending boolean option to be `true`
 export type SubOption<T extends OptionId = OptionId> = Extract<OptionSpec, { requires: T }>
 type TopLevelOption = Exclude<OptionSpec, SubOption>
-type TopLevelOptionId = TopLevelOption['id']
 
 // widen def prop type to allow value prop type to be inferred appropriately
 const options = [
@@ -69,7 +68,7 @@ export const topLevelBooleanOptionIds = options
   .filter((option) => isTopLevelOption(option) && isBooleanOption(option))
   .map(({ id }) => id)
 
-export function getSubOptions<T extends TopLevelOptionId>(optionId: T) {
+export function getSubOptions<T extends BooleanOptionId>(optionId: T) {
   return options.filter(
     (option) => isSubOption(option) && option.requires === optionId,
   ) as SubOption<T>[]
