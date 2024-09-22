@@ -118,15 +118,15 @@ export const FormatOptsEditor = <T extends FormatWithOptsId>({
     <>
       <button
         className={optionsClasses.primaryAction}
-        onClick={() => setConfirmDelete(false)}
-      >
-        {sentenceCase(intl.no())}
-      </button>
-      <button
-        className={optionsClasses.primaryAction}
         onClick={() => onDelete?.(format.id)}
       >
         {sentenceCase(intl.yes())}
+      </button>
+      <button
+        className={optionsClasses.primaryAction}
+        onClick={() => setConfirmDelete(false)}
+      >
+        {sentenceCase(intl.no())}
       </button>
     </>
   ) : (
