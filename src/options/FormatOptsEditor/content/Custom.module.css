@@ -119,7 +119,7 @@
           background-color: #00000038;
         }
 
-        .preview:hover & {
+        .previewScroll:hover & {
           opacity: 0;
         }
       }
