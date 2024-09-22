@@ -27,17 +27,17 @@ export async function copy({
 
   let items: chrome.tabs.Tab[] | chrome.windows.Window[]
 
-  await clipboardWrite(
-    isTabScopeId(scopeId)
-      ? getRepresentationsForTabs({
-          tabs: (items = await getTabs(scopeId, filter)),
-          format,
-        })
-      : getRepresentationsForWindows({
-          windows: (items = await getWindowsAndTabs(filter)),
-          format,
-        }),
-  )
+  const representations = isTabScopeId(scopeId)
+    ? getRepresentationsForTabs({
+        tabs: (items = await getTabs(scopeId, filter)),
+        format,
+      })
+    : getRepresentationsForWindows({
+        windows: (items = await getWindowsAndTabs(filter)),
+        format,
+      })
+
+  await clipboardWrite(representations)
 
   return items.length
 }
