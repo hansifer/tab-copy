@@ -6,10 +6,20 @@ import { clipboardWrite, Representations } from '@/util/clipboard'
 import { getWindowsAndTabs, getTabs, TabPredicate } from '@/util/tabs'
 import { log } from '@/util/log'
 
-export async function copy(scopeId: ScopeId, format: ConfiguredFormat) {
+export async function copy({
+  // wrap
+  scopeId,
+  format,
+}: {
+  scopeId: ScopeId
+  format: ConfiguredFormat
+}) {
   log(`copying scope ${scopeId}...`, { separate: true })
 
-  const { value: ignorePinnedTabs } = await getOption('ignorePinnedTabs')
+  const { value: ignorePinnedTabs } =
+    scopeId === 'highlighted-tabs' // wrap
+      ? { value: false }
+      : await getOption('ignorePinnedTabs')
 
   const filter: TabPredicate | undefined = ignorePinnedTabs // wrap
     ? ({ pinned }) => !pinned

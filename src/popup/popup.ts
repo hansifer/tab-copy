@@ -127,7 +127,7 @@ async function initCopyButtons() {
       } as const
 
       try {
-        const count = await copy(scopeId, format)
+        const count = await copy({ scopeId, format })
 
         setCopyStatus({
           status: 'success',
