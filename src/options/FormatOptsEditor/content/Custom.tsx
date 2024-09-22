@@ -19,7 +19,7 @@ import optionsClasses from '../../Options.module.css'
 // todo: add more validation
 
 export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom-*'>) => {
-  const previewText = applyTextTransformToWindows(
+  const previewHtml = applyTextTransformToWindows(
     getPreviewWindows(),
     customFormat.transforms(opts),
     'html',
@@ -55,15 +55,19 @@ export const Custom = ({ opts, onChange, onConfirmDelete }: ContentProps<'custom
           ))}
         </div>
       </div>
-      {previewText ? (
-        <div className={classes.preview}>
-          <div
-            className={classes.previewText}
-            tabIndex={-1}
-            // todo: sanitize previewText to future-proof shared formats
-            dangerouslySetInnerHTML={{ __html: previewText }}
-          />
-          <div className={classes.previewLabel}>{sentenceCase(intl.preview())}</div>
+      {previewHtml ? (
+        <div className={classes.previewContainer}>
+          <div className={classes.previewScroll}>
+            <div className={classes.preview}>
+              <div
+                className={classes.previewHtml}
+                tabIndex={-1}
+                // todo: sanitize previewHtml to future-proof shared formats
+                dangerouslySetInnerHTML={{ __html: previewHtml }}
+              />
+              <div className={classes.previewLabel}>{sentenceCase(intl.preview())}</div>
+            </div>
+          </div>
         </div>
       ) : null}
       {onConfirmDelete ? (
