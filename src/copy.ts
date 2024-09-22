@@ -1,12 +1,15 @@
 import { ScopeId, isTabScopeId } from '@/scope'
 import { Transforms } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
+import { getOption } from '@/options'
 import { clipboardWrite, Representations } from '@/util/clipboard'
 import { getWindowsAndTabs, getTabs, TabPredicate } from '@/util/tabs'
 import { log } from '@/util/log'
 
-export async function copy(scopeId: ScopeId, format: ConfiguredFormat, ignorePinnedTabs?: boolean) {
+export async function copy(scopeId: ScopeId, format: ConfiguredFormat) {
   log(`copying scope ${scopeId}...`, { separate: true })
+
+  const { value: ignorePinnedTabs } = await getOption('ignorePinnedTabs')
 
   const filter: TabPredicate | undefined = ignorePinnedTabs // wrap
     ? ({ pinned }) => !pinned
