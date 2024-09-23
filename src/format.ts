@@ -442,7 +442,11 @@ export function getFormat<T extends FormatId>(id: T) {
   ) as T extends CustomFormatId ? CustomFormat : Extract<BuiltinFormat, { id: T }>
 }
 
-// --- user-defined type guards
+// --- type guards
+
+export function isFormatId(id: string): id is FormatId {
+  return id.startsWith('custom-') || (builtinFormatIds as ReadonlyArray<string>).includes(id)
+}
 
 export function isFormatWithOptsId(id: FormatId): id is FormatWithOptsId {
   return isBuiltinFormatWithOptsId(id) || isCustomFormatId(id)
@@ -480,7 +484,7 @@ function getTitleUrlText(
   return `${title || '(untitled)'}${separator}${url}`
 }
 
-function getAnchorTagHtml(tab: chrome.tabs.Tab) {
+export function getAnchorTagHtml(tab: chrome.tabs.Tab) {
   return tab.url // wrap
     ? `<a href="${tab.url}">${encodeHtml(tab.title || tab.url)}</a>`
     : ''
