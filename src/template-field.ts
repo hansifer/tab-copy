@@ -109,6 +109,7 @@ const tokens = [
     id: 'tab-url-schema',
     label: () => 'schema',
     token: 'schema',
+    aliases: ['protocol'],
     value: ({ parsedUrl }) => parsedUrl?.protocol.replace(/:$/, '') ?? '',
   },
   {
