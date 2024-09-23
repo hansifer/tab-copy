@@ -106,6 +106,12 @@ const tokens = [
         : '',
   },
   {
+    id: 'tab-icon',
+    label: () => 'icon',
+    token: 'icon',
+    value: ({ tab, representation }) => encode(tab?.favIconUrl, representation),
+  },
+  {
     id: 'tab-url-schema',
     label: () => 'schema',
     token: 'schema',
@@ -213,6 +219,7 @@ export const templateFields = [
     tokens: selectTokens(
       'tab-title',
       'tab-url',
+      'tab-icon',
       'tab-link',
       'tab-url-schema',
       'tab-url-host',
