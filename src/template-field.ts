@@ -299,6 +299,10 @@ export function makeTokenRegExp(tokens: Token[]) {
   )
 }
 
+export function getFieldTokens(fieldId: TemplateFieldId) {
+  return templateFields.find(({ id }) => id === fieldId)?.tokens ?? []
+}
+
 // stringifies a value with a special case for undefined
 function stringify(val: unknown) {
   return val === undefined ? '' : `${val}`
