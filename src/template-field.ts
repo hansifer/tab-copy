@@ -15,7 +15,7 @@ export type Token = {
   value: (source: TokenValueSources) => string
 }
 
-// sources that token values may draw from
+// normalized sources that token values may draw from
 export type TokenValueSources = {
   now?: Date
   tabSeq?: number
@@ -187,6 +187,12 @@ const tokens = [
   },
 ] as const satisfies Token[]
 
+// optimization: pre-calc regex for each token
+const tokensWithRegex = tokens.map((token) => ({
+  ...token,
+  regex: makeTokenRegExp([token]),
+}))
+
 export const templateFields = [
   {
     id: 'start',
@@ -275,15 +281,15 @@ export const templateFields = [
 ] as const satisfies {
   id: string
   label: () => string
-  tokens: (typeof tokens)[number][]
+  tokens: (typeof tokensWithRegex)[number][]
 }[]
 
-function selectTokens<T extends (typeof tokens)[number]['id'][]>(...ids: T) {
+function selectTokens<T extends (typeof tokensWithRegex)[number]['id'][]>(...ids: T) {
   return ids
     .map(
       (id) =>
-        tokens.find((token) => token.id === id) as Extract<
-          (typeof tokens)[number],
+        tokensWithRegex.find((token) => token.id === id) as Extract<
+          (typeof tokensWithRegex)[number],
           { id: T[number] }
         >,
     )
