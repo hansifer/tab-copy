@@ -1,7 +1,9 @@
+import { copy } from '@/copy'
 import { ScopeId } from '@/scope'
 import { getOption } from '@/options'
 import {
   // wrap
+  getDefaultFormatId,
   makeStorageChangeHandler,
   updateCopyStats,
   CopyStatus,
@@ -44,7 +46,7 @@ chrome.runtime.onStartup.addListener(() => {
   setIcon('logo')
 })
 
-chrome.commands.onCommand.addListener((commandName) => {
+chrome.commands.onCommand.addListener(async (commandName) => {
   const scopeId = commandNameScopeId[commandName]
 
   if (!scopeId) {
@@ -52,7 +54,17 @@ chrome.commands.onCommand.addListener((commandName) => {
     return
   }
 
-  console.log(`command ${commandName} fired. scope: ${scopeId}`)
+  const format = await getConfiguredFormat(await getDefaultFormatId())
+
+  try {
+    await copy({
+      scopeId,
+      format,
+      useLegacyClipboardWrite: true, // use offscreen action because extension service workers do not have direct access to the Clipboard API
+    })
+  } catch (ex) {
+    console.error('failed to copy to clipboard.', ex)
+  }
 })
 
 chrome.storage.onChanged.addListener(
