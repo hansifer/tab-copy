@@ -30,4 +30,19 @@ export default defineManifest({
   content_security_policy: {
     extension_pages: "script-src 'self'; object-src 'self'",
   },
+  commands: {
+    // number prefix on keys ensures order in the Tab Copy keyboard shortcut card at chrome://extensions/shortcuts
+    '1copy-highlighted-tabs': {
+      description: 'Copy selected tabs',
+    },
+    '2copy-window-tabs': {
+      description: "Copy the current window's tabs",
+    },
+    '3copy-all-tabs': {
+      description: 'Copy all tabs, ungrouped',
+    },
+    '4copy-all-windows-and-tabs': {
+      description: 'Copy all tabs, grouped by window',
+    },
+  },
 })

@@ -1,5 +1,12 @@
+import { ScopeId } from '@/scope'
 import { getOption } from '@/options'
-import { makeStorageChangeHandler, updateCopyStats, CopyStatus, CopyType } from '@/storage'
+import {
+  // wrap
+  makeStorageChangeHandler,
+  updateCopyStats,
+  CopyStatus,
+  CopyType,
+} from '@/storage'
 import { getConfiguredFormat } from '@/configured-format'
 import { offscreenActions } from '@/offscreen-actions'
 import { notification } from '@/util/notification'
@@ -15,6 +22,13 @@ const copyNotification = notification('copy')
 
 let actionIconFlashTimer: ReturnType<typeof setTimeout>
 
+const commandNameScopeId: Record<string, ScopeId> = {
+  '1copy-highlighted-tabs': 'highlighted-tabs',
+  '2copy-window-tabs': 'window-tabs',
+  '3copy-all-tabs': 'all-tabs',
+  '4copy-all-windows-and-tabs': 'all-windows-and-tabs',
+} as const
+
 log(`service worker loaded ${new Date().toLocaleString()}`)
 
 chrome.runtime.onInstalled.addListener(() => {
@@ -28,6 +42,17 @@ setIcon('logo')
 
 chrome.runtime.onStartup.addListener(() => {
   setIcon('logo')
+})
+
+chrome.commands.onCommand.addListener((commandName) => {
+  const scopeId = commandNameScopeId[commandName]
+
+  if (!scopeId) {
+    console.warn(`no scope found for command ${commandName}`)
+    return
+  }
+
+  console.log(`command ${commandName} fired. scope: ${scopeId}`)
 })
 
 chrome.storage.onChanged.addListener(
