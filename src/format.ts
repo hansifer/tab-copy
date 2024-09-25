@@ -1,4 +1,9 @@
-import { TemplateFieldId } from '@/template-field'
+import {
+  // wrap
+  getFieldTokens,
+  TemplateFieldId,
+  TokenValueSources,
+} from '@/template-field'
 import { ScopeType } from '@/scope'
 import { intl } from '@/intl'
 import { sentenceCase, indent, encodeHtml } from '@/util/string'
@@ -318,14 +323,142 @@ const builtinFormats = [
   },
 ] as const satisfies Format[]
 
-const customFormat = {
+export const customFormat = {
   label: (opts) => opts?.name ?? DEFAULT_CUSTOM_FORMAT_NAME,
   description: () => sentenceCase(intl.customDescription()),
-  transforms: () => ({
-    text: {
-      tab: ({ tab }) => `${tab.title}\n${tab.url}`,
-    },
-  }),
+  transforms: (opts) => {
+    const now = new Date()
+    const template = opts?.template as Record<TemplateFieldId, string> | undefined
+
+    // for html representation, field templates are pre-encoded. additionally, each token value generator encodes portions of its output as needed.
+    // - code assumption: tokens, token aliases, and token delimiters do not contain chars encoded by `encodeHtml()`
+    const htmlEncodedTemplate = Object.fromEntries(
+      Object.entries(template ?? {}).map(
+        ([
+          // wrap
+          fieldId,
+          fieldTemplate,
+        ]) => [
+          // wrap
+          fieldId,
+          encodeHtml(fieldTemplate),
+        ],
+      ),
+    ) as Record<TemplateFieldId, string>
+
+    return {
+      text: {
+        start: ({ formatName, windowCount, tabCount }) =>
+          interpolate('start', template, {
+            now,
+            formatName,
+            windowCount,
+            tabCount,
+            representation: 'text',
+          }),
+
+        windowStart: ({ seq, windowCount, windowTabCount }) =>
+          interpolate('windowStart', template, {
+            windowSeq: seq,
+            windowCount,
+            windowTabCount,
+            representation: 'text',
+          }),
+
+        tab: ({ tab, globalSeq, windowTabSeq, windowSeq, windowCount }) =>
+          interpolate('tab', template, {
+            now,
+            tab,
+            parsedUrl: new URL(tab.url!),
+            tabSeq: globalSeq,
+            windowTabSeq,
+            windowSeq,
+            windowCount,
+            representation: 'text',
+          }),
+
+        tabDelimiter: interpolate('tabDelimiter', template, {
+          representation: 'text',
+        }),
+
+        windowEnd: ({ seq, windowCount, windowTabCount }) =>
+          interpolate('windowEnd', template, {
+            windowSeq: seq,
+            windowCount,
+            windowTabCount,
+            representation: 'text',
+          }),
+
+        windowDelimiter: interpolate('windowDelimiter', template, {
+          representation: 'text',
+        }),
+
+        end: ({ formatName, windowCount, tabCount }) =>
+          interpolate('end', template, {
+            now,
+            formatName,
+            windowCount,
+            tabCount,
+            representation: 'text',
+          }),
+      },
+      html: {
+        start: ({ formatName, windowCount, tabCount }) =>
+          interpolate('start', htmlEncodedTemplate, {
+            now,
+            formatName,
+            windowCount,
+            tabCount,
+            representation: 'html',
+          }),
+
+        windowStart: ({ seq, windowCount, windowTabCount }) =>
+          interpolate('windowStart', htmlEncodedTemplate, {
+            windowSeq: seq,
+            windowCount,
+            windowTabCount,
+            representation: 'html',
+          }),
+
+        tab: ({ tab, globalSeq, windowTabSeq, windowSeq, windowCount }) =>
+          interpolate('tab', htmlEncodedTemplate, {
+            now,
+            tab,
+            parsedUrl: new URL(tab.url!),
+            tabSeq: globalSeq,
+            windowTabSeq,
+            windowSeq,
+            windowCount,
+            representation: 'html',
+          }),
+
+        tabDelimiter: interpolate('tabDelimiter', htmlEncodedTemplate, {
+          representation: 'html',
+        }),
+
+        windowEnd: ({ seq, windowCount, windowTabCount }) =>
+          interpolate('windowEnd', htmlEncodedTemplate, {
+            windowSeq: seq,
+            windowCount,
+            windowTabCount,
+            representation: 'html',
+          }),
+
+        windowDelimiter: interpolate('windowDelimiter', htmlEncodedTemplate, {
+          representation: 'html',
+        }),
+
+        end: ({ formatName, windowCount, tabCount }) =>
+          interpolate('end', htmlEncodedTemplate, {
+            now,
+            formatName,
+            windowCount,
+            tabCount,
+            representation: 'html',
+          }),
+      },
+    }
+  },
   opts: {
     name: DEFAULT_CUSTOM_FORMAT_NAME,
     template: {
@@ -543,4 +676,17 @@ export function parseIndent(indent: string) {
   if (indentNum && indentNum <= MAX_INDENT_SIZE && indentNum >= 1) {
     return indentNum
   }
+}
+
+function interpolate(
+  fieldId: TemplateFieldId,
+  template: Record<TemplateFieldId, string> | undefined,
+  sources: TokenValueSources = {},
+) {
+  if (!template) return ''
+
+  return getFieldTokens(fieldId).reduce(
+    (acc, token) => acc.replace(token.regex, token.value(sources)),
+    template[fieldId], // start with field template
+  )
 }
