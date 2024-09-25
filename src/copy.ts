@@ -3,17 +3,19 @@ import { Transforms } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { getOption } from '@/options'
 import { setCopyStatus } from '@/storage'
+import { offscreenActions } from '@/offscreen-actions'
 import { clipboardWrite, Representations } from '@/util/clipboard'
 import { getWindowsAndTabs, getTabs, TabPredicate } from '@/util/tabs'
 import { log } from '@/util/log'
 
 export async function copy({
-  // wrap
   scopeId,
   format,
+  useLegacyClipboardWrite,
 }: {
   scopeId: ScopeId
   format: ConfiguredFormat
+  useLegacyClipboardWrite?: boolean
 }) {
   log(`copying scope ${scopeId}...`, { separate: true })
 
@@ -44,7 +46,15 @@ export async function copy({
           format,
         })
 
-    await clipboardWrite(representations)
+    if (useLegacyClipboardWrite) {
+      const success = await offscreenActions.copyToClipboard(representations)
+
+      if (!success) {
+        throw new Error('legacy clipboard copy failed')
+      }
+    } else {
+      await clipboardWrite(representations)
+    }
 
     setCopyStatus({
       status: 'success',
