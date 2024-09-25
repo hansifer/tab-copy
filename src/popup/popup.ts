@@ -7,7 +7,6 @@ import {
   // wrap
   getVisibleScopes,
   getDefaultFormatId,
-  setCopyStatus,
   makeStorageChangeHandler,
 } from '@/storage'
 import { hasSecondaryActionKeyModifier, hasTernaryActionKeyModifier } from '@/keyboard'
@@ -121,27 +120,11 @@ async function initCopyButtons() {
       const scopeId = el.dataset.scope as ScopeId
       const format = await getApplicableFormat()
 
-      const copyStatusProps = {
-        type: scopeId === 'all-windows-and-tabs' ? 'window' : 'tab',
-        formatId: format.id,
-      } as const
-
       try {
-        const count = await copy({ scopeId, format })
-
-        setCopyStatus({
-          status: 'success',
-          count,
-          ...copyStatusProps,
-        })
+        await copy({ scopeId, format })
 
         window.close()
       } catch (ex) {
-        setCopyStatus({
-          status: 'fail',
-          ...copyStatusProps,
-        })
-
         console.error(ex)
 
         copyButtons.forEach(

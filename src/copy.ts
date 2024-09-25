@@ -2,6 +2,7 @@ import { ScopeId, isTabScopeId } from '@/scope'
 import { Transforms } from '@/format'
 import { ConfiguredFormat } from '@/configured-format'
 import { getOption } from '@/options'
+import { setCopyStatus } from '@/storage'
 import { clipboardWrite, Representations } from '@/util/clipboard'
 import { getWindowsAndTabs, getTabs, TabPredicate } from '@/util/tabs'
 import { log } from '@/util/log'
@@ -27,17 +28,37 @@ export async function copy({
 
   let items: chrome.tabs.Tab[] | chrome.windows.Window[]
 
-  const representations = isTabScopeId(scopeId)
-    ? getRepresentationsForTabs({
-        tabs: (items = await getTabs(scopeId, filter)),
-        format,
-      })
-    : getRepresentationsForWindows({
-        windows: (items = await getWindowsAndTabs(filter)),
-        format,
-      })
+  const copyStatusProps = {
+    type: isTabScopeId(scopeId) ? 'tab' : 'window',
+    formatId: format.id,
+  } as const
 
-  await clipboardWrite(representations)
+  try {
+    const representations = isTabScopeId(scopeId)
+      ? getRepresentationsForTabs({
+          tabs: (items = await getTabs(scopeId, filter)),
+          format,
+        })
+      : getRepresentationsForWindows({
+          windows: (items = await getWindowsAndTabs(filter)),
+          format,
+        })
+
+    await clipboardWrite(representations)
+
+    setCopyStatus({
+      status: 'success',
+      count: items.length,
+      ...copyStatusProps,
+    })
+  } catch (ex) {
+    setCopyStatus({
+      status: 'fail',
+      ...copyStatusProps,
+    })
+
+    throw ex
+  }
 
   return items.length
 }
