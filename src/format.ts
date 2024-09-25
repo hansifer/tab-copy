@@ -462,11 +462,11 @@ export const customFormat = {
   opts: {
     name: DEFAULT_CUSTOM_FORMAT_NAME,
     template: {
-      start: '[date][n][n]',
-      windowStart: '[#] Window: [title][n]',
-      tab: '[#]) Title: [title][n]   URL:   [url]',
+      start: '[date+time] - [tcount] tabs[n][n]',
+      windowStart: 'Window [w#] ([wtcount] tabs)[n][n]',
+      tab: '[wt#]) [title][n][n]URL:  [url][n]Host: [host]',
       tabDelimiter: '[n][n]',
-      windowEnd: '[n][n]',
+      windowEnd: '',
       windowDelimiter: '[n][n]',
       end: '',
     },
