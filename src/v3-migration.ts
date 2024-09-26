@@ -1,4 +1,11 @@
-import { isFormatId, FormatId } from '@/format'
+import { isFormatId, isCustomFormatId, FormatId } from '@/format'
+import {
+  // wrap
+  setOptionValue,
+  setFormatOpts,
+  addCustomFormat,
+  setDefaultFormat,
+} from '@/storage'
 
 type Prefix = 'simple' | 'fancy-0' | 'fancy-1' | 'fancy-2'
 
@@ -84,6 +91,66 @@ export function getV3Data() {
 
 export async function migrateV3Data(v3Data: ReturnType<typeof getV3Data>) {
   console.log('migrating v3 data...')
+  const now = performance.now()
+
+  await setOptionValue('keepFormatSelectorExpanded', true)
+
+  if (v3Data.notifyOnCopy) {
+    await setOptionValue('notifyOnCopy', v3Data.notifyOnCopy)
+  }
+
+  if (v3Data.ignorePinnedTabs) {
+    await setOptionValue('ignorePinnedTabs', v3Data.ignorePinnedTabs)
+  }
+
+  if (!v3Data.showContextMenu) {
+    await setOptionValue('showContextMenu', v3Data.showContextMenu)
+  }
+
+  if (v3Data.separator != null) {
+    await setFormatOpts('titleUrl1Line', { separator: v3Data.separator })
+  }
+
+  if (v3Data.includeHeader) {
+    await setFormatOpts('htmlTable', { includeHeader: v3Data.includeHeader })
+  }
+
+  let defaultFormatId: FormatId | null = null
+
+  for (const customFormat of v3Data.customFormats) {
+    const customFormatId = await addCustomFormat()
+
+    if (v3Data.defaultFormatId === `custom-${customFormat.prefix}`) {
+      defaultFormatId = customFormatId
+    }
+
+    await setFormatOpts(customFormatId, {
+      template: {
+        start: customFormat.start,
+        windowStart: '',
+        tab: customFormat.tab,
+        tabDelimiter: customFormat.tabDelimiter,
+        windowEnd: '',
+        windowDelimiter: customFormat.tabDelimiter,
+        end: customFormat.end,
+      },
+      name: customFormat.name ?? 'Custom format',
+    })
+  }
+
+  if (
+    !defaultFormatId &&
+    isFormatId(v3Data.defaultFormatId) &&
+    !isCustomFormatId(v3Data.defaultFormatId)
+  ) {
+    defaultFormatId = v3Data.defaultFormatId
+  }
+
+  if (defaultFormatId) {
+    await setDefaultFormat(defaultFormatId)
+  }
+
+  console.log(`done migrating in ${((performance.now() - now) / 1_000).toLocaleString()} seconds`)
 }
 
 // may return "none"
