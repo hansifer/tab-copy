@@ -13,6 +13,7 @@ import { getConfiguredFormat } from '@/configured-format'
 import { offscreenActions } from '@/offscreen-actions'
 import { notification } from '@/util/notification'
 import { sentenceCase } from '@/util/string'
+import { serializer } from '@/util/async'
 import { log } from '@/util/log'
 import { intl } from '@/intl'
 
@@ -32,6 +33,9 @@ const commandNameScopeId: Record<string, ScopeId> = {
 } as const
 
 log(`service worker loaded ${new Date().toLocaleString()}`)
+
+// ensure refreshMenus() calls don't overlap
+const enqueue = serializer()
 
 chrome.runtime.onInstalled.addListener(
   ({ reason, previousVersion }: chrome.runtime.InstalledDetails) => {
@@ -59,7 +63,7 @@ chrome.runtime.onInstalled.addListener(
       log('browser version updated')
     }
 
-    refreshMenus()
+    enqueue(refreshMenus)
   },
 )
 
@@ -175,7 +179,7 @@ const optionAndFormatChanges = [
 chrome.storage.onChanged.addListener(
   makeStorageChangeHandler(
     () => {
-      refreshMenus()
+      enqueue(refreshMenus)
     },
     {
       listen: optionAndFormatChanges,
