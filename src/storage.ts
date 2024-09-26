@@ -372,6 +372,31 @@ export async function updateCopyStats(stat: Omit<CopyStatus, 'status'>) {
   })
 }
 
+// ----- migration -----
+
+type MigrationStatusBase = {
+  success: boolean
+  message?: string
+}
+
+type MigrationStatus = MigrationStatusBase & {
+  timestamp: number
+}
+
+export async function getV3MigrationStatus() {
+  const { v3MigrationStatus } = await storage.get('v3MigrationStatus')
+  return v3MigrationStatus as MigrationStatus | undefined
+}
+
+export function setV3MigrationStatus(status: MigrationStatusBase) {
+  return storage.set({
+    v3MigrationStatus: {
+      ...status,
+      timestamp: Date.now(),
+    },
+  })
+}
+
 // ----- handle changes -----
 
 type StorageChangeHandler = Parameters<typeof chrome.storage.onChanged.addListener>[0]
