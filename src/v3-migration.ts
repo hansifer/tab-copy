@@ -91,6 +91,20 @@ function getOldFormatId(prefix: Prefix): string {
   const formatId = get(`${prefix}-copy-format`)
 
   if (formatId) {
+    // check value aliases
+
+    if (formatId === 'txt1Line' || formatId === 'condensed') {
+      return 'compact'
+    }
+
+    if (formatId === 'txt2Lines') {
+      return 'expanded'
+    }
+
+    if (formatId === 'txtUrlOnly') {
+      return 'url'
+    }
+
     return formatId
   }
 
