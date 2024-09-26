@@ -35,7 +35,8 @@ export class MinVisibleFormatExceededError extends Error {
   }
 }
 
-const storage = chrome.storage.local
+// optional chaining allows nested import of this module by offscreen.html
+const storage = chrome.storage?.local
 
 // ----- options -----
 
