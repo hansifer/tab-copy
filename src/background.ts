@@ -33,9 +33,35 @@ const commandNameScopeId: Record<string, ScopeId> = {
 
 log(`service worker loaded ${new Date().toLocaleString()}`)
 
-chrome.runtime.onInstalled.addListener(() => {
-  refreshMenus()
-})
+chrome.runtime.onInstalled.addListener(
+  ({ reason, previousVersion }: chrome.runtime.InstalledDetails) => {
+    if (reason === 'install') {
+      // todo: create install notification
+      log('extension installed')
+    } else if (reason === 'update') {
+      // fired for unpacked extension reload, so check for ver change
+      const currentVersion = chrome.runtime.getManifest().version
+
+      if (previousVersion !== currentVersion) {
+        // todo: create update notification
+        log(`extension updated ${previousVersion} -> ${currentVersion}`)
+
+        if (previousVersion?.startsWith('3.')) {
+          // migrate from v3
+        }
+      } else {
+        log('extension reloaded')
+      }
+    } else if (
+      reason === 'chrome_update' ||
+      (reason as string) === 'browser_update' // polyfill or other browser apis may provide "browser_update" instead of "chrome_update"
+    ) {
+      log('browser version updated')
+    }
+
+    refreshMenus()
+  },
+)
 
 // fires on leaf nodes and branch nodes with empty `items`
 chrome.contextMenus.onClicked.addListener(handleMenuAction)
