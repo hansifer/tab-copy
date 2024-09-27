@@ -1,3 +1,4 @@
+import { getV3Data } from '@/v3-migration'
 import { legacyClipboardWrite, Representations } from '@/util/clipboard'
 import { getTextArea } from '@/util/dom'
 import { prefersColorSchemeDark } from '@/util/css'
@@ -29,6 +30,9 @@ const actions = {
 
   // specify void arg since empty args infers as unknown
   prefersColorSchemeDark: async (_: void) => prefersColorSchemeDark(),
+
+  // specify void arg since empty args infers as unknown
+  getV3Data: async (_: void) => getV3Data(),
 } as const satisfies Record<string, (data: any) => Promise<any>>
 
 type ActionType = keyof typeof actions
@@ -134,9 +138,13 @@ async function setupOffscreenDocument() {
   } else {
     creatingOffscreenDoc = chrome.offscreen.createDocument({
       url: RELATIVE_URL,
-      reasons: [chrome.offscreen.Reason.CLIPBOARD, chrome.offscreen.Reason.MATCH_MEDIA],
+      reasons: [
+        chrome.offscreen.Reason.CLIPBOARD,
+        chrome.offscreen.Reason.MATCH_MEDIA,
+        chrome.offscreen.Reason.LOCAL_STORAGE,
+      ],
       justification:
-        'Copy a tab or link to the clipboard from a context menu. Additionally, discover whether the user prefers dark or light mode.',
+        '1) Copy a tab or link to the clipboard from a context menu. 2) Discover whether the user prefers dark or light mode. 3) Read local storage to facilitate user data migration.',
     })
 
     await creatingOffscreenDoc
