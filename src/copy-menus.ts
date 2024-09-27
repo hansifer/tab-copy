@@ -194,7 +194,7 @@ export async function refreshMenus() {
   if (provideFormatSelection) {
     const formats = await getConfiguredFormats({ visibleOnly: true })
 
-    copyTabMenu.menu.refresh({
+    await copyTabMenu.menu.refresh({
       title: sentenceCase(intl.copyTabAs()),
       contexts: copyTabMenu.contexts,
       items: getFormatMenuItems({
@@ -209,7 +209,7 @@ export async function refreshMenus() {
       copyMenuId: copyItemMenu.id,
     }
 
-    copyItemMenu.menu.refresh({
+    await copyItemMenu.menu.refresh({
       title: sentenceCase(intl.copy()),
       contexts: copyItemMenu.contexts,
       items: [
@@ -255,7 +255,7 @@ export async function refreshMenus() {
       ],
     })
   } else {
-    copyTabMenu.menu.refresh({
+    await copyTabMenu.menu.refresh({
       title: sentenceCase(intl.copyTab()),
       contexts: copyTabMenu.contexts,
     })
@@ -265,7 +265,7 @@ export async function refreshMenus() {
       formatId: await getDefaultFormatId(),
     }
 
-    copyItemMenu.menu.refresh({
+    await copyItemMenu.menu.refresh({
       title: sentenceCase(intl.copy()),
       contexts: copyItemMenu.contexts,
       items: [
