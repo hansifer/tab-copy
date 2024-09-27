@@ -6,11 +6,14 @@ import {
   getDefaultFormatId,
   makeStorageChangeHandler,
   updateCopyStats,
+  getV3MigrationStatus,
+  setV3MigrationStatus,
   CopyStatus,
   CopyType,
 } from '@/storage'
 import { getConfiguredFormat } from '@/configured-format'
 import { offscreenActions } from '@/offscreen-actions'
+import { migrateV3Data } from '@/v3-migration'
 import { notification } from '@/util/notification'
 import { sentenceCase } from '@/util/string'
 import { serializer } from '@/util/async'
@@ -38,7 +41,7 @@ log(`service worker loaded ${new Date().toLocaleString()}`)
 const enqueue = serializer()
 
 chrome.runtime.onInstalled.addListener(
-  ({ reason, previousVersion }: chrome.runtime.InstalledDetails) => {
+  async ({ reason, previousVersion }: chrome.runtime.InstalledDetails) => {
     if (reason === 'install') {
       // todo: create install notification
       log('extension installed')
@@ -51,7 +54,28 @@ chrome.runtime.onInstalled.addListener(
         log(`extension updated ${previousVersion} -> ${currentVersion}`)
 
         if (previousVersion?.startsWith('3.')) {
-          // migrate from v3
+          const migrationStatus = await getV3MigrationStatus()
+
+          if (!migrationStatus?.success) {
+            try {
+              const v3Data = await offscreenActions.getV3Data()
+
+              if (!v3Data) {
+                throw new Error('failed to acquire v3 data')
+              }
+
+              await migrateV3Data(v3Data)
+
+              setV3MigrationStatus({ success: true })
+            } catch (ex: any) {
+              console.error('failed to fully migrate v3 data.', ex)
+
+              setV3MigrationStatus({
+                success: false,
+                message: `${ex?.message || ex || 'failed to fully migrate v3 data'}`,
+              })
+            }
+          }
         }
       } else {
         log('extension reloaded')
