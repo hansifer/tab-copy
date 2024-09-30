@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => ({
       input: {
         // pages in addition to those in the extension manifest
         offscreen: 'offscreen.html',
+        releaseNotification: 'release-notification.html',
       },
       output: {
         chunkFileNames: 'assets/chunk-[hash].js',
