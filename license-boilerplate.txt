@@ -1,7 +1,7 @@
 /**
  * @license
- * Tab Copy - A browser extension enabling copy of tabs to the clipboard in a variety of formats.
- * Copyright (C) 2011-present, Hans Meyer, https://hansmeyer.com
+ * Tab Copy - A browser extension for copying tabs to the clipboard in a variety of formats.
+ * Copyright (C) 2011-present, Hans Meyer, https://github.com/hansifer
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
