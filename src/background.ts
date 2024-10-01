@@ -53,10 +53,6 @@ chrome.runtime.onInstalled.addListener(
         log(`extension updated ${previousVersion} -> ${currentVersion}`)
 
         if (previousVersion?.startsWith('3.')) {
-          chrome.tabs.create({
-            url: chrome.runtime.getURL('release-notification.html'),
-          })
-
           const migrationStatus = await getV3MigrationStatus()
 
           if (!migrationStatus?.success) {
@@ -78,6 +74,10 @@ chrome.runtime.onInstalled.addListener(
                 message: `${ex?.message || ex || 'failed to fully migrate v3 data'}`,
               })
             }
+
+            chrome.tabs.create({
+              url: chrome.runtime.getURL('release-notification.html'),
+            })
           }
         }
       } else {
