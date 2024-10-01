@@ -15,6 +15,11 @@
   }
 
   .control {
+    &:global(.multi-option--is-disabled) {
+      user-select: none;
+      opacity: 0.4;
+    }
+
     :global(.multi-option__control) {
       border: none;
       background-color: transparent;
