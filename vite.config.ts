@@ -77,6 +77,7 @@ export default defineConfig(({ mode }) => ({
     // wrap
     crx({ manifest }),
     react(),
+    licenseBoilerplatePlugin(),
   ],
   resolve: {
     alias: {
@@ -84,3 +85,61 @@ export default defineConfig(({ mode }) => ({
     },
   },
 }))
+
+function licenseBoilerplatePlugin() {
+  const jsCssLicenseText = getJsCssLicenseText()
+  const htmlLicenseText = getHtmlLicenseText()
+
+  return {
+    name: 'license-boilerplate',
+    generateBundle(_, bundle) {
+      for (const file in bundle) {
+        const chunk = bundle[file]
+
+        if (chunk.type === 'chunk' && chunk.fileName.endsWith('.js')) {
+          chunk.code = `${jsCssLicenseText}\n${chunk.code}`
+        } else if (chunk.type === 'asset' && chunk.fileName.endsWith('.css')) {
+          chunk.source = `${jsCssLicenseText}\n${chunk.source}`
+        }
+      }
+    },
+    transformIndexHtml(html: string) {
+      return `${htmlLicenseText}\n${html}`
+    },
+  }
+}
+
+function getJsCssLicenseText() {
+  return jsCommentify(`${license.header}
+
+${license.name}
+
+${license.detail}
+
+${license.link}`)
+}
+
+function getHtmlLicenseText() {
+  return htmlCommentify(`${license.header}
+
+${license.name}
+
+${license.link}`)
+}
+
+function jsCommentify(text: string) {
+  return `/**
+${text
+  .split('\n')
+  .map((line) => ` * ${line}`)
+  .join('\n')}
+  */
+`
+}
+
+function htmlCommentify(text: string) {
+  return `<!--
+${text}
+-->
+`
+}
