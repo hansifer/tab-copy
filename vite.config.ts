@@ -133,7 +133,7 @@ ${text
   .split('\n')
   .map((line) => ` * ${line}`)
   .join('\n')}
-  */
+ */
 `
 }
 
