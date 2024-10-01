@@ -171,6 +171,11 @@ export async function removeCustomFormat(id: CustomFormatId) {
 
   await toggleVisibleFormatId(id, true)
 
+  const linkFormatOpts = await getFormatOpts('link')
+  if (linkFormatOpts?.plaintextFallback === id) {
+    await removeFormatOpts('link')
+  }
+
   return removeFormatOpts(id)
 }
 
