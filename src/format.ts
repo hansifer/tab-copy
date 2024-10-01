@@ -183,9 +183,9 @@ const builtinFormats = [
         tab: ({ tab: { title, url }, windowSeq }) =>
           stringifyCSVRow(
             [
-              windowSeq ? getNumberedWindowText(windowSeq) : undefined, // no windowSeq means scopeType is 'tab'
+              windowSeq ? getNumberedWindowText(windowSeq) : null, // no windowSeq means scopeType is 'tab'
               title || null,
-              url,
+              url || null,
             ].filter((item) => item !== undefined),
           ),
 
