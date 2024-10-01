@@ -27,7 +27,7 @@ import {
 import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
-import { prefersColorSchemeDark, classy } from '@/util/css'
+import { classy } from '@/util/css'
 
 import classes from './Options.module.css'
 
@@ -134,10 +134,7 @@ export const Options = () => {
   return (
     <main>
       <div className={classes.header}>
-        <Logo
-          size={48}
-          lineColor={prefersColorSchemeDark() ? undefined : '#fff'} // not reactive but ok for now
-        />
+        <Logo size={48} />
         <h3>{intl.tabCopyOptions()}</h3>
       </div>
       <div
