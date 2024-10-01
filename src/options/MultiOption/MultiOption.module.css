@@ -1,0 +1,99 @@
+.MultiOption {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  white-space: nowrap;
+
+  .label {
+    margin-bottom: 2px;
+    font-size: 0.8rem;
+    color: #00000080;
+
+    @media (prefers-color-scheme: dark) {
+      color: #888;
+    }
+  }
+
+  .control {
+    :global(.multi-option__control) {
+      border: none;
+      background-color: transparent;
+      box-shadow: none;
+
+      :global(.multi-option__value-container) {
+        padding-right: 0;
+      }
+
+      :global(.multi-option__single-value),
+      :global(.multi-option__input-container) {
+        color: inherit;
+      }
+
+      :global(.multi-option__indicator-separator) {
+        display: none;
+      }
+
+      :global(.multi-option__indicator) {
+        color: inherit;
+        transition: transform 150ms;
+        opacity: 0.4;
+      }
+
+      &:hover :global(.multi-option__indicator) {
+        opacity: 1;
+      }
+
+      &:global(.multi-option__control--menu-is-open) :global(.multi-option__indicator) {
+        transform: rotate(180deg);
+      }
+    }
+  }
+}
+
+:global(.multi-option__menu-portal) {
+  :global(.multi-option__menu) {
+    width: initial;
+    margin: 4px 0;
+    white-space: nowrap;
+    border: 1px solid #0000001e;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+
+    @media (prefers-color-scheme: dark) {
+      border: 1px solid #0000003e;
+      background-color: #363636;
+    }
+
+    :global(.multi-option__menu-list) {
+      &::-webkit-scrollbar {
+        width: 6px;
+        height: 6px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        border-radius: 100px;
+        background-color: #99999955;
+      }
+    }
+
+    :global(.multi-option__option) {
+      padding: 8px 18px;
+
+      &:global(.multi-option__option--is-focused),
+      &:active {
+        color: inherit;
+        background-color: #00000012;
+
+        @media (prefers-color-scheme: dark) {
+          background-color: #ffffff1a;
+        }
+      }
+
+      &:global(.multi-option__option--is-selected) {
+        color: #fff;
+        background-color: #e93d82;
+      }
+    }
+  }
+}
