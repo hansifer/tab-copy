@@ -68,7 +68,8 @@ export const intl = {
 
   // ----- copy format -----
 
-  linkDescription: () => 'clickable links when pasting into documents or emails.\nURLs otherwise.',
+  linkDescription: (plaintextFormatLabel: string) =>
+    `clickable links when pasting into documents or emails.\n${plaintextFormatLabel} otherwise.`,
 
   titleUrl1LineDescription: () => 'tab title and URL on a single line',
 
@@ -93,6 +94,8 @@ export const intl = {
   separator: () => 'separator',
 
   includeHeader: () => 'include header',
+
+  plaintextFallback: () => 'plaintext fallback',
 
   properties: () => 'properties',
 
