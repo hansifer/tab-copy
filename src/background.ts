@@ -50,10 +50,13 @@ chrome.runtime.onInstalled.addListener(
       const currentVersion = chrome.runtime.getManifest().version
 
       if (previousVersion !== currentVersion) {
-        // todo: create update notification
         log(`extension updated ${previousVersion} -> ${currentVersion}`)
 
         if (previousVersion?.startsWith('3.')) {
+          chrome.tabs.create({
+            url: chrome.runtime.getURL('release-notification.html'),
+          })
+
           const migrationStatus = await getV3MigrationStatus()
 
           if (!migrationStatus?.success) {
