@@ -10,7 +10,41 @@
 
 <div>&nbsp;</div>
 
-_Available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb)_
+## Features
+
+- Copy the current tab, tabs in the current window, or all tabs
+
+- Optionally group copied tabs by window
+
+- Choose from a wide variety of formats including Link, URL, Title & URL, Markdown, CSV, JSON, HTML, and more
+
+- Create your own formats with powerful template-based authoring
+
+- Use keyboard shortcuts for your most common tab ranges and formats
+
+- Add copy actions to your browser's context menu
+
+- Set up filtering for tabs you don't want to copy
+
+- Fine-tune built-in formats with individual format options
+
+- Hide the copy buttons you don't use
+
+- Hide the formats you don't use and change the ordering of those you do
+
+Read the [usage docs](https://tabcopy.com/docs) for more details.
+
+## Availability
+
+Tab Copy is currently available for [Chrome](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb) and other Chromium-based browsers.
+
+## Help support this project
+
+We can't do this without you.
+
+Please consider [helping out with a donation](https://tabcopy.com/contribute) to support the continued development and maintenance of this project.
+
+Check out [what we've done so far and what's planned](https://tabcopy.com/releases).
 
 ## Developing
 
@@ -51,3 +85,7 @@ This project was scaffolded with [create-chrome-ext](https://github.com/guocaoyi
 The popup is implemented with static HTML and vanilla JS/direct DOM calls. The original intent was to optimize load speed, but the ultimate performance benefit and maintenance tradeoffs are open to question.
 
 The options page is implemented in React for better maintainability and support for complex interactions like drag-drop list re-ordering.
+
+## License
+
+This project is licensed under the Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License. See the [LICENSE](./LICENSE) file for more details.
