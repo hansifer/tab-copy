@@ -94,6 +94,7 @@ export async function migrateV3Data(v3Data: ReturnType<typeof getV3Data>) {
   const now = performance.now()
 
   await setOptionValue('keepFormatSelectorExpanded', true)
+  await setFormatOpts('link', { plaintextFallback: 'title' })
 
   if (v3Data.notifyOnCopy) {
     await setOptionValue('notifyOnCopy', v3Data.notifyOnCopy)
