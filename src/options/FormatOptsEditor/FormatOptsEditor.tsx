@@ -14,6 +14,7 @@ import { ContentProps } from './content/interface'
 import { HtmlTable } from './content/HtmlTable'
 import { TitleUrl1Line } from './content/TitleUrl1Line'
 import { Json } from './content/Json'
+import { Link } from './content/Link'
 import { Custom } from './content/Custom'
 
 import classes from './FormatOptsEditor.module.css'
@@ -23,6 +24,7 @@ const builtinFormatOptsContent = {
   htmlTable: HtmlTable,
   titleUrl1Line: TitleUrl1Line,
   json: Json,
+  link: Link,
 } satisfies { [k in BuiltinFormatWithOptsId]: FC<ContentProps<k>> }
 
 type FormatOptsEditorProps<T extends FormatWithOptsId> = {
