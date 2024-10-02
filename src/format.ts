@@ -482,7 +482,7 @@ type Format<T extends Record<string, any> = Record<string, any> /* = infer */> =
   id: string
   label: (opts?: T) => string
   // icon: JSX.Element
-  description?: () => string
+  description?: (opts?: T) => string | Promise<string>
   transforms: (opts?: T) => Transforms
   opts?: T
   isInvalid?: (opts: T) => boolean

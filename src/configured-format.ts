@@ -55,7 +55,7 @@ async function makeConfiguredFormat<T extends FormatId>(
   return {
     id,
     label: format.label(opts),
-    description: 'description' in format ? format.description() : undefined,
+    description: 'description' in format ? await format.description(opts) : undefined,
     visible: visibleFormatIds.includes(id),
     isDefault: visibleFormatIds[0] === id,
     transforms: format.transforms(opts),
