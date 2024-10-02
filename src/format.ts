@@ -5,6 +5,7 @@ import {
   TokenValueSources,
 } from '@/template-field'
 import { ScopeType } from '@/scope'
+import { getConfiguredFormat } from '@/configured-format'
 import { intl } from '@/intl'
 import { sentenceCase, indent, encodeHtml } from '@/util/string'
 import { stringifyCSVRow } from '@/util/csv'
@@ -18,6 +19,7 @@ import { NxsMimeContent } from '@/util/nxs-mime-type'
 // require a minimum number of visible formats
 export const MIN_VISIBLE_FORMAT_COUNT = 3
 
+const DEFAULT_LINK_PLAINTEXT_FALLBACK = 'url'
 const DEFAULT_TITLE_URL_1_LINE_SEPARATOR = ': '
 const DEFAULT_CUSTOM_FORMAT_NAME = 'Custom format'
 const DEFAULT_INDENT_SIZE = 2
@@ -48,9 +50,16 @@ const builtinFormats = [
   {
     id: 'link',
     label: () => sentenceCase(intl.link()),
-    description: () => sentenceCase(intl.linkDescription()),
-    transforms: () => ({
-      text: urlTextTransform,
+    description: async (opts) =>
+      sentenceCase(
+        intl.linkDescription(
+          await getLinkPlaintextFallbackLabel(opts?.plaintextFallback as string | undefined),
+        ),
+      ),
+    transforms: async (opts) => ({
+      text: await getLinkPlaintextFallbackTextTransform(
+        opts?.plaintextFallback as string | undefined,
+      ),
       html: {
         windowStart: ({ seq }) => `${getNumberedWindowText(seq)}<br>\n<br>\n`,
 
@@ -62,7 +71,7 @@ const builtinFormats = [
       },
     }),
     opts: {
-      plaintextFallback: 'url' as string,
+      plaintextFallback: DEFAULT_LINK_PLAINTEXT_FALLBACK as string, // Extract<FormatId, 'link'>
     },
   },
   {
@@ -686,5 +695,25 @@ function interpolate(
   return getFieldTokens(fieldId).reduce(
     (acc, token) => acc.replace(token.regex, token.value(sources)),
     template[fieldId], // start with field template
+  )
+}
+
+// return type annotation necessary to address TS circular reference error
+async function getLinkPlaintextFallbackTextTransform(formatId?: string): Promise<TextTransform> {
+  const format = await getLinkPlaintextFallbackFormat(formatId)
+  return format.transforms.text
+}
+
+// return type annotation necessary to address TS circular reference error
+async function getLinkPlaintextFallbackLabel(formatId?: string): Promise<string> {
+  const format = await getLinkPlaintextFallbackFormat(formatId)
+  return format.label
+}
+
+function getLinkPlaintextFallbackFormat(formatId?: string) {
+  return getConfiguredFormat(
+    formatId && isFormatId(formatId) && formatId !== 'link'
+      ? formatId
+      : DEFAULT_LINK_PLAINTEXT_FALLBACK,
   )
 }
