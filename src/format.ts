@@ -88,9 +88,7 @@ const builtinFormats = [
       },
     }),
     opts: {
-      separator: DEFAULT_TITLE_URL_1_LINE_SEPARATOR,
-    } as {
-      separator: string
+      separator: DEFAULT_TITLE_URL_1_LINE_SEPARATOR as string,
     },
   },
   {
@@ -318,9 +316,7 @@ const builtinFormats = [
     }),
     // todo: potential opt: indent size
     opts: {
-      includeHeader: false,
-    } as {
-      includeHeader: boolean
+      includeHeader: false as boolean,
     },
   },
 ] as const satisfies Format[]
