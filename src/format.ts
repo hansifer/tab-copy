@@ -61,7 +61,9 @@ const builtinFormats = [
         windowDelimiter: '<br>\n<br>\n',
       },
     }),
-    // todo: potential opt: plaintext fallback (title or url)
+    opts: {
+      plaintextFallback: 'url' as string,
+    },
   },
   {
     id: 'url',
