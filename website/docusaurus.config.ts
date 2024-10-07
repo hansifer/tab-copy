@@ -62,6 +62,20 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: [
+          {
+            from: ['/contribute'],
+            to: '/donate',
+          },
+        ],
+      },
+    ],
+  ],
+
   themeConfig: {
     image: 'img/tab-copy-social-card.png',
     navbar: {
