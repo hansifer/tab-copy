@@ -74,8 +74,23 @@ const config: Config = {
         {
           type: 'docSidebar',
           sidebarId: 'tutorialSidebar',
-          position: 'left',
           label: 'Docs',
+          position: 'left',
+        },
+        {
+          to: '/releases',
+          label: 'Releases',
+          position: 'left',
+        },
+        {
+          to: '/donate',
+          label: 'Donate',
+          position: 'left',
+        },
+        {
+          href: 'https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb',
+          label: 'Install',
+          position: 'right',
         },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
