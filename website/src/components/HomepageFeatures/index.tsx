@@ -14,7 +14,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_done.svg').default,
     description: (
       <>
-        Enjoy a thoughtfully-crafted user experience designed to be maximally simple and intuitive
+        Enjoy a thoughtfully-crafted user experience designed to be maximally intuitive and simple
         without compromising on power.
       </>
     ),
