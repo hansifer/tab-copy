@@ -8,6 +8,17 @@
   text-align: center;
   position: relative;
   overflow: hidden;
+  color: #fff;
+  background-color: #e93d82;
+  background-image:
+    radial-gradient(at 94% 84%, hsla(302, 74%, 65%, 1) 0px, transparent 50%),
+    radial-gradient(at 69% 79%, hsla(246, 60%, 62%, 1) 0px, transparent 50%),
+    radial-gradient(at 98% 40%, hsla(351, 84%, 60%, 1) 0px, transparent 50%),
+    radial-gradient(at 1% 54%, hsla(199, 66%, 67%, 1) 0px, transparent 50%),
+    radial-gradient(at 69% 53%, hsla(153, 61%, 70%, 1) 0px, transparent 50%),
+    radial-gradient(at 0% 34%, hsla(272, 82%, 69%, 1) 0px, transparent 50%),
+    radial-gradient(at 1% 18%, hsla(355, 73%, 66%, 1) 0px, transparent 50%);
+  background-attachment: fixed;
 }
 
 @media screen and (max-width: 996px) {
