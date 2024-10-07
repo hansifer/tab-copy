@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Quick',
+    title: 'Fast',
     Svg: require('@site/static/img/undraw_super_woman.svg').default,
     description: (
       <>
