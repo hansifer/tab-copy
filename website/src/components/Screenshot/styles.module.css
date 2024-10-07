@@ -1,0 +1,10 @@
+.screenshotContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.screenshot {
+  width: 232px;
+  transform: translateY(-24px);
+  filter: drop-shadow(2px 4px 16px #0000005e);
+}
