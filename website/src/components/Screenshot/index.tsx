@@ -1,14 +1,16 @@
-import { useColorMode } from '@docusaurus/theme-common'
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
 import styles from './styles.module.css'
 
 export default function Screenshot(): JSX.Element {
-  const { colorMode } = useColorMode()
-
   return (
     <div className={styles.screenshotContainer}>
-      <img
+      <ThemedImage
         className={styles.screenshot}
-        src={colorMode === 'dark' ? '/img/popup-dark.png' : '/img/popup-light.png'}
+        sources={{
+          light: useBaseUrl('/img/popup-light.png'),
+          dark: useBaseUrl('/img/popup-dark.png'),
+        }}
         alt="Popup"
       />
     </div>
