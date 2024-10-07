@@ -10,32 +10,32 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Easy',
     Svg: require('@site/static/img/undraw_done.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and used to get your
-        website up and running quickly.
+        Enjoy a thoughtfully-crafted user experience designed to be maximally simple and intuitive
+        without compromising on power.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Quick',
     Svg: require('@site/static/img/undraw_super_woman.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go ahead and move your
-        docs into the <code>docs</code> directory.
+        Supercharge your workflow with assignable keyboard shortcuts, keyboard navigation, and key
+        modifiers that activate alternate formats.
       </>
     ),
   },
   {
-    title: 'Powered by React',
+    title: 'Customizable',
     Svg: require('@site/static/img/undraw_options.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can be extended while
-        reusing the same header and footer.
+        Choose which buttons and formats are visible, configure built-in formats, and create your
+        own formats with versatile custom templates.
       </>
     ),
   },
