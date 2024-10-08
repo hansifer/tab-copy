@@ -27,6 +27,22 @@
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+
+  .container {
+    /* content color */
+    color: #ccc;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  code,
+  strong {
+    color: #fff;
+  }
 }
 
 .hero__subtitle {
