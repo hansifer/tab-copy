@@ -97,6 +97,11 @@ const config: Config = {
           position: 'left',
         },
         {
+          to: '/roadmap',
+          label: 'Roadmap',
+          position: 'left',
+        },
+        {
           to: '/donate',
           label: 'Donate',
           position: 'left',
