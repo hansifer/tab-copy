@@ -34,8 +34,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_options.svg').default,
     description: (
       <>
-        Choose which buttons and formats are visible, configure built-in formats, and create your
-        own formats with versatile custom templates.
+        Fine-tune your experience. Choose which buttons and formats are visible, customize built-in
+        formats, and create your own formats.
       </>
     ),
   },
