@@ -32,7 +32,7 @@ Facilitates sharing and re-installs. Includes custom formats, filter rules, and 
 
 Facilitates sharing, synching, and re-installs.
 
-## Enhanced custom formats
+## Enhanced custom format authoring
 
 Includes the addition of conditionals and functions.
 
@@ -52,16 +52,16 @@ Adds more formats that ship with the app, including "Table".
 
 Adds more control over existing built-in formats.
 
-Includes a "List marker" option for some formats (None", "Bullet", or "Number).
+Includes a "List marker" option for some formats ("None", "Bullet", or "Number").
 
 ## Compatibility with Session Buddy
 
-Introduces a clipboard variant that can be pasted directly into a Session Buddy session or collection.
+Introduces a full-fidelity clipboard variant that can be pasted directly into a Session Buddy session or collection.
 
 ## Support for more browsers
 
-Offers extension versions for Firefox, Edge, and Safari.
+Provides extension versions for Firefox, Edge, and Safari.
 
 ## Graphical custom format tokens
 
-Streamlines the user experience by replacing text-based tokens.
+Refines the user experience by replacing the use of text-based tokens.
