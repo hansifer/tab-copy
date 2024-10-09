@@ -48,7 +48,7 @@ When you turn this option on, your browser may prompt you to grant Tab Copy perm
 
 #### "Modify data you copy and paste"
 
-This browser permission is what allows Tab Copy to write to the clipboard when performing copy from context menus and keyboard shortcuts. This permission does NOT allow Tab Copy to read clipboard data.
+This permission is what allows Tab Copy to write to the clipboard when performing copy from context menus and keyboard shortcuts. This permission does NOT allow Tab Copy to read clipboard data.
 
 ### What Tab Copy Cannot Do
 
@@ -59,8 +59,6 @@ This browser permission is what allows Tab Copy to write to the clipboard when p
 ## Changes to This Policy
 
 Any changes to Tab Copy's features that affect the transmission, storage, sharing, use, or access of personal data will be outlined in updated versions of this privacy policy. These changes will be communicated to you through Tab Copy's interface or via email if you have opted into notifications.
-
-For example, potential future features like cloud-based clipboard may require additional data protection measures. These features will be available on an opt-in basis, where applicable.
 
 ## Contact Us
 
