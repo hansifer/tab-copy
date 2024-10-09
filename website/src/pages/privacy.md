@@ -44,7 +44,7 @@ This permission is what allows Tab Copy to get the list of open windows and tabs
 
 This is an optional permission that is required by the "Notify on copy" option, if enabled.
 
-When you turn this option on, your browser will prompt you to grant Tab Copy permission to show notifications. If you deny this permission, this option will not be turned on.
+When you turn this option on, your browser may prompt you to grant Tab Copy permission to show notifications. If you deny this permission, this option will not be turned on.
 
 #### "Modify data you copy and paste"
 
