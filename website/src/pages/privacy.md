@@ -28,7 +28,7 @@ Error logs may also be stored locally when issues occur. We cannot access these 
 
 We do not collect or store any personally identifiable information such as names, addresses, or birth dates.
 
-Tab Copy does not transmit or store data to any external services. All copied tabs, settings, and custom formats are stored locally on your device. You can verify this by inspecting the extension's `manifest.json` file, which must declare all permissions and external services required by an extension.
+**Tab Copy does not transmit or store data to any external services**. All copied tabs, settings, and custom formats are stored locally on your device. You can verify this by inspecting the extension's `manifest.json` file, which must declare all permissions and external services required by an extension.
 
 ## Extension Permissions
 
