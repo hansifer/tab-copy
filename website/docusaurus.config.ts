@@ -77,6 +77,9 @@ const config: Config = {
   ],
 
   themeConfig: {
+    colorMode: {
+      respectPrefersColorScheme: true,
+    },
     image: 'img/tab-copy-social-card.png',
     navbar: {
       title: 'Tab Copy',
@@ -123,7 +126,7 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Miscellaneous',
+          title: 'Links',
           items: [
             {
               label: 'Privacy policy',
