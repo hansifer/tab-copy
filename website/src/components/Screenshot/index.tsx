@@ -9,7 +9,7 @@ export default function Screenshot(): JSX.Element {
         className={styles.screenshot}
         sources={{
           light: useBaseUrl('/img/popup-light.png'),
-          dark: useBaseUrl('/img/popup-dark.png'),
+          dark: useBaseUrl('/img/popup-dark-lightened.png'),
         }}
         alt="Popup"
       />
