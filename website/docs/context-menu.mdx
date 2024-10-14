@@ -1,0 +1,57 @@
+---
+sidebar_position: 3
+---
+
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
+
+# Context menu
+
+Tab Copy adds an item to the browser's web page context menu that can be used to copy the current tab.
+
+<ThemedImage
+  style={{
+    width:'272px',
+    height:'auto',
+    marginBottom:'6px',
+    filter:'drop-shadow(2px 4px 10px #0000005e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/context-menu-copy-light.png'),
+    dark: useBaseUrl('/img/context-menu-copy-dark.png'),
+  }}
+  alt="Context menu"
+/>
+
+This menu item can be enabled or disabled in [Tab Copy options](./options#show-context-menu).
+
+When this option is enabled, you can also choose whether to show a format selection submenu instead of simply applying the default format.
+
+<ThemedImage
+  style={{
+    width:'378px',
+    height:'auto',
+    marginBottom:'6px',
+    filter:'drop-shadow(2px 4px 10px #0000005e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/context-menu-copy-as-light.png'),
+    dark: useBaseUrl('/img/context-menu-copy-as-dark.png'),
+  }}
+  alt="Context menu copy as"
+/>
+
+When right-clicking a link or image on a page, the menu presents additional options for copying the link URL or image source.
+
+<ThemedImage
+  style={{
+    width:'511px',
+    height:'auto',
+    filter:'drop-shadow(2px 4px 10px #0000005e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/context-menu-copy-subjects-light.png'),
+    dark: useBaseUrl('/img/context-menu-copy-subjects-dark.png'),
+  }}
+  alt="Context menu copy subjects"
+/>
