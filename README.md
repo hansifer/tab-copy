@@ -42,20 +42,20 @@ Tab Copy is currently available for [Chrome](https://chromewebstore.google.com/d
 
 We can't do this without you.
 
-Please consider [helping out with a donation](https://tabcopy.com/contribute) to support the continued development and maintenance of this project.
+Please consider [helping out with a donation](https://tabcopy.com/donate) to support the continued development and maintenance of this project.
 
-Check out [what we've done so far and what's planned](https://tabcopy.com/releases).
+Check out [what we've done so far](https://tabcopy.com/releases) and [what's planned](https://tabcopy.com/roadmap).
 
 ## Developing
 
 ### Setup
 
 1. Ensure you're on `Node.js` version 18 or newer
-2. Run `npm install`
-3. Run `npm run dev` to generate `build` folder output
-4. Open `chrome://extensions/`
-5. Ensure `Developer mode` is toggled on
-6. Click `Load unpacked` and select the `build` folder
+1. Run `npm install`
+1. Run `npm run dev` to generate `build` folder output
+1. Open `chrome://extensions/`
+1. Ensure `Developer mode` is toggled on
+1. Click `Load unpacked` and select the `build` folder
 
 ### Running
 
