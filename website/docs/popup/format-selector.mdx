@@ -1,0 +1,90 @@
+---
+sidebar_position: 2
+---
+
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
+
+# Format selector
+
+The format selector at the bottom of the popup shows the active format.
+
+<ThemedImage
+  style={{
+    width:'232px',
+    height:'auto',
+    marginBottom:'16px',
+    filter:'drop-shadow(2px 5px 4px #0000003e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/format-selector-copy-as-light.png'),
+    dark: useBaseUrl('/img/format-selector-copy-as-dark.png'),
+  }}
+  alt="Format selector copy as"
+/>
+
+To change the active format, click the format selector to expand it and select from one of the available formats.
+
+<ThemedImage
+  style={{
+    width:'232px',
+    height:'auto',
+    marginBottom:'16px',
+    filter:'drop-shadow(2px 5px 4px #0000003e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/format-selector-expanded-light.png'),
+    dark: useBaseUrl('/img/format-selector-expanded-dark.png'),
+  }}
+  alt="Format selector expanded"
+/>
+
+When selecting a format that is different from the default format, the format label changes from **Copy as** to **Copy 1x as** to indicate that the selected format will be applied one time. Format selection reverts to the default format the next time the popup is opened.
+
+<ThemedImage
+  style={{
+    width:'232px',
+    height:'auto',
+    marginBottom:'16px',
+    filter:'drop-shadow(2px 5px 4px #0000003e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/format-selector-copy-1x-as-light.png'),
+    dark: useBaseUrl('/img/format-selector-copy-1x-as-dark.png'),
+  }}
+  alt="Format selector copy 1x as"
+/>
+
+You can change the default format and personalize which formats are made available in [Tab Copy options](../options#formats).
+
+Read more about [Formats](../formats).
+
+## Keeping the selector expanded
+
+If you prefer to keep the format selector expanded so you don't always have to click to expand it, check **Keep format selector expanded** in [Tab Copy options](../options#keep-format-selector-expanded).
+
+This can be useful if you commonly switch between a small set of formats.
+
+## Format modifier keys
+
+To apply the secondary format without needing to expand the selector, hold down the _Ctrl_ or _Cmd_ key when copying.
+
+To apply the third format, hold down _Shift+Ctrl_ or _Shift+Cmd_ when copying.
+
+When holding down format modifier keys, the displayed format updates and its label changes to **Copy 1x as** to indicate that the selected format will only apply once.
+
+<ThemedImage
+  style={{
+    width:'232px',
+    height:'auto',
+    marginBottom:'16px',
+    filter:'drop-shadow(2px 5px 4px #0000003e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/format-selector-copy-1x-as-light.png'),
+    dark: useBaseUrl('/img/format-selector-copy-1x-as-dark.png'),
+  }}
+  alt="Format selector copy 1x as"
+/>
+
+You can change the default, secondary, and third format by re-ordering formats in [Tab Copy options](../options#formats).
