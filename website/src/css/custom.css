@@ -57,3 +57,12 @@ li::marker {
   margin-bottom: 10px;
   font-weight: 200;
 }
+
+[data-theme='light'] img[src$='#dark-mode-only'],
+[data-theme='dark'] img[src$='#light-mode-only'] {
+  display: none;
+}
+
+p img {
+  vertical-align: middle;
+}
