@@ -1,0 +1,52 @@
+---
+sidebar_position: 4
+---
+
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
+
+# Keyboard shortcuts
+
+Power users can define their own keyboard shortcuts for the following actions:
+
+- Open the Tab Copy popup (labeled as _Activate the extension_)
+- Copy selected tabs (most commonly the current tab)
+- Copy the current window's tabs
+- Copy all tabs, ungrouped
+- Copy all tabs, grouped by window
+
+Copy actions apply the default format.
+
+## Defining keyboard shortcuts
+
+To set keyboard shortcuts:
+
+1. Right-click the Tab Copy extension icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only), then click **Options**
+
+1. Click the **Edit keyboard shortcuts...** button on the Options page. This opens the browser's **Keyboard shortcuts** page.
+
+1. Scroll to the Tab Copy card
+
+1. For each action that you want to define a keyboard shortcut for, click its edit icon, then perform the shortcut (eg, _Ctrl+Shift+E_)
+
+<ThemedImage
+  style={{
+    width:'720px',
+    height:'auto',
+    margin:'20px 0 40px',
+    filter:'drop-shadow(2px 4px 10px #0000005e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/keyboard-shortcuts-light.png'),
+    dark: useBaseUrl('/img/keyboard-shortcuts-dark.png'),
+  }}
+  alt="Keyboard shortcuts"
+/>
+
+:::caution
+Take care to select a shortcut not already in use.
+:::
+
+:::tip Clearing shortcuts
+To clear a keyboard shortcut, click its edit icon, then click outside of the shortcut textbox.
+:::
