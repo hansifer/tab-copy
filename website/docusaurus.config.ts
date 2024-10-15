@@ -80,6 +80,9 @@ const config: Config = {
     colorMode: {
       respectPrefersColorScheme: true,
     },
+    tableOfContents: {
+      maxHeadingLevel: 5,
+    },
     image: 'img/tab-copy-social-card.png',
     navbar: {
       title: 'Tab Copy',
