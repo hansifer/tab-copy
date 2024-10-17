@@ -1,0 +1,112 @@
+---
+sidebar_position: 2
+---
+
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
+
+# Custom formats
+
+Custom formats allow you to create your own formats to suit your needs.
+
+## Creating custom formats
+
+To create a custom format, first open the Tab Copy options page: right-click the extension icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only), then select **Options**.
+
+Under the **Formats** section of the options page, click the **Add format** button. This creates a new custom format, placing it at the top of the list of formats.
+
+## Editing custom formats
+
+To edit a custom format, click the options icon on the right part of its tile. This opens the custom format editor.
+
+Custom formats are pre-populated with a default template to serve as a guiding example.
+
+You can edit the format name, as well as the template for each part of the output. As you edit, the live preview updates.
+
+<ThemedImage
+  style={{
+    width:'413px',
+    height:'auto',
+    margin:'16px 6px 0',
+    filter:'drop-shadow(2px 4px 10px #0000005e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/custom-format-edit-light.png'),
+    dark: useBaseUrl('/img/custom-format-edit-dark.png'),
+  }}
+  alt="Custom format editing"
+/>
+
+### Template fields
+
+Custom formats are defined by a set of template fields, each representing a different part of the output. Every field supports a set of tokens that can be used to inject dynamic values when tabs are copied. You can provide any combination of free-form text and tokens for each field.
+
+The template fields are:
+
+- **Start**: header text for the entire output.
+
+- **Window start**: leading text for each window being copied.
+
+- **Tab**: text for each tab being copied.
+
+- **Tab delimiter**: text separating tabs.
+
+- **Window end**: trailing text for each window being copied.
+
+- **Window delimiter**: text separating windows.
+
+- **End**: footer text for the entire output.
+
+:::note Window template fields
+Text in **Window start**, **Window end**, and **Window delimiter** fields is only included when copying **All windows and tabs**.
+:::
+
+### Tokens
+
+Tokens represent dynamic values that are derived and injected in-flight whenever tabs are copied.
+
+When a template field is focused, a set of available tokens appears below it. Click a token to insert it at the cursor position.
+
+:::note
+Token insert attempts are ignored when the cursor is inside of a token. To replace a token in a template field, double-click it to select its content before selecting another token.
+:::
+
+The following tokens are currently supported:
+
+| Label             | Token          | Description                          | Example                                                     |
+|-------------------|----------------|--------------------------------------|-------------------------------------------------------------|
+| tab #             | `[t#]`         | A tab's sequence across all tabs     | `1, 2, 3...`                                                |
+| window tab #      | `[wt#]`        | A tab's sequence within its window   | `1, 2, 3...`                                                |
+| window #          | `[w#]`         | A window's sequence                  | `1, 2, 3...`                                                |
+| tab count         | `[tcount]`     | Overall tab count                    | `42`                                                        |
+| window tab count  | `[wtcount]`    | A window's count of tabs             | `7`                                                         |
+| window count      | `[wcount]`     | Overall window count                 | `5`                                                         |
+| title             | `[title]`      | A tab title                          | `Example`                                                   |
+| url               | `[url]`        | A tab URL                            | `https://www.example.com/folder/doc.html?q=kittens#ragdoll` |
+| link              | `[link]`       | A tab's clickable link or URL *      | [Example](https://www.example.com/)                         |
+| icon              | `[icon]`       | A tab's favicon URL                  | `https://www.example.com/favicon.ico`                       |
+| schema            | `[schema]`     | A tab URL's schema or protocol       | `https`                                                     |
+| host              | `[host]`       | A tab URL's host portion             | `www.example.com`                                           |
+| path              | `[path]`       | A tab URL's path portion             | `folder/doc.html`                                           |
+| query             | `[query]`      | A tab URL's query parameters         | `q=kittens`                                                 |
+| hash              | `[hash]`       | A tab URL's hash identifier          | `ragdoll`                                                   |
+| date              | `[date]`       | The localized current date           | `10/17/2024`                                                |
+| time              | `[time]`       | The localized current time           | `4:05:32 PM`                                                |
+| date+time         | `[date+time]`  | The localized current date and time  | `10/17/2024, 4:05:32 PM`                                    |
+| NEWLINE           | `[n]`          | A newline                            |                                                             |
+| TAB               | `[t]`          | A TAB character                      |                                                             |
+| format name       | `[fname]`      | The custom format's name             | `My format`                                                 |
+
+\* *Depending on the paste destination.*
+
+:::note window tab sequence fallback
+**window tab #** falls back to **tab #** when copying any range *other than* **All windows and tabs**.
+:::
+
+## Deleting custom formats
+
+To delete a custom format, first open the Tab Copy options page: right-click the extension icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only), then select **Options**.
+
+Under the **Formats** section of the options page, click the options icon on the right part of the tile of the format you want to delete. This opens the custom format editor.
+
+In the format editor, click the **Delete format** button, then click **Yes** to confirm.
