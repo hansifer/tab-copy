@@ -10,6 +10,12 @@ All formats generate at a minimum a *plaintext* variant. Some formats also inclu
 
 The applied variant depends on where tabs are pasted.
 
-An example of a format featuring a rich-text variant is `Link`. Tabs that were copied as `Link` paste into documents, spreadsheets, Slack, or email drafts as [clickable links](https://en.wikipedia.org/wiki/Hyperlink). In apps like text editors that do not support clickable links, they paste as plaintext URLs instead.
+An example of a format that includes a rich-text variant is `Link`. Tabs that were copied as `Link` paste into documents, spreadsheets, Slack, or email drafts as [clickable links](https://en.wikipedia.org/wiki/Hyperlink). In apps that do not support clickable links such as text editors, they paste as URLs instead.
 
 Custom formats also feature a rich-text variant, since `link` is an available template token.
+
+## Variant control
+
+Many apps allow you to select from available clipboard variants when pasting. This is sometimes referred to as "Paste special".
+
+Apps also commonly support the `Shift + Ctrl + v` keyboard shortcut (or `Shift + Cmd + v` on a Mac) as an alternative to `Ctrl + v` that favors plaintext.
