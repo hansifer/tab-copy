@@ -1,0 +1,130 @@
+---
+sidebar_position: 8
+---
+
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
+
+# Options
+
+To access Tab Copy options, do one of the following:
+
+- Right-click the Tab Copy extension icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only) in the browser toolbar, then click **Options**
+
+- Click the **Options** icon in the upper-left corner of the Tab Copy [popup](./popup)
+
+This will open the Tab Copy options page in a new tab.
+
+### Keep format selector expanded
+
+Checking this option keeps the [format selector](./popup/format-selector) of the popup open, always showing all available formats.
+
+This can be useful if you frequently switch between a small set of formats.
+
+### Show context menu
+
+Selecting this option adds a Tab Copy item to the [context menu](./context-menu) of web pages.
+
+When this option is checked, you can also choose whether to show a submenu for selecting a format instead of always using the default format.
+
+### Ignore pinned tabs
+
+This option allows you to omit pinned tabs from the tabs that are copied.
+
+Read more about [tab filtering](./tab-filtering).
+
+### Notify on copy
+
+When this option is checked, a toast notification appears after tabs are copied displaying information about what was copied.
+
+Note that toast notifications require elevated permissions, so the browser may prompt you to grant Tab Copy the ability to show notifications when attempting to enable this option. If you deny this permission, this option will not get turned on.
+
+Read more about [notifications](./notification).
+
+### Invert icon color
+
+Tab Copy tries to select a toolbar icon that maximizes visibility based on your browser theme.
+
+In some rare cases, browser theme customizations may prevent Tab Copy from automatically selecting an appropriate icon color. If this is the case, check this box to select a more suitable color.
+
+### Keyboard shortcuts
+
+Click the **Edit keyboard shortcuts...** button to open the browser's **Keyboard shortcuts** page.
+
+Read more about [keyboard shortcuts and how to edit them](./keyboard-shortcuts).
+
+### Copy buttons
+
+Each button in the Tab Copy popup copies a particular range of tabs.
+
+You can hide buttons you don't use by clicking the corresponding tile in the **Copy buttons** section of the options page.
+
+<ThemedImage
+  style={{
+    width:'285px',
+    height:'auto',
+    margin:'10px 10px 30px',
+    filter:'drop-shadow(2px 4px 10px #00000018)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/copy-buttons-toggled-light.png'),
+    dark: useBaseUrl('/img/copy-buttons-toggled-dark.png'),
+  }}
+  alt="Copy buttons"
+/>
+
+:::info Minimum visible buttons
+At least 1 button must remain visible
+:::
+
+### Formats
+
+The **Formats** section of the options page lists all built-in and custom formats.
+
+<ThemedImage
+  style={{
+    width:'355px',
+    height:'auto',
+    margin:'10px 0 20px',
+    filter:'drop-shadow(2px 4px 10px #00000018)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/formats-toggled-light.png'),
+    dark: useBaseUrl('/img/formats-toggled-dark.png'),
+  }}
+  alt="Formats"
+/>
+
+#### Visibility
+
+Clicking a format's tile toggles its visibility in the app. When a format is hidden, it won't show up in the [popup format selector](./popup/format-selector) or [context menus](./context-menu).
+
+:::info Minimum visible formats
+At least 3 formats must remain visible
+:::
+
+#### Order
+
+To change the order of formats, drag and drop format tiles up or down to a new position.
+
+This changes the order in which formats are displayed in the [popup format selector](./popup/format-selector) and [context menus](./context-menu).
+
+Re-ordering also allows for the assignment of the *default*, *secondary*, and *third* formats. The top visible format, for example, is considered the *default* format. See [Formats](./formats#format-order) for more about format order.
+
+#### Format options
+
+Some formats have their own options. Those that do feature an options button on the right part of their tile. Clicking this button opens a dialog for editing the format's options.
+
+<ThemedImage
+  style={{
+    width:'458px',
+    height:'auto',
+    margin:'10px 4px 20px',
+    filter:'drop-shadow(2px 4px 10px #00000018)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/format-options-light.png'),
+    dark: useBaseUrl('/img/format-options-dark.png'),
+  }}
+  alt="Format options"
+/>
