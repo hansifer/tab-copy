@@ -4,7 +4,9 @@
 }
 
 .screenshot {
-  width: 232px;
+  width: auto;
+  /* explicit height avoids load jank */
+  height: 316.67px;
   transform: translateY(-24px);
   filter: drop-shadow(2px 4px 16px #0000005e);
 }
