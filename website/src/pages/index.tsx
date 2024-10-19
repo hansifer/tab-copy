@@ -43,7 +43,7 @@ export default function Home(): JSX.Element {
       description={siteConfig.tagline}
     >
       <HomepageHeader />
-      <Screenshot />
+      <Screenshot className={styles.screenshotContainer} />
       <main>
         <HomepageFeatures />
       </main>
