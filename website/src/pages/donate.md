@@ -1,6 +1,6 @@
-# Like Tab Copy?
+# Like Tab Copy? ❤️
 
-If you enjoy using Tab Copy, why not let us know by rating it and considering a donation.
+If you enjoy using Tab Copy, why not let us know by [rating it](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb/reviews) and considering a donation.
 
 ## Rate
 
@@ -12,6 +12,8 @@ It's a great way to motivate us and only takes a few seconds :)
 
 If you've been finding Tab Copy useful, we'd be grateful if you'd consider supporting our efforts with a donation to help us keep improving and maintaining this project.
 
-**Bitcoin**: 1FxH1VrdE6KN1gNWbBV6GumUqoTVgdbuYr
-
 *Thank you for your support!*
+
+### Bitcoin
+
+`1FxH1VrdE6KN1gNWbBV6GumUqoTVgdbuYr`
