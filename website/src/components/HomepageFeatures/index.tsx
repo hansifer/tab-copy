@@ -14,8 +14,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_done.svg').default,
     description: (
       <>
-        Enjoy a thoughtfully-crafted user experience designed to be optimally intuitive and simple
-        without compromising on power.
+        Enjoy the simplicity of a thoughtfully-crafted user experience designed to be optimally
+        intuitive without compromising on power.
       </>
     ),
   },
@@ -24,8 +24,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_super_woman.svg').default,
     description: (
       <>
-        Supercharge your workflow with assignable keyboard shortcuts, keyboard navigation, and key
-        modifiers that apply alternate formats.
+        Supercharge your workflow with assignable keyboard shortcuts, keyboard navigation, and
+        modifier keys that apply alternate formats.
       </>
     ),
   },
