@@ -62,6 +62,10 @@ Introduces a full-fidelity clipboard variant that can be pasted directly into a 
 
 Provides extension versions for Firefox, Edge, and Safari.
 
+### Translations
+
+Adds support for more app and website locales.
+
 ### Graphical custom format tokens
 
 Refines the user experience by replacing the use of text-based tokens.
