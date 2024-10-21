@@ -2,25 +2,25 @@
   position: relative;
   width: fit-content;
   font-size: 0;
+}
 
-  .screenshotImage {
-    width: auto;
-    /* explicit height avoids load jank */
-    height: 316.67px;
-    border-radius: 6px;
-    filter: drop-shadow(2px 4px 16px #0000005e);
-  }
+.images .screenshotImage {
+  width: auto;
+  /* explicit height avoids load jank */
+  height: 316.67px;
+  border-radius: 6px;
+  filter: drop-shadow(2px 4px 16px #0000005e);
+}
 
-  .formatOverlay {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    height: 48px;
-    border-radius: 6px;
+.images .formatOverlay {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  height: 48px;
+  border-radius: 6px;
+}
 
-    &.selectedFormat {
-      opacity: 0;
-      transition: opacity 600ms;
-    }
-  }
+.images .formatOverlay.selectedFormat {
+  opacity: 0;
+  transition: opacity 600ms;
 }

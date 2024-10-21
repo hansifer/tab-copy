@@ -31,31 +31,32 @@ li::marker {
   --ifm-color-primary-lighter: #32d8b4;
   --ifm-color-primary-lightest: #4fddbf;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
 
-  .container {
-    /* content color */
-    color: #ccc;
-  }
+[data-theme='dark'] .container {
+  /* content color */
+  color: #ccc;
+}
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  code,
-  strong {
-    color: #fff;
-  }
+[data-theme='dark'] h1,
+[data-theme='dark'] h2,
+[data-theme='dark'] h3,
+[data-theme='dark'] h4,
+[data-theme='dark'] h5,
+[data-theme='dark'] h6,
+[data-theme='dark'] code,
+[data-theme='dark'] strong {
+  color: #fff;
+}
 
-  li::marker {
-    color: #fff;
-  }
+[data-theme='dark'] li::marker {
+  color: #fff;
 }
 
 .hero__subtitle {
   margin-bottom: 10px;
   font-weight: 200;
+  color: #fff;
 }
 
 [data-theme='light'] img[src$='#dark-mode-only'],
