@@ -232,6 +232,7 @@ button {
 
 #format-selector {
   display: none;
+  width: 100%;
   flex-wrap: wrap;
   justify-content: center;
   gap: 0.4rem;
