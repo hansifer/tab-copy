@@ -144,7 +144,7 @@ async function setupOffscreenDocument() {
         chrome.offscreen.Reason.LOCAL_STORAGE,
       ],
       justification:
-        '1) Copy a tab or link to the clipboard from a context menu. 2) Discover whether the user prefers dark or light mode. 3) Read local storage to facilitate user data migration.',
+        '1) Copy a tab or link to the clipboard from a context menu or command. 2) Discover whether the user prefers dark or light mode. 3) Read local storage to facilitate user data migration.',
     })
 
     await creatingOffscreenDoc
