@@ -9,7 +9,7 @@ export const intl = {
 
   copy1xAs: () => 'copy 1x as',
 
-  holdWhenCopying: (keyModifier: string) => `hold ${keyModifier} when copying`,
+  holdWhenCopying: (modifierKey: string) => `hold ${modifierKey} when copying`,
 
   copyTab: () => 'copy tab',
 
@@ -190,7 +190,7 @@ export const intl = {
 
   editKeyboardShortcuts: () => 'edit keyboard shortcuts...',
 
-  // ----- key modifiers -----
+  // ----- modifier keys -----
 
   alt: () => 'alt',
 
@@ -198,7 +198,7 @@ export const intl = {
 
   shift: () => 'shift',
 
-  keyModifier: (...keys: string[]) => keys.join('+'),
+  modifierKey: (...keys: string[]) => keys.join('+'),
 
   // ----- misc -----
 

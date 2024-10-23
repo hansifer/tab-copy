@@ -2,9 +2,9 @@ import { intl } from '@/intl'
 import { clientInfo } from '@/util/client-info'
 import { sentenceCase } from '@/util/string'
 
-// tab copy can have secondary and ternary key modifiers that slightly modify behavior
+// tab copy can have secondary and ternary modifier keys that slightly modify behavior
 
-export function hasSecondaryActionKeyModifier({
+export function hasSecondaryActionModifierKey({
   metaKey,
   ctrlKey,
   shiftKey,
@@ -16,7 +16,7 @@ export function hasSecondaryActionKeyModifier({
   return !shiftKey && hasCtrlOrMeta({ metaKey, ctrlKey })
 }
 
-export function hasTernaryActionKeyModifier({
+export function hasTernaryActionModifierKey({
   metaKey,
   ctrlKey,
   shiftKey,
@@ -32,13 +32,13 @@ function hasCtrlOrMeta({ metaKey, ctrlKey }: { metaKey: boolean; ctrlKey: boolea
   return clientInfo.os === 'mac' ? metaKey : ctrlKey
 }
 
-export function getSecondaryActionKeyModifierLabel() {
+export function getSecondaryActionModifierKeyLabel() {
   return clientInfo.os === 'mac' ? '⌘' : sentenceCase(intl.ctrl())
 }
 
 // ternary can't be shift only since that's used for reverse-direction tabbing
-export function getTernaryActionKeyModifierLabel() {
+export function getTernaryActionModifierKeyLabel() {
   return clientInfo.os === 'mac'
-    ? intl.keyModifier('⌘', '⇧')
-    : intl.keyModifier(sentenceCase(intl.ctrl()), sentenceCase(intl.shift()))
+    ? intl.modifierKey('⌘', '⇧')
+    : intl.modifierKey(sentenceCase(intl.ctrl()), sentenceCase(intl.shift()))
 }

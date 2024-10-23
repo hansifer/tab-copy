@@ -9,7 +9,7 @@ import {
   getDefaultFormatId,
   makeStorageChangeHandler,
 } from '@/storage'
-import { hasSecondaryActionKeyModifier, hasTernaryActionKeyModifier } from '@/keyboard'
+import { hasSecondaryActionModifierKey, hasTernaryActionModifierKey } from '@/keyboard'
 import { intl } from '@/intl'
 import { getTabs } from '@/util/tabs'
 import {
@@ -29,7 +29,7 @@ import './popup.css'
 
 type FormatVariation = 'secondary' | 'ternary'
 
-let formatVariation: FormatVariation | null = null // set when key modifiers are engaged
+let formatVariation: FormatVariation | null = null // set when modifier keys are engaged
 let oneTimeFormatId: FormatId | null = null // set when selecting a non-default format. takes precedence over formatVariation during copy.
 
 let keepFormatSelectorExpanded = false
@@ -105,7 +105,7 @@ async function initCopyButtons() {
 
   // ----- add event handlers -----
 
-  const setFormatVariationPerKeyModifiers = (e: KeyboardEvent) => {
+  const setFormatVariationPerModifierKeys = (e: KeyboardEvent) => {
     if (isButton(e.currentTarget)) {
       setFormatVariation(getFormatVariation(e))
     }
@@ -142,7 +142,7 @@ async function initCopyButtons() {
     }
   }
 
-  addListener(copyButtons, ['keydown', 'keyup'], setFormatVariationPerKeyModifiers)
+  addListener(copyButtons, ['keydown', 'keyup'], setFormatVariationPerModifierKeys)
   addListener(copyButtons, 'click', handleCopyClickOrKeydown)
   addListener(copyButtons, 'keydown', handleCopyKeydown)
   addListener(copyButtons, 'focus', closeFormatSelector)
@@ -337,11 +337,11 @@ function hasFormatOverride() {
 }
 
 function getFormatVariation(e: KeyboardEvent | MouseEvent): FormatVariation | null {
-  if (hasTernaryActionKeyModifier(e)) {
+  if (hasTernaryActionModifierKey(e)) {
     return 'ternary'
   }
 
-  if (hasSecondaryActionKeyModifier(e)) {
+  if (hasSecondaryActionModifierKey(e)) {
     return 'secondary'
   }
 

@@ -24,7 +24,7 @@ import {
   getHiddenOptionTipIds,
   hideOptionTip,
 } from '@/storage'
-import { getSecondaryActionKeyModifierLabel, getTernaryActionKeyModifierLabel } from '@/keyboard'
+import { getSecondaryActionModifierKeyLabel, getTernaryActionModifierKeyLabel } from '@/keyboard'
 import { intl } from '@/intl'
 import { sentenceCase } from '@/util/string'
 import { classy } from '@/util/css'
@@ -304,10 +304,10 @@ function getFormatDescription(format: ConfiguredFormat, visibleFormats: Configur
   }
 
   if (idx === 1) {
-    return sentenceCase(intl.holdWhenCopying(getSecondaryActionKeyModifierLabel()))
+    return sentenceCase(intl.holdWhenCopying(getSecondaryActionModifierKeyLabel()))
   }
 
   if (idx === 2) {
-    return sentenceCase(intl.holdWhenCopying(getTernaryActionKeyModifierLabel()))
+    return sentenceCase(intl.holdWhenCopying(getTernaryActionModifierKeyLabel()))
   }
 }
