@@ -1,0 +1,22 @@
+.Stars {
+  display: inline-block;
+  position: relative;
+  height: 30px;
+  color: #d3d300;
+}
+
+.starsOutlined {
+  display: flex;
+}
+
+.starsFilled {
+  display: flex;
+  position: absolute;
+  top: 0;
+  overflow: hidden;
+}
+
+.star {
+  flex-shrink: 0;
+  fill: currentColor;
+}
