@@ -1,0 +1,39 @@
+.Testimonials {
+  width: 100%;
+  max-width: 960px;
+  padding: 16px;
+  margin: 24px auto 0;
+  box-sizing: border-box;
+}
+
+.card {
+  padding: 22px 34px;
+  border-radius: 10px;
+  color: #000;
+  background-color: #fff;
+  filter: drop-shadow(2px 4px 16px #00000029);
+}
+
+[data-theme='dark'] .card {
+  color: #fff;
+  background-color: #292929;
+  filter: drop-shadow(2px 4px 16px #0000005e);
+}
+
+.user {
+  display: flex;
+  gap: 16px;
+  font-size: 0.8rem;
+  color: #555;
+  align-items: center;
+}
+
+[data-theme='dark'] .user {
+  color: #aaa;
+}
+
+.avatar {
+  height: 36px;
+  width: 36px;
+  border-radius: 50%;
+}
