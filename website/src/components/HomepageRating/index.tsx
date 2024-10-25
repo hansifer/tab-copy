@@ -12,7 +12,12 @@ export default function HomepageRating({
   return (
     <section className={styles.HomepageRating}>
       <Stars rating={rating} />
-      <Heading as="h2">{text}</Heading>
+      <Heading
+        as="h2"
+        className={styles.text}
+      >
+        {text}
+      </Heading>
     </section>
   )
 }
