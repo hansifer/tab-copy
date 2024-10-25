@@ -53,6 +53,10 @@ li::marker {
   color: #fff;
 }
 
+.hero__title {
+  font-kerning: none;
+}
+
 .hero__subtitle {
   margin-bottom: 10px;
   font-weight: 200;
