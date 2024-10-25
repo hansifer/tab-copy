@@ -1,0 +1,29 @@
+.CryptoAddress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 3rem 0;
+}
+
+.CryptoAddress h3 {
+  margin: 0;
+}
+
+.CryptoAddress img {
+  height: 128px;
+  padding: 10px;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.CryptoAddress code {
+  border: none;
+  color: #0000009f;
+  background-color: transparent;
+  user-select: all;
+}
+
+[data-theme='dark'] .CryptoAddress code {
+  color: #ffffff90;
+}
