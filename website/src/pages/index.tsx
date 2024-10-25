@@ -2,8 +2,10 @@ import clsx from 'clsx'
 // import Link from '@docusaurus/Link'
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext'
 import Layout from '@theme/Layout'
-import HomepageFeatures from '@site/src/components/HomepageFeatures'
 import Screenshot from '@site/src/components/Screenshot'
+import HomepageFeatures from '@site/src/components/HomepageFeatures'
+import HomepageRating from '@site/src/components/HomepageRating'
+import HomepageTestimonials from '@site/src/components/HomepageTestimonials'
 import Heading from '@theme/Heading'
 
 import styles from './index.module.css'
@@ -46,6 +48,14 @@ export default function Home(): JSX.Element {
       <Screenshot className={styles.screenshotContainer} />
       <main>
         <HomepageFeatures />
+        {/* 4.7 rating adjusted to visually match CWS */}
+        <HomepageRating
+          rating={4.56}
+          text={'4.7 stars on the Chrome Web Store'}
+        />
+        <HomepageTestimonials
+          text={'Boosting daily productivity for over 93,000 users worldwide'}
+        />
       </main>
     </Layout>
   )
