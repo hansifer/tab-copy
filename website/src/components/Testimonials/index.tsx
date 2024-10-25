@@ -1,4 +1,5 @@
 import { Masonry } from 'masonic'
+import BrowserOnly from '@docusaurus/BrowserOnly'
 import styles from './styles.module.css'
 
 type TestimonialItem = {
@@ -216,16 +217,21 @@ const TestimonialCard = ({
 
 export default function Testimonials(): JSX.Element {
   return (
-    <div className={styles.Testimonials}>
-      <Masonry
-        items={testimonialItems}
-        rowGutter={16}
-        columnGutter={16}
-        maxColumnCount={3}
-        // minimum column width
-        columnWidth={220}
-        render={TestimonialCard}
-      />
-    </div>
+    // Only render this component in the browser to avoid "ReferenceError: ResizeObserver is not defined" during build
+    <BrowserOnly>
+      {() => (
+        <div className={styles.Testimonials}>
+          <Masonry
+            items={testimonialItems}
+            rowGutter={16}
+            columnGutter={16}
+            maxColumnCount={3}
+            // minimum column width
+            columnWidth={220}
+            render={TestimonialCard}
+          />
+        </div>
+      )}
+    </BrowserOnly>
   )
 }
