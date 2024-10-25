@@ -72,15 +72,11 @@ p img {
   vertical-align: middle;
 }
 
-/* classes for centered mdx pages */
+/* centered mdx pages */
 
 .centeredPage {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.centeredContent {
   max-width: 428px;
+  padding: 0 20px;
+  margin: 0 auto;
   text-align: center;
 }
