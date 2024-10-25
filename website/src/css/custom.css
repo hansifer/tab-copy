@@ -71,3 +71,16 @@ li::marker {
 p img {
   vertical-align: middle;
 }
+
+/* classes for centered mdx pages */
+
+.centeredPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.centeredContent {
+  max-width: 428px;
+  text-align: center;
+}
