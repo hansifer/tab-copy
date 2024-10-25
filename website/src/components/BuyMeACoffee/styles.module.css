@@ -1,0 +1,18 @@
+.BuyMeACoffee {
+  padding: 3rem 0;
+  line-height: 1;
+}
+
+.BuyMeACoffee a {
+  display: inline-block;
+}
+
+.BuyMeACoffee img {
+  width: 160px;
+  opacity: 0.8;
+  transition: opacity 150ms;
+}
+
+.BuyMeACoffee img:hover {
+  opacity: 1;
+}
