@@ -2,8 +2,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 10px;
-  padding: 3rem 0;
+  gap: 36px;
+  padding: 2rem 0;
 }
 
 .CryptoAddress h3 {
@@ -17,13 +17,20 @@
   background-color: #fff;
 }
 
-.CryptoAddress code {
+.address {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.address code {
   border: none;
   color: #0000009f;
   background-color: transparent;
   user-select: all;
 }
 
-[data-theme='dark'] .CryptoAddress code {
+[data-theme='dark'] .address code {
   color: #ffffff90;
 }
