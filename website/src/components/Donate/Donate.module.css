@@ -1,0 +1,31 @@
+.DonateButtons {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  min-width: 200px;
+  max-width: 300px;
+  padding-top: 3rem;
+}
+
+.DonateButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  border-radius: 8px;
+  /* transition: transform 150ms ease-in-out, filter 150ms ease-in-out; */
+}
+
+.DonateButton:hover {
+  transform: scale(1.02);
+  filter: drop-shadow(0px 4px 4px #0000004e);
+}
+
+[data-theme='dark'] .DonateButton:hover {
+  filter: drop-shadow(0px 4px 16px #000000ee);
+}
+
+.DonateButton img {
+  height: 26px;
+}
