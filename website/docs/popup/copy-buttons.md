@@ -28,4 +28,4 @@ Use the _Tab_ or _Up/Down_ arrow keys to select a copy button, then hit _Enter_ 
 
 By default, all copy buttons are shown.
 
-You can customize which buttons appear in the popup in [Tab Copy options](../options#copy-buttons).
+You can customize which buttons appear in the popup in [Tab Copy options](../options.mdx#copy-buttons).

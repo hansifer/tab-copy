@@ -8,7 +8,7 @@ Tab Copy logs activity and errors to the Tab Copy console. These logs can provid
 
 To view the console:
 
-1. Right-click the Tab Copy icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only) and click **Manage extension**. This opens Tab Copy's [Extension settings](../extension-settings).
+1. Right-click the Tab Copy icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only) and click **Manage extension**. This opens Tab Copy's [Extension settings](../extension-settings.md).
 
 1. Ensure that **Collect errors** is toggled on
 

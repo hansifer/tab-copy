@@ -20,7 +20,7 @@ While we love this work, we do it for free in our spare time, and achieving all 
 
 ### Donate
 
-We'd be grateful if you'd consider supporting our efforts [with a donation](../donate) to help us keep improving and maintaining this project. Every donation makes a big difference.
+We'd be grateful if you'd consider supporting our efforts [with a donation](/donate) to help us keep improving and maintaining this project. Every donation makes a big difference.
 
 ### Rate
 
@@ -28,7 +28,7 @@ We'd be grateful if you'd consider supporting our efforts [with a donation](../d
 
 ### Contribute
 
-If you'd like to get involved as a developer, designer, or in other ways, please [reach out](mailto:support@tabcopy.com) or consider [submitting a PR](https://github.com/hansifer/tab-copy) for a feature on [our roadmap](../roadmap).
+If you'd like to get involved as a developer, designer, or in other ways, please [reach out](mailto:support@tabcopy.com) or consider [submitting a PR](https://github.com/hansifer/tab-copy) for a feature on [our roadmap](/roadmap).
 
 ### Partnerships
 
