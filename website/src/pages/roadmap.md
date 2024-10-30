@@ -4,6 +4,10 @@ Below are some features we plan to roll out in the future.
 
 Please consider [making a donation](/donate) to help us get there. Your support makes a huge difference!
 
+### One-click copy
+
+Allow copying tabs immediately with a single click on the extension icon instead of opening a popup. Uses default tab range and format.
+
 ### Cloud-based clipboard
 
 Provides access to copied tabs on other devices. May include clipboard history and management.
