@@ -2,7 +2,7 @@ import { defineManifest } from '@crxjs/vite-plugin'
 import pkg from '../package.json'
 
 export default defineManifest({
-  name: 'Tab Copy',
+  name: pkg.displayName,
   version: pkg.version,
   description: 'Quickly copy tabs to the clipboard in a variety of formats',
   manifest_version: 3,

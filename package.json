@@ -1,5 +1,6 @@
 {
   "name": "tab-copy",
+  "displayName": "Tab Copy",
   "version": "4.0.0",
   "description": "Quickly copy browser tabs to the clipboard in a variety of formats",
   "keywords": [
@@ -28,6 +29,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
+    "zip": "npm run build && node zip.js",
     "fmt": "prettier --write '**/*.{ts,tsx,json,css,scss,html}'"
   },
   "dependencies": {
@@ -48,6 +50,8 @@
     "@types/react": "^18.2.39",
     "@types/react-dom": "^18.2.17",
     "@vitejs/plugin-react": "^4.3.1",
+    "gulp": "^4.0.2",
+    "gulp-zip": "^6.0.0",
     "prettier": "^3.0.3",
     "typescript": "^5.5.4",
     "vite": "^5.3.5"
