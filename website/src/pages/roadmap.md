@@ -6,7 +6,7 @@ Please consider [making a donation](/donate) to help us get there. Your support 
 
 ### One-click copy
 
-Allow copying tabs immediately with a single click on the extension icon instead of opening a popup. Uses default tab range and format configurable in [options](/docs/options).
+Allow copying tabs immediately with a single click on the extension icon instead of opening a popup. Uses default tab range and format (configurable in [options](/docs/options)).
 
 ### Cloud-based clipboard
 
