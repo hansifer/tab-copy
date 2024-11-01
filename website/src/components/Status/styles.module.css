@@ -1,0 +1,42 @@
+.Status {
+  display: inline-block;
+  padding: 4px 7px;
+  margin-left: 14px;
+  font-size: 0.62rem;
+  font-weight: 400;
+  line-height: 1;
+  border: 1px solid currentColor;
+  border-radius: 4px;
+  vertical-align: middle;
+  text-transform: uppercase;
+}
+
+.Status.nextUp {
+  color: #0092d5;
+  background-color: #0092d50d;
+}
+
+[data-theme='dark'] .Status.nextUp {
+  color: #03A9F4;
+  background-color: transparent;
+}
+
+.Status.inProgress {
+  color: #ff3d00;
+  background-color: #ff3d000d;
+}
+
+[data-theme='dark'] .Status.inProgress {
+  color: #e2aa00;
+  background-color: transparent;
+}
+
+.Status.done {
+  color: #00bc0a;
+  background-color: #00bc0a0d;
+}
+
+[data-theme='dark'] .Status.done {
+  color: #00d709;
+  background-color: transparent;
+}
