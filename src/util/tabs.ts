@@ -1,4 +1,4 @@
-import { TabScopeId } from '@/scope'
+import { TabScopeId, ScopeId } from '@/scope'
 
 export type TabPredicate = (tab: chrome.tabs.Tab) => boolean
 
@@ -32,6 +32,24 @@ export async function getTabs(scopeId: TabScopeId = 'all-tabs', filter?: TabPred
 
   // `highlighted-tabs` scope is not subject to filtering
   return unfilteredWindowTabs.filter(({ highlighted }) => !!highlighted)
+}
+
+// gets counts for all scopes
+// - `all-windows-and-tabs` is window count
+// - `highlighted-tabs` is not subject to filtering
+export async function getWindowAndTabCounts(
+  filter?: TabPredicate,
+): Promise<{ [k in ScopeId]: number }> {
+  const { windows, allTabs } = await getWindowsAndAllTabs(filter)
+  const { unfilteredWindowTabs, filteredWindowTabs } = await getWindowTabs(filter)
+  const highlightedTabs = unfilteredWindowTabs.filter(({ highlighted }) => !!highlighted)
+
+  return {
+    'highlighted-tabs': highlightedTabs.length,
+    'window-tabs': filteredWindowTabs.length,
+    'all-tabs': allTabs.length,
+    'all-windows-and-tabs': windows.length,
+  }
 }
 
 let itemId = 1
