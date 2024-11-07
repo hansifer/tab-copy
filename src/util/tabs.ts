@@ -1,5 +1,13 @@
 import { TabScopeId, ScopeId } from '@/scope'
 
+const filterImpactingTabProps: (keyof chrome.tabs.Tab)[] = [
+  // wrap
+  'pinned',
+  'url',
+  'title',
+  'groupId',
+]
+
 export type TabPredicate = (tab: chrome.tabs.Tab) => boolean
 
 // - excludes tabs without URL (possible?)
@@ -49,6 +57,52 @@ export async function getWindowAndTabCounts(
     'window-tabs': filteredWindowTabs.length,
     'all-tabs': allTabs.length,
     'all-windows-and-tabs': windows.length,
+  }
+}
+
+export function onTabCountChanged(callback: () => void, debounce = 500) {
+  let timeout: number
+
+  const debouncedCallback = () => {
+    clearTimeout(timeout)
+    timeout = window.setTimeout(callback, debounce)
+  }
+
+  const onUpdatedListener: Parameters<typeof chrome.tabs.onUpdated.addListener>[0] = (
+    _,
+    changeInfo,
+  ) => {
+    if (filterImpactingTabProps.some((prop) => changeInfo.hasOwnProperty(prop))) {
+      debouncedCallback()
+    }
+  }
+
+  const listener = () => {
+    debouncedCallback()
+  }
+
+  chrome.tabs.onUpdated.addListener(onUpdatedListener)
+  chrome.tabs.onCreated.addListener(listener)
+  chrome.tabs.onRemoved.addListener(listener)
+  chrome.tabs.onDetached.addListener(listener)
+  chrome.tabs.onAttached.addListener(listener)
+  chrome.tabs.onMoved.addListener(listener)
+  chrome.tabs.onActivated.addListener(listener)
+  chrome.tabs.onHighlighted.addListener(listener)
+  chrome.windows.onCreated.addListener(listener)
+  chrome.windows.onRemoved.addListener(listener)
+
+  return () => {
+    chrome.tabs.onUpdated.removeListener(onUpdatedListener)
+    chrome.tabs.onCreated.removeListener(listener)
+    chrome.tabs.onRemoved.removeListener(listener)
+    chrome.tabs.onDetached.removeListener(listener)
+    chrome.tabs.onAttached.removeListener(listener)
+    chrome.tabs.onMoved.removeListener(listener)
+    chrome.tabs.onActivated.removeListener(listener)
+    chrome.tabs.onHighlighted.removeListener(listener)
+    chrome.windows.onCreated.removeListener(listener)
+    chrome.windows.onRemoved.removeListener(listener)
   }
 }
 
