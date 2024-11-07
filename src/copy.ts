@@ -19,10 +19,7 @@ export async function copy({
 }) {
   log(`copying scope ${scopeId}...`, { separate: true })
 
-  const { value: ignorePinnedTabs } =
-    scopeId === 'highlighted-tabs' // wrap
-      ? { value: false }
-      : await getOption('ignorePinnedTabs')
+  const ignorePinnedTabs = (await getOption('ignorePinnedTabs')).value
 
   const filter: TabPredicate | undefined = ignorePinnedTabs // wrap
     ? ({ pinned }) => !pinned

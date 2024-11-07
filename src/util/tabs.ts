@@ -16,24 +16,22 @@ export async function getWindowsAndTabs(filter?: TabPredicate) {
     .filter(({ tabs }) => tabs.length)
 }
 
+// - ignores filter for scope `highlighted-tabs`
 // - may return empty array
 export async function getTabs(scopeId: TabScopeId = 'all-tabs', filter?: TabPredicate) {
-  const windows = await getWindowsAndTabs(filter)
-  const allTabs = windows.flatMap(({ tabs }) => tabs).filter((tab) => !!tab)
-
   if (scopeId === 'all-tabs') {
+    const { allTabs } = await getWindowsAndAllTabs(filter)
     return allTabs
   }
 
-  const currentWinId = (await chrome.windows.getCurrent()).id
-  const windowTabs = allTabs.filter(({ windowId }) => windowId === currentWinId)
+  const { unfilteredWindowTabs, filteredWindowTabs } = await getWindowTabs(filter)
 
   if (scopeId === 'window-tabs') {
-    return windowTabs
+    return filteredWindowTabs
   }
 
-  // scopeId === 'highlighted-tabs'
-  return windowTabs.filter(({ highlighted }) => !!highlighted)
+  // `highlighted-tabs` scope is not subject to filtering
+  return unfilteredWindowTabs.filter(({ highlighted }) => !!highlighted)
 }
 
 let itemId = 1
@@ -95,4 +93,21 @@ export function getDummyTab({
     autoDiscardable: false,
     groupId: -1,
   }
+}
+
+async function getWindowsAndAllTabs(filter?: TabPredicate) {
+  const windows = await getWindowsAndTabs(filter)
+  const allTabs = windows.flatMap(({ tabs }) => tabs).filter((tab) => !!tab)
+
+  return { windows, allTabs }
+}
+
+async function getWindowTabs(filter?: TabPredicate) {
+  const unfilteredWindowTabs = (await chrome.tabs.query({ currentWindow: true })).filter(
+    (tab) => tab.url,
+  )
+
+  const filteredWindowTabs = unfilteredWindowTabs.filter((tab) => !filter || filter(tab))
+
+  return { unfilteredWindowTabs, filteredWindowTabs }
 }
