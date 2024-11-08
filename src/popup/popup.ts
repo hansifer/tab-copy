@@ -11,7 +11,12 @@ import {
 } from '@/storage'
 import { hasSecondaryActionModifierKey, hasTernaryActionModifierKey } from '@/keyboard'
 import { intl } from '@/intl'
-import { getTabs } from '@/util/tabs'
+import {
+  // wrap
+  getTabs,
+  getWindowAndTabCounts,
+  TabPredicate,
+} from '@/util/tabs'
 import {
   // wrap
   isButton,
@@ -157,6 +162,61 @@ async function initCopyButtons() {
       }
     })
   }, 100)
+}
+
+async function refreshCounts() {
+  const showTabCounts = (await getOption('showTabCounts')).value
+
+  const copyButtonsContainer = getDiv('copy-buttons')
+  const copyButtons = Array.from(copyButtonsContainer.children) as HTMLButtonElement[]
+
+  document.body.classList.toggle('with-counts', showTabCounts)
+
+  if (!showTabCounts) {
+    for (const button of copyButtons) {
+      button.style.removeProperty('--count')
+      button.classList.remove('single-digit-count')
+      button.removeAttribute('disabled')
+      button.removeAttribute('title')
+    }
+
+    return
+  }
+
+  const ignorePinnedTabs = (await getOption('ignorePinnedTabs')).value
+
+  const filter: TabPredicate | undefined = ignorePinnedTabs // wrap
+    ? ({ pinned }) => !pinned
+    : undefined
+
+  const counts = await getWindowAndTabCounts(filter)
+
+  for (const button of copyButtons) {
+    const scopeId = button.dataset.scope as ScopeId
+
+    const count =
+      scopeId === 'all-windows-and-tabs' // wrap
+        ? counts['all-tabs']
+        : counts[scopeId]
+
+    if (scopeId === 'highlighted-tabs' && count === 1) {
+      button.style.removeProperty('--count') // removing count sets badge `content` to `None`, effectively hiding it
+    } else {
+      // value needs to be in form '"123"'
+      // not localizing counts. separators take space, which is at a premium.
+      button.style.setProperty('--count', JSON.stringify(count.toString()))
+    }
+
+    button.classList.toggle('single-digit-count', count < 10)
+
+    if (count) {
+      button.toggleAttribute('disabled', false)
+      button.removeAttribute('title')
+    } else {
+      button.toggleAttribute('disabled', true)
+      button.setAttribute('title', intl.noUnfilteredTabsFound())
+    }
+  }
 }
 
 async function initFormats() {
