@@ -239,7 +239,7 @@ async function refreshCounts() {
       button.removeAttribute('title')
     } else {
       button.toggleAttribute('disabled', true)
-      button.setAttribute('title', intl.noUnfilteredTabsFound())
+      button.setAttribute('title', intl.noTabsFound())
     }
   }
 }

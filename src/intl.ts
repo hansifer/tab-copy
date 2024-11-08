@@ -66,6 +66,8 @@ export const intl = {
 
   allWindowsAndTabsDescription: () => 'all tabs, grouped by window',
 
+  noTabsFound: () => 'No tabs found. Check filtering options.',
+
   // ----- copy format -----
 
   linkDescription: (plaintextFormatLabel: string) =>
@@ -166,6 +168,10 @@ export const intl = {
 
   keepFormatSelectorExpandedDescription: () =>
     'always show all available formats in the Tab Copy popup',
+
+  showTabCounts: () => 'show tab counts',
+
+  showTabCountsDescription: () => 'show how many tabs\nwill be copied',
 
   showContextMenu: () => 'show context menu',
 
