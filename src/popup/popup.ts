@@ -15,6 +15,7 @@ import {
   // wrap
   getTabs,
   getWindowAndTabCounts,
+  onTabCountChanged,
   TabPredicate,
 } from '@/util/tabs'
 import {
@@ -26,6 +27,7 @@ import {
   getButton,
   queryElement,
 } from '@/util/dom'
+import { serializer } from '@/util/async'
 import { sentenceCase } from '@/util/string'
 
 import './popup.css'
@@ -162,6 +164,29 @@ async function initCopyButtons() {
       }
     })
   }, 100)
+
+  // ensure async calls don't overlap
+  const enqueue = serializer()
+
+  const optionsChanges = ['options']
+
+  chrome.storage.onChanged.addListener(
+    makeStorageChangeHandler(
+      () => {
+        enqueue(refreshCounts)
+      },
+      {
+        listen: optionsChanges,
+        throttle: 500,
+      },
+    ),
+  )
+
+  onTabCountChanged(() => {
+    enqueue(refreshCounts)
+  })
+
+  enqueue(refreshCounts)
 }
 
 async function refreshCounts() {
