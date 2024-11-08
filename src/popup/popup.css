@@ -13,6 +13,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 208px;
   min-width: 208px;
   margin: 12px;
   user-select: none;
@@ -29,6 +30,11 @@ body {
     'Open Sans',
     'Helvetica Neue',
     sans-serif;
+
+  &.with-counts {
+    width: 240px;
+    min-width: 240px;
+  }
 }
 
 header {
