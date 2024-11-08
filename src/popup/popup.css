@@ -129,6 +129,11 @@ button {
     color: #eee;
     background-color: #ffffff1f;
   }
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
+  }
 }
 
 .button-label {
