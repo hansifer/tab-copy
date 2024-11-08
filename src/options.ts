@@ -24,6 +24,12 @@ const options = [
     description: () => intl.keepFormatSelectorExpandedDescription(),
   },
   {
+    id: 'showTabCounts',
+    def: false as boolean,
+    label: () => intl.showTabCounts(),
+    description: () => intl.showTabCountsDescription(),
+  },
+  {
     id: 'showContextMenu',
     def: true as boolean,
     label: () => intl.showContextMenu(),
