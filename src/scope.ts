@@ -15,21 +15,25 @@ export const scopes = [
       highlightedTabCount === 1 // wrap
         ? intl.thisTab()
         : intl.selectedTabs(),
+    copyLabel: (formatLabel?: string) => intl.copySelectedTabs(formatLabel),
     description: () => intl.selectedTabsDescription(),
   },
   {
     id: 'window-tabs',
     label: () => intl.thisWindowsTabs(),
+    copyLabel: (formatLabel?: string) => intl.copyWindowTabs(formatLabel),
     description: () => intl.thisWindowsTabsDescription(),
   },
   {
     id: 'all-tabs',
     label: () => intl.allTabs(),
+    copyLabel: (formatLabel?: string) => intl.copyAllTabs(formatLabel),
     description: () => intl.allTabsDescription(),
   },
   {
     id: 'all-windows-and-tabs',
     label: () => intl.allWindowsAndTabs(),
+    copyLabel: (formatLabel?: string) => intl.copyAllWindowsAndTabs(formatLabel),
     description: () => intl.allWindowsAndTabsDescription(),
   },
 ] as const satisfies ScopeTemplate[]
@@ -37,6 +41,7 @@ export const scopes = [
 type ScopeTemplate = {
   id: string
   label: (tabsInfo?: TabsInfo) => string
+  copyLabel: (formatLabel?: string) => string
   description?: () => string
 }
 
