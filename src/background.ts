@@ -98,11 +98,11 @@ chrome.runtime.onInstalled.addListener(
 // fires on leaf nodes and branch nodes with empty `items`
 chrome.contextMenus.onClicked.addListener(handleMenuAction)
 
-setIcon('logo')
+enqueue(() => setIcon('logo'))
 enqueue(setIconAction)
 
 chrome.runtime.onStartup.addListener(() => {
-  setIcon('logo')
+  enqueue(() => setIcon('logo'))
   enqueue(setIconAction)
 })
 
@@ -139,10 +139,10 @@ chrome.storage.onChanged.addListener(
 
       // --- flash extension icon ---
 
-      setIcon(success ? 'success' : 'fail')
+      enqueue(() => setIcon(success ? 'success' : 'fail'))
 
       actionIconFlashTimer = setTimeout(() => {
-        setIcon('logo')
+        enqueue(() => setIcon('logo'))
       }, 1e3)
 
       // --- notify ---
@@ -193,7 +193,7 @@ chrome.storage.onChanged.addListener(
     }
 
     if (changes.options) {
-      setIcon('logo')
+      enqueue(() => setIcon('logo'))
     }
   }),
 )
