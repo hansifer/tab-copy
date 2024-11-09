@@ -47,6 +47,26 @@ export const intl = {
 
   // ----- copy scope -----
 
+  copySelectedTabs: (formatLabel?: string): string =>
+    formatLabel // wrap
+      ? `${intl.copySelectedTabs()} as ${formatLabel}`
+      : 'copy selected tabs',
+
+  copyWindowTabs: (formatLabel?: string): string =>
+    formatLabel // wrap
+      ? `${intl.copyWindowTabs()} as ${formatLabel}`
+      : 'copy window tabs',
+
+  copyAllTabs: (formatLabel?: string): string =>
+    formatLabel // wrap
+      ? `${intl.copyAllTabs()} as ${formatLabel}`
+      : 'copy all tabs',
+
+  copyAllWindowsAndTabs: (formatLabel?: string): string =>
+    formatLabel // wrap
+      ? `${intl.copyAllWindowsAndTabs()} as ${formatLabel}`
+      : 'copy all windows and tabs',
+
   thisTab: () => 'this tab',
 
   selectedTabs: () => 'selected tabs',
