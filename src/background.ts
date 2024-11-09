@@ -37,7 +37,7 @@ const commandNameScopeId: Record<string, ScopeId> = {
 
 log(`service worker loaded ${new Date().toLocaleString()}`)
 
-// ensure refreshMenus() calls don't overlap
+// ensure async calls don't overlap
 const enqueue = serializer()
 
 chrome.runtime.onInstalled.addListener(
@@ -98,9 +98,11 @@ chrome.runtime.onInstalled.addListener(
 chrome.contextMenus.onClicked.addListener(handleMenuAction)
 
 setIcon('logo')
+enqueue(setIconAction)
 
 chrome.runtime.onStartup.addListener(() => {
   setIcon('logo')
+  enqueue(setIconAction)
 })
 
 chrome.commands.onCommand.addListener(async (commandName) => {
@@ -214,6 +216,34 @@ chrome.storage.onChanged.addListener(
     },
   ),
 )
+
+const optionAndScopeAndFormatChanges = [
+  // wrap
+  ...optionAndFormatChanges,
+  'hiddenScopeIds',
+]
+
+chrome.storage.onChanged.addListener(
+  makeStorageChangeHandler(
+    () => {
+      enqueue(setIconAction)
+    },
+    {
+      listen: optionAndScopeAndFormatChanges,
+      throttle: 1_000, // use debounce instead (once supported)
+    },
+  ),
+)
+
+async function setIconAction() {
+  const usePopup = (await getOption('usePopup')).value
+
+  return chrome.action.setPopup({
+    popup: usePopup // wrap
+      ? 'popup.html'
+      : '',
+  })
+}
 
 async function setIcon(name: 'logo' | 'success' | 'fail') {
   const filename =
