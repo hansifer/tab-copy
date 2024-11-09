@@ -236,6 +236,27 @@ chrome.storage.onChanged.addListener(
   ),
 )
 
+// only relevant for one-click mode since this won't fire if a popup is specified
+chrome.action.onClicked.addListener(async () => {
+  const visibleScopes = await getVisibleScopes()
+  const defaultScope = visibleScopes[0]
+
+  if (!defaultScope) return
+
+  const scopeId = defaultScope.id
+  const format = await getConfiguredFormat(await getDefaultFormatId())
+
+  try {
+    await copy({
+      scopeId,
+      format,
+      useLegacyClipboardWrite: true, // use offscreen action because extension service workers do not have direct access to the Clipboard API
+    })
+  } catch (ex) {
+    console.error('failed to copy to clipboard.', ex)
+  }
+})
+
 async function setIconAction() {
   const usePopup = (await getOption('usePopup')).value
 
