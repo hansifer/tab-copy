@@ -3,6 +3,7 @@ import { ScopeId } from '@/scope'
 import { getOption } from '@/options'
 import {
   // wrap
+  getVisibleScopes,
   getDefaultFormatId,
   makeStorageChangeHandler,
   updateCopyStats,
@@ -238,10 +239,16 @@ chrome.storage.onChanged.addListener(
 async function setIconAction() {
   const usePopup = (await getOption('usePopup')).value
 
-  return chrome.action.setPopup({
+  await chrome.action.setPopup({
     popup: usePopup // wrap
       ? 'popup.html'
       : '',
+  })
+
+  return chrome.action.setTitle({
+    title: usePopup // wrap
+      ? ''
+      : await getOneClickCopyLabel(),
   })
 }
 
@@ -308,4 +315,15 @@ function getCopyTypeLabel(type: CopyType): (count?: number) => string {
     default:
       return intl.unknown
   }
+}
+
+async function getOneClickCopyLabel() {
+  const visibleScopes = await getVisibleScopes()
+  const defaultScope = visibleScopes[0]
+
+  if (!defaultScope) return ''
+
+  const defaultFormat = await getConfiguredFormat(await getDefaultFormatId())
+
+  return sentenceCase(defaultScope.copyLabel(defaultFormat.label))
 }
