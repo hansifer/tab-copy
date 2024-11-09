@@ -171,8 +171,7 @@ export const intl = {
 
   keepFormatSelectorExpanded: () => 'keep format selector expanded',
 
-  keepFormatSelectorExpandedDescription: () =>
-    'always show all available formats in the Tab Copy popup',
+  keepFormatSelectorExpandedDescription: () => 'always show\nall available formats',
 
   showTabCounts: () => 'show tab counts',
 
@@ -185,7 +184,7 @@ export const intl = {
   provideContextMenuFormatSelection: () => 'provide format selection',
 
   provideContextMenuFormatSelectionDescription: () =>
-    'select a format when copying instead of always using\nthe default format',
+    'select a format when copying instead of using the default',
 
   ignorePinnedTabs: () => 'ignore pinned tabs',
 
