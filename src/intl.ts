@@ -164,6 +164,11 @@ export const intl = {
 
   // ----- options -----
 
+  usePopup: () => 'use popup',
+
+  usePopupDescription: () =>
+    'show a popup when activating Tab Copy instead of copying tabs immediately',
+
   keepFormatSelectorExpanded: () => 'keep format selector expanded',
 
   keepFormatSelectorExpandedDescription: () =>

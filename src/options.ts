@@ -18,16 +18,24 @@ type TopLevelOption = Exclude<OptionSpec, SubOption>
 // widen def prop type to allow value prop type to be inferred appropriately
 const options = [
   {
-    id: 'keepFormatSelectorExpanded',
-    def: false as boolean,
-    label: () => intl.keepFormatSelectorExpanded(),
-    description: () => intl.keepFormatSelectorExpandedDescription(),
+    id: 'usePopup',
+    def: true as boolean,
+    label: () => intl.usePopup(),
+    description: () => intl.usePopupDescription(),
   },
   {
     id: 'showTabCounts',
     def: false as boolean,
     label: () => intl.showTabCounts(),
     description: () => intl.showTabCountsDescription(),
+    requires: 'usePopup',
+  },
+  {
+    id: 'keepFormatSelectorExpanded',
+    def: false as boolean,
+    label: () => intl.keepFormatSelectorExpanded(),
+    description: () => intl.keepFormatSelectorExpandedDescription(),
+    requires: 'usePopup',
   },
   {
     id: 'showContextMenu',
