@@ -17,12 +17,19 @@ export const ScopeTile = ({
 }: ScopeTileProps) => {
   const visible = visibleScopes.some(({ id }) => id === scope.id)
   const isMinVisibleScopeCount = visibleScopes.length <= MIN_VISIBLE_SCOPE_COUNT
+  const defaultScope = visibleScopes[0]
 
   return (
     <Tile<ScopeId>
       id={scope.id}
       label={sentenceCase(scope.label())}
-      description={visible ? '' : sentenceCase(intl.hidden())}
+      description={
+        visible
+          ? defaultScope && defaultScope.id === scope.id
+            ? sentenceCase(intl.default())
+            : ''
+          : sentenceCase(intl.hidden())
+      }
       tip={sentenceCase('description' in scope ? scope.description() : '')}
       checked={visible}
       disabled={visible && isMinVisibleScopeCount}
