@@ -141,7 +141,13 @@ export const Options = () => {
         className={classes.section}
         inert={inert}
       >
-        <div className={classes.subsection}>
+        <div
+          className={classes.subsection}
+          style={{
+            // prevent horizontal shift when showing/hiding sub-options
+            width: 168,
+          }}
+        >
           {topLevelBooleanOptionIds.map((id) => (
             <BinaryOption
               key={id}
