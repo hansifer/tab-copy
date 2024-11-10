@@ -1,6 +1,15 @@
 import { defineManifest } from '@crxjs/vite-plugin'
 import pkg from '../package.json'
 
+// todo: use intl and `sentenceCase()` for `commands.description`:
+// - blocker: tsconfig paths do not work in `vite.config.ts` · Issue #10063 · vitejs/vite: https://github.com/vitejs/vite/issues/10063
+//   - see notes re: "cannot use aliased import in `vite.config.ts`"
+// - use translations:
+//   - intl.copySelectedTabs()
+//   - intl.copyWindowTabs()
+//   - intl.copyAllTabs()
+//   - intl.copyAllWindowsAndTabs()
+
 export default defineManifest({
   name: pkg.displayName,
   version: pkg.version,
@@ -36,13 +45,13 @@ export default defineManifest({
       description: 'Copy selected tabs',
     },
     '2copy-window-tabs': {
-      description: "Copy the current window's tabs",
+      description: 'Copy window tabs',
     },
     '3copy-all-tabs': {
-      description: 'Copy all tabs, ungrouped',
+      description: 'Copy all tabs',
     },
     '4copy-all-windows-and-tabs': {
-      description: 'Copy all tabs, grouped by window',
+      description: 'Copy all windows and tabs',
     },
   },
 })
