@@ -1,16 +1,23 @@
 type HeartIconProps = {
   size?: number
+  color?: string
+  fill?: boolean
 }
 
-export const HeartIcon = ({ size = 16 }: HeartIconProps) => {
+export const HeartIcon = ({
+  // wrap
+  size = 16,
+  color = 'currentColor',
+  fill,
+}: HeartIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
+      fill={fill ? color : 'none'}
+      stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"

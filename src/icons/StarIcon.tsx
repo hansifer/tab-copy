@@ -1,16 +1,23 @@
 type StarIconProps = {
   size?: number
+  color?: string
+  fill?: boolean
 }
 
-export const StarIcon = ({ size = 16 }: StarIconProps) => {
+export const StarIcon = ({
+  // wrap
+  size = 16,
+  color = 'currentColor',
+  fill,
+}: StarIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width={size}
       height={size}
       viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
+      fill={fill ? color : 'none'}
+      stroke={color}
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
