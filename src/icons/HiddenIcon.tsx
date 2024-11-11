@@ -1,8 +1,8 @@
-type HiddenProps = {
+type HiddenIconProps = {
   size?: number
 }
 
-export const Hidden = ({ size = 16 }: HiddenProps) => {
+export const HiddenIcon = ({ size = 16 }: HiddenIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

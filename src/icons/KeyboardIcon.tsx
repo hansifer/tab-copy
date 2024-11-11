@@ -1,8 +1,8 @@
-type KeyboardProps = {
+type KeyboardIconProps = {
   size?: number
 }
 
-export const Keyboard = ({ size = 16 }: KeyboardProps) => {
+export const KeyboardIcon = ({ size = 16 }: KeyboardIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

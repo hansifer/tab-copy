@@ -1,8 +1,8 @@
-type StarProps = {
+type InfoIconProps = {
   size?: number
 }
 
-export const Star = ({ size = 16 }: StarProps) => {
+export const InfoIcon = ({ size = 16 }: InfoIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +15,13 @@ export const Star = ({ size = 16 }: StarProps) => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+      <circle
+        cx="12"
+        cy="12"
+        r="10"
+      />
+      <path d="M12 16v-4" />
+      <path d="M12 8h.01" />
     </svg>
   )
 }

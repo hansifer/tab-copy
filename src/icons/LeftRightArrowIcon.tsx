@@ -1,8 +1,8 @@
-type UpDownArrowsProps = {
+type LeftRightArrowIconProps = {
   size?: number
 }
 
-export const UpDownArrows = ({ size = 16 }: UpDownArrowsProps) => {
+export const LeftRightArrowIcon = ({ size = 16 }: LeftRightArrowIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,10 +15,14 @@ export const UpDownArrows = ({ size = 16 }: UpDownArrowsProps) => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="m3 16 4 4 4-4" />
-      <path d="M7 20V4" />
-      <path d="m21 8-4-4-4 4" />
-      <path d="M17 4v16" />
+      <polyline points="18 8 22 12 18 16" />
+      <polyline points="6 8 2 12 6 16" />
+      <line
+        x1="2"
+        x2="22"
+        y1="12"
+        y2="12"
+      />
     </svg>
   )
 }

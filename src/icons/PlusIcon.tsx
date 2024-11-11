@@ -1,8 +1,8 @@
-type LeftRightArrowProps = {
+type PlusIconProps = {
   size?: number
 }
 
-export const LeftRightArrow = ({ size = 16 }: LeftRightArrowProps) => {
+export const PlusIcon = ({ size = 16 }: PlusIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,14 +15,8 @@ export const LeftRightArrow = ({ size = 16 }: LeftRightArrowProps) => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <polyline points="18 8 22 12 18 16" />
-      <polyline points="6 8 2 12 6 16" />
-      <line
-        x1="2"
-        x2="22"
-        y1="12"
-        y2="12"
-      />
+      <path d="M5 12h14" />
+      <path d="M12 5v14" />
     </svg>
   )
 }

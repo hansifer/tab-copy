@@ -1,8 +1,8 @@
-type GitHubProps = {
+type GitHubIconProps = {
   size?: number
 }
 
-export const GitHub = ({ size = 16 }: GitHubProps) => {
+export const GitHubIcon = ({ size = 16 }: GitHubIconProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
