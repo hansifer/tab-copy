@@ -169,6 +169,9 @@ export const intl = {
   optionTipText: {
     copyButtonScopes: () => 'each button in the Tab Copy popup\ncopies a particular range of tabs.',
 
+    defaultScope: () =>
+      'the top visible scope is the default scope\n(applies when not using the popup).',
+
     hiddenScopes: () =>
       "uncheck the buttons you don't want to see\n(at least 1 button must remain checked).",
 
