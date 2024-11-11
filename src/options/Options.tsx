@@ -194,7 +194,7 @@ export const Options = () => {
         className={classes.section}
         inert={inert}
       >
-        <h4>{intl.copyButtons()}</h4>
+        <h4>{intl.ranges()}</h4>
         {visibleScopeOptionTips.length ? (
           <div className={classes.optionTips}>
             {visibleScopeOptionTips.map(({ id, icon, text }) => (
