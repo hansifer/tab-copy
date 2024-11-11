@@ -199,6 +199,10 @@ export const intl = {
 
   keepFormatSelectorExpandedDescription: () => 'always show\nall available formats',
 
+  showHeaderIcons: () => 'show header icons',
+
+  showHeaderIconsDescription: () => 'show icons for options, docs,\nand supporting Tab Copy',
+
   enableContextMenu: () => 'enable context menu',
 
   enableContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
