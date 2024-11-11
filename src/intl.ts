@@ -169,17 +169,17 @@ export const intl = {
   optionTipText: {
     copyButtonScopes: () => 'each button in the Tab Copy popup\ncopies a particular range of tabs.',
 
-    defaultScope: () => 'the top visible scope is the default scope.',
-
     hiddenScopes: () =>
-      "uncheck the buttons you don't want to see\n(at least 1 button must remain checked).",
+      "uncheck the ranges you don't need\n(at least 1 range must remain checked).",
 
-    formatOrder: () => 'drag a format up or down to change its\norder in the Tab Copy popup.',
+    defaultScope: () => 'if the popup is disabled,\nthe top checked range is used.',
 
-    defaultFormat: () => 'the top visible format is the default format.',
+    formatOrder: () => 'drag a format up or down\nto change its order in the popup.',
 
     hiddenFormats: () =>
-      "uncheck formats you don't want to see\n(at least 3 formats must remain checked).",
+      "uncheck formats you don't need\n(at least 3 formats must remain checked).",
+
+    defaultFormat: () => 'the top checked format is the default format.',
   },
 
   addFormat: () => 'add format',
