@@ -169,8 +169,7 @@ export const intl = {
   optionTipText: {
     copyButtonScopes: () => 'each button in the Tab Copy popup\ncopies a particular range of tabs.',
 
-    defaultScope: () =>
-      'the top visible scope is the default scope\n(applies when not using the popup).',
+    defaultScope: () => 'the top visible scope is the default scope.',
 
     hiddenScopes: () =>
       "uncheck the buttons you don't want to see\n(at least 1 button must remain checked).",
@@ -192,13 +191,13 @@ export const intl = {
   usePopupDescription: () =>
     'show a popup when activating Tab Copy instead of copying tabs immediately',
 
-  keepFormatSelectorExpanded: () => 'keep format selector expanded',
-
-  keepFormatSelectorExpandedDescription: () => 'always show\nall available formats',
-
   showTabCounts: () => 'show tab counts',
 
   showTabCountsDescription: () => 'show how many tabs\nwill be copied',
+
+  keepFormatSelectorExpanded: () => 'keep format selector expanded',
+
+  keepFormatSelectorExpandedDescription: () => 'always show\nall available formats',
 
   showContextMenu: () => 'show context menu',
 
