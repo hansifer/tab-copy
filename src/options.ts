@@ -38,6 +38,13 @@ const options = [
     requires: 'enablePopup',
   },
   {
+    id: 'showHeaderIcons',
+    def: true as boolean,
+    label: () => intl.showHeaderIcons(),
+    description: () => intl.showHeaderIconsDescription(),
+    requires: 'enablePopup',
+  },
+  {
     id: 'showContextMenu',
     def: true as boolean,
     label: () => intl.enableContextMenu(),
