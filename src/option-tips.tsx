@@ -17,14 +17,14 @@ export const scopeOptionTips = [
     text: () => intl.optionTipText.copyButtonScopes(),
   },
   {
-    id: 'default-scope',
-    icon: <StarIcon size={24} />,
-    text: () => intl.optionTipText.defaultScope(),
-  },
-  {
     id: 'hidden-scopes',
     icon: <HiddenIcon size={24} />,
     text: () => intl.optionTipText.hiddenScopes(),
+  },
+  {
+    id: 'default-scope',
+    icon: <StarIcon size={24} />,
+    text: () => intl.optionTipText.defaultScope(),
   },
 ] as const satisfies OptionTip[]
 
@@ -35,14 +35,14 @@ export const formatOptionTips = [
     text: () => intl.optionTipText.formatOrder(),
   },
   {
-    id: 'default-format',
-    icon: <StarIcon size={24} />,
-    text: () => intl.optionTipText.defaultFormat(),
-  },
-  {
     id: 'hidden-formats',
     icon: <HiddenIcon size={24} />,
     text: () => intl.optionTipText.hiddenFormats(),
+  },
+  {
+    id: 'default-format',
+    icon: <StarIcon size={24} />,
+    text: () => intl.optionTipText.defaultFormat(),
   },
 ] as const satisfies OptionTip[]
 
