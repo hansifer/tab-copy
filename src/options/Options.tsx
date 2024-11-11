@@ -7,6 +7,8 @@ import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOptsEditor } from './FormatOptsEditor/FormatOptsEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
+import { KeyboardIcon } from '@/icons/KeyboardIcon'
+import { PlusIcon } from '@/icons/PlusIcon'
 import { topLevelBooleanOptionIds } from '@/options'
 import { scopeOptionTips, formatOptionTips } from '@/option-tips'
 import { scopes, Scope } from '@/scope'
@@ -161,32 +163,7 @@ export const Options = () => {
             chrome.tabs.create({ url: 'chrome://extensions/shortcuts' })
           }}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path d="M10 8h.01" />
-            <path d="M12 12h.01" />
-            <path d="M14 8h.01" />
-            <path d="M16 12h.01" />
-            <path d="M18 8h.01" />
-            <path d="M6 8h.01" />
-            <path d="M7 16h10" />
-            <path d="M8 12h.01" />
-            <rect
-              width="20"
-              height="16"
-              x="2"
-              y="4"
-              rx="2"
-            />
-          </svg>
+          <KeyboardIcon />
           {sentenceCase(intl.editKeyboardShortcuts())}
         </button>
       </div>
@@ -242,18 +219,7 @@ export const Options = () => {
           className={classy(classes.primaryAction, classes.addFormat)}
           onClick={addCustomFormat}
         >
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            style={{ marginRight: '6px' }}
-          >
-            <path d="M5 12h14" />
-            <path d="M12 5v14" />
-          </svg>
+          <PlusIcon />
           {sentenceCase(intl.addFormat())}
         </button>
         <div>
