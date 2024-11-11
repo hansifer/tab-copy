@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Reorder, useMotionValue, useDragControls } from 'framer-motion'
 
+import { OptionIcon } from '@/icons/OptionIcon'
 import { Checkbox } from '../Checkbox/Checkbox'
-import { OptionIcon } from './OptionIcon'
 import { useRaisedShadow } from './useRaisedShadow'
 import {
   // wrap
