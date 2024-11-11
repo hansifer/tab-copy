@@ -182,9 +182,9 @@ export async function refreshMenus() {
     copyItem: copyItemMenu,
   } = getCopyMenus()
 
-  const showContextMenu = (await getOption('showContextMenu')).value
+  const enableContextMenu = (await getOption('showContextMenu')).value
 
-  if (!showContextMenu) {
+  if (!enableContextMenu) {
     await Promise.all([copyTabMenu.menu.remove(), copyItemMenu.menu.remove()])
     return
   }

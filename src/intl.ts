@@ -186,9 +186,9 @@ export const intl = {
 
   // ----- options -----
 
-  usePopup: () => 'use popup',
+  enablePopup: () => 'enable popup',
 
-  usePopupDescription: () =>
+  enablePopupDescription: () =>
     'show a popup when activating Tab Copy instead of copying tabs immediately',
 
   showTabCounts: () => 'show tab counts',
@@ -199,9 +199,9 @@ export const intl = {
 
   keepFormatSelectorExpandedDescription: () => 'always show\nall available formats',
 
-  showContextMenu: () => 'show context menu',
+  enableContextMenu: () => 'enable context menu',
 
-  showContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
+  enableContextMenuDescription: () => 'include a Tab Copy action in\nthe context menu of web pages',
 
   provideContextMenuFormatSelection: () => 'provide format selection',
 

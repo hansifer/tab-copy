@@ -258,16 +258,16 @@ chrome.action.onClicked.addListener(async () => {
 })
 
 async function setIconAction() {
-  const usePopup = (await getOption('usePopup')).value
+  const enablePopup = (await getOption('enablePopup')).value
 
   await chrome.action.setPopup({
-    popup: usePopup // wrap
+    popup: enablePopup // wrap
       ? 'popup.html'
       : '',
   })
 
   return chrome.action.setTitle({
-    title: usePopup // wrap
+    title: enablePopup // wrap
       ? ''
       : await getOneClickCopyLabel(),
   })
