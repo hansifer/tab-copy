@@ -8,6 +8,8 @@ import {
   getVisibleScopes,
   getDefaultFormatId,
   makeStorageChangeHandler,
+  getStorageValue,
+  setStorageValue,
 } from '@/storage'
 import { hasSecondaryActionModifierKey, hasTernaryActionModifierKey } from '@/keyboard'
 import { intl } from '@/intl'
@@ -30,7 +32,13 @@ import {
 import { serializer } from '@/util/async'
 import { sentenceCase } from '@/util/string'
 
+import optionsSvg from './icons/options.svg?raw'
+import docsSvg from './icons/docs.svg?raw'
+import donateSvg from './icons/donate.svg?raw'
 import './popup.css'
+
+// hide donate button for 30 days after click
+const donateHideInterval = 1000 * 60 * 60 * 24 * 30
 
 // ----- format overrides -----
 
@@ -44,14 +52,7 @@ let keepFormatSelectorExpanded = false
 initApp()
 
 function initApp() {
-  getDiv('header-text').textContent = intl.copy()
-
-  getSpan('options-button-text').textContent = sentenceCase(intl.options())
-
-  getButton('options-button').addEventListener('click', () => {
-    chrome.runtime.openOptionsPage()
-  })
-
+  initHeader()
   initCopyButtons()
   initFormats()
   initKeyboardInteraction()
@@ -79,6 +80,79 @@ function initApp() {
   document.documentElement.addEventListener('mousedown', () => {
     closeFormatSelector()
   })
+}
+
+async function initHeader() {
+  getDiv('header-text').textContent = intl.copy()
+
+  const showHeaderIcons = (await getOption('showHeaderIcons')).value
+
+  if (!showHeaderIcons) return
+
+  const headerButtonsDiv = document.createElement('div')
+  headerButtonsDiv.classList.add('headerButtons')
+
+  // --- options button ---
+
+  const optionsButton = createButton()
+  addIcon(optionsButton, optionsSvg)
+
+  const buttonText = document.createElement('span')
+  buttonText.textContent = sentenceCase(intl.options())
+  optionsButton.appendChild(buttonText)
+
+  optionsButton.addEventListener('click', () => {
+    chrome.runtime.openOptionsPage()
+  })
+
+  headerButtonsDiv.appendChild(optionsButton)
+
+  // --- docs button ---
+
+  const docsButton = createButton()
+  docsButton.style.marginLeft = 'auto'
+  addIcon(docsButton, docsSvg)
+
+  docsButton.addEventListener('click', () => {
+    chrome.tabs.create({
+      url: 'https://tabcopy.com/docs',
+    })
+  })
+
+  headerButtonsDiv.appendChild(docsButton)
+
+  // --- donate button ---
+
+  const donateHidden = await getStorageValue('donateHidden')
+
+  if (!donateHidden || Date.now() - donateHidden > donateHideInterval) {
+    const donateButton = createButton()
+    addIcon(donateButton, donateSvg)
+
+    donateButton.addEventListener('click', () => {
+      chrome.tabs.create({
+        url: 'https://tabcopy.com/donate',
+      })
+
+      setStorageValue('donateHidden', Date.now())
+    })
+
+    headerButtonsDiv.appendChild(donateButton)
+  }
+
+  // --- add header buttons ---
+
+  queryElement('header').appendChild(headerButtonsDiv)
+
+  function createButton() {
+    const button = document.createElement('button')
+    button.setAttribute('tabindex', '-1')
+    return button
+  }
+
+  function addIcon(button: HTMLButtonElement, svg: string) {
+    button.appendChild(new DOMParser().parseFromString(svg, 'image/svg+xml').documentElement)
+  }
 }
 
 async function initCopyButtons() {
