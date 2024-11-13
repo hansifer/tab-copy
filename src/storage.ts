@@ -425,3 +425,13 @@ export function makeStorageChangeHandler(
     }
   }
 }
+
+// ----- misc -----
+
+export async function getStorageValue(key: string) {
+  return (await storage.get(key))[key]
+}
+
+export function setStorageValue(key: string, value: any) {
+  return storage.set({ [key]: value })
+}
