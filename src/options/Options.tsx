@@ -1,12 +1,17 @@
 import { useState, useEffect, useCallback } from 'react'
 import { Reorder } from 'framer-motion'
 
+import { NavBarItem } from './NavBarItem/NavBarItem'
 import { BinaryOption } from './BinaryOption/BinaryOption'
 import { ScopeTile } from './ScopeTile/ScopeTile'
 import { FormatConfig } from './FormatConfig/FormatConfig'
 import { FormatOptsEditor } from './FormatOptsEditor/FormatOptsEditor'
 import { OptionTip } from './OptionTip/OptionTip'
 import { Logo } from '@/Logo'
+import { InfoIcon } from '@/icons/InfoIcon'
+import { GitHubIcon } from '@/icons/GitHubIcon'
+import { StarIcon } from '@/icons/StarIcon'
+import { HeartIcon } from '@/icons/HeartIcon'
 import { KeyboardIcon } from '@/icons/KeyboardIcon'
 import { PlusIcon } from '@/icons/PlusIcon'
 import { topLevelBooleanOptionIds } from '@/options'
@@ -135,6 +140,33 @@ export const Options = () => {
 
   return (
     <main>
+      <div className={classes.navbar}>
+        <NavBarItem
+          label={'Docs'}
+          icon={<InfoIcon />}
+          href="https://tabcopy.com/docs"
+        />
+        <NavBarItem
+          label="GitHub"
+          icon={<GitHubIcon />}
+          href="https://github.com/hansifer/tab-copy"
+        />
+        <NavBarItem
+          label={'Rate'}
+          icon={<StarIcon />}
+          href="https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb/reviews"
+        />
+        <NavBarItem
+          label={'Donate'}
+          icon={
+            <HeartIcon
+              color="#ff458f"
+              fill
+            />
+          }
+          href="https://tabcopy.com/donate"
+        />
+      </div>
       <div className={classes.header}>
         <Logo size={48} />
         <h3>{intl.tabCopyOptions()}</h3>
