@@ -50,10 +50,10 @@ chrome.runtime.onInstalled.addListener(
       // fired for unpacked extension reload, so check for ver change
       const currentVersion = chrome.runtime.getManifest().version
 
-      if (previousVersion !== currentVersion) {
+      if (previousVersion && previousVersion !== currentVersion) {
         log(`extension updated ${previousVersion} -> ${currentVersion}`)
 
-        if (previousVersion?.startsWith('3.')) {
+        if (previousVersion.startsWith('3.')) {
           const migrationStatus = await getV3MigrationStatus()
 
           if (!migrationStatus?.success) {
@@ -75,12 +75,14 @@ chrome.runtime.onInstalled.addListener(
                 message: `${ex?.message || ex || 'failed to fully migrate v3 data'}`,
               })
             }
-
-            chrome.tabs.create({
-              url: chrome.runtime.getURL('release-notification.html'),
-            })
           }
         }
+
+        chrome.tabs.create({
+          url: chrome.runtime.getURL(
+            `release-notification.html?previousVersion=${previousVersion}`,
+          ),
+        })
       } else {
         log('extension reloaded')
       }
