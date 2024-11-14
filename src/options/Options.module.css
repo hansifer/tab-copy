@@ -56,7 +56,7 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 1em;
+  padding-bottom: 1rem;
 
   /* prevent scroll when dialog is open */
 
@@ -64,6 +64,8 @@ main {
   box-sizing: border-box;
   /* scroll instead of auto to prevent layout shift */
   overflow-y: scroll;
+  /* don't allow hidden tooltips to trigger horizontal scroll */
+  overflow-x: hidden;
 }
 
 h3,
@@ -118,6 +120,23 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 32px;
+  align-self: stretch;
+  min-height: 50px;
+  margin-bottom: 1rem;
+  color: #000000b2;
+  background-color: #fff;
+
+  @media (prefers-color-scheme: dark) {
+    color: #ffffffb2;
+    background-color: #ffffff08;
+  }
 }
 
 .header {
