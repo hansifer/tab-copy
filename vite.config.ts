@@ -59,6 +59,7 @@ export default defineConfig(({ mode }) => ({
       input: {
         // pages in addition to those in the extension manifest
         offscreen: 'offscreen.html',
+        installNotification: 'install-notification.html',
         releaseNotification: 'release-notification.html',
       },
       output: {
