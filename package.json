@@ -27,6 +27,7 @@
   },
   "scripts": {
     "dev": "vite",
+    "dev_workaround": "vite build -w",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "zip": "npm run build && node zip.js",
