@@ -44,8 +44,11 @@ const enqueue = serializer()
 chrome.runtime.onInstalled.addListener(
   async ({ reason, previousVersion }: chrome.runtime.InstalledDetails) => {
     if (reason === 'install') {
-      // todo: create install notification
       log('extension installed')
+
+      chrome.tabs.create({
+        url: chrome.runtime.getURL('install-notification.html'),
+      })
     } else if (reason === 'update') {
       // fired for unpacked extension reload, so check for ver change
       const currentVersion = chrome.runtime.getManifest().version
