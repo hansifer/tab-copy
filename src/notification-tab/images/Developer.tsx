@@ -1,11 +1,11 @@
-import { prefersColorSchemeDark } from '@/util/css'
+import { usePrefersColorSchemeDark } from '@/util/css'
 
 type DeveloperProps = {
   height?: number
 }
 
 export const Developer = ({ height = 120 }: DeveloperProps) => {
-  const dark = prefersColorSchemeDark()
+  const dark = usePrefersColorSchemeDark()
 
   const backgroundColor = dark ? '#ffffff59' : '#f2f2f2'
 

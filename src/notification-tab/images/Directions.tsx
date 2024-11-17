@@ -1,11 +1,11 @@
-import { prefersColorSchemeDark } from '@/util/css'
+import { usePrefersColorSchemeDark } from '@/util/css'
 
 type DirectionsProps = {
   height?: number
 }
 
 export const Directions = ({ height = 120 }: DirectionsProps) => {
-  const dark = prefersColorSchemeDark()
+  const dark = usePrefersColorSchemeDark()
 
   const clothesColor = dark ? '#5c5b6b' : '#2f2e41'
   const hairColor = dark ? '#6c590a' : '#2f2e41'
