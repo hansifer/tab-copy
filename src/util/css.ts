@@ -8,17 +8,21 @@ import { unique } from '@/util/array'
 export function classy(...arr: any[]) {
   return unique(
     arr
-      .map((item) => {
-        if (!isObject(item)) return item
-
-        return Object.entries(item)
-          .filter(([, include]) => include)
-          .map(([className]) => className)
-      })
+      .map((item) =>
+        isObject(item)
+          ? Object.entries(item)
+              .filter(([, include]) => include)
+              .map(([className]) => className)
+          : item,
+      )
       .flat(),
   ).join(' ')
 }
 
+// theme
+
+const prefersDarkMediaQuery = '(prefers-color-scheme: dark)'
+
 export function prefersColorSchemeDark() {
-  return window?.matchMedia?.('(prefers-color-scheme: dark)').matches
+  return !!window?.matchMedia?.(prefersDarkMediaQuery).matches
 }
