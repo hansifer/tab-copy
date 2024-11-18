@@ -151,6 +151,7 @@ input[type=number] {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   padding: 0.6em 1em;
   border-radius: 5.34px;
   background-color: #fff;
@@ -171,10 +172,6 @@ input[type=number] {
   &:focus-visible {
     outline: 2px solid #b0436e;
     outline-offset: 2px;
-  }
-
-  :is(svg) {
-    margin-right: 12px;
   }
 }
 
