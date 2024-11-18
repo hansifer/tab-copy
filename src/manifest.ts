@@ -51,7 +51,7 @@ export default defineManifest({
       description: 'Copy all tabs',
     },
     '4copy-all-windows-and-tabs': {
-      description: 'Copy all windows and tabs',
+      description: 'Copy all tabs by window',
     },
   },
 })

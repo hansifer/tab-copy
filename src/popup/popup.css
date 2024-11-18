@@ -32,8 +32,8 @@ body {
     sans-serif;
 
   &.with-counts {
-    width: 240px;
-    min-width: 240px;
+    width: 232px;
+    min-width: 232px;
   }
 }
 

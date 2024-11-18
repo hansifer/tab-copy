@@ -65,7 +65,7 @@ export const intl = {
   copyAllWindowsAndTabs: (formatLabel?: string): string =>
     formatLabel // wrap
       ? `${intl.copyAllWindowsAndTabs()} as ${formatLabel}`
-      : 'copy all windows and tabs',
+      : 'copy all tabs by window',
 
   thisTab: () => 'this tab',
 
@@ -82,7 +82,7 @@ export const intl = {
 
   allTabsDescription: () => 'all tabs, ungrouped',
 
-  allWindowsAndTabs: () => 'all windows and tabs',
+  allWindowsAndTabs: () => 'all tabs by window',
 
   allWindowsAndTabsDescription: () => 'all tabs, grouped by window',
 
