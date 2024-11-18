@@ -1,4 +1,6 @@
-import { Logo } from '@/Logo'
+import { Header } from '@/notification-tab/Header/Header'
+import { TextBlock } from '@/notification-tab/TextBlock/TextBlock'
+import { Developer } from '@/notification-tab/images/Developer'
 import { HeartIcon } from '@/icons/HeartIcon'
 import { sentenceCase } from '@/util/string'
 
@@ -7,66 +9,57 @@ import classes from './ReleaseNotification.module.css'
 // todo: localize
 
 export const ReleaseNotification = () => {
+  const params = new URLSearchParams(window.location.search)
+  const previousVersion = params.get('previousVersion')
+
+  const summary =
+    previousVersion === '4.0.0' ? (
+      <TextBlock
+        content={[
+          'This release adds a ',
+          ['one-click copy', 'https://tabcopy.com/docs/one-click-copy'],
+          ' feature,',
+          <br />,
+          'an option to ',
+          ['show tab counts', 'https://tabcopy.com/docs/options#show-tab-counts'],
+          ', and ',
+          ['more', 'https://tabcopy.com/releases/4-1-0'],
+          '.',
+        ]}
+      />
+    ) : (
+      <TextBlock
+        content={[
+          "We've been busy cooking up ",
+          <br />,
+          ['new features and a fresh design', 'https://tabcopy.com/releases'],
+          '.',
+          <br />,
+          <br />,
+          'Check out the ',
+          ['new docs', 'https://tabcopy.com/docs'],
+          ' and  ',
+          <br />,
+          ['customize your experience', 'options.html'],
+          '.',
+        ]}
+      />
+    )
+
   return (
     <main>
-      <Logo size={48} />
-      <h1>{'Tab Copy has been upgraded'}</h1>
-      <div className={classes.section}>
-        <div>{"We've been busy cooking up more features and a fresh design."}</div>
+      <Header text="Tab Copy has been upgraded" />
+      <Developer />
+      {summary}
+      <div>
         <div>
-          <div>
-            <span>{'Check out '}</span>
-            <a
-              href="https://tabcopy.com/docs"
-              target="_blank"
-            >
-              {'the docs'}
-            </a>
-            <span>{' and '}</span>
-            <a
-              href="https://tabcopy.com/releases/4-0-0"
-              target="_blank"
-            >
-              {'release notes'}
-            </a>
-          </div>
-          <div>
-            <span> {'and explore the new '}</span>
-            <a
-              href="javascript:void(0);"
-              onClick={() => {
-                chrome.tabs.create({
-                  url: chrome.runtime.getURL('options.html'),
-                })
-              }}
-            >
-              {'options'}
-            </a>
-            .
-          </div>
+          {
+            "If you find Tab Copy useful, we'd be grateful if you'd consider supporting our ability to keep maintaining and improving it."
+          }
         </div>
-      </div>
-      <div
-        className={classes.section}
-        style={{
-          maxWidth: 460,
-        }}
-      >
-        <div>
-          <span>{"If you've been enjoying "}</span>
-          <a
-            href="https://tabcopy.com"
-            target="_blank"
-          >
-            {'Tab Copy'}
-          </a>
-          <span>
-            {
-              " and finding it useful, we'd be grateful if you'd consider supporting our efforts with a donation to help us keep improving and maintaining this project."
-            }
-          </span>
-        </div>
-        <div className={classes.italic}>{'Thank you for your support!'}</div>
+        <br />
+        <div className={classes.italic}>{'Thank you!'}</div>
+        <br />
         <div className={classes.buttons}>
           <button
             className={classes.primaryAction}
