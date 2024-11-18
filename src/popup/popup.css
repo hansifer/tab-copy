@@ -215,6 +215,7 @@ button {
 .button-secondary {
   display: flex;
   align-items: center;
+  gap: 8px;
   height: 28px;
   padding: 0 10px;
   font-size: 12px;
@@ -239,10 +240,6 @@ button {
 
 .button-secondary .button-label {
   max-width: 180px;
-}
-
-.button-secondary .icon {
-  margin-left: 8px;
 }
 
 #format-section.expanded .icon {
