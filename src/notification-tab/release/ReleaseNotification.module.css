@@ -1,6 +1,6 @@
 :root {
   color-scheme: light dark;
-  background-color: #ededed;
+  background-color: #fff;
 
   @media (prefers-color-scheme: dark) {
     background-color: #242424;
@@ -33,6 +33,7 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   padding: 0.6em 1em;
   margin: 0;
   line-height: inherit;
@@ -64,24 +65,6 @@ button {
     pointer-events: none;
     user-select: none;
   }
-
-  :is(svg) {
-    height: 18px;
-    width: 18px;
-    margin-right: 12px;
-  }
-}
-
-h1 {
-  font-size: 1.5rem;
-  font-weight: 200;
-  margin: 0;
-  text-transform: uppercase;
-  color: #000;
-
-  @media (prefers-color-scheme: dark) {
-    color: #f3e5ab;
-  }
 }
 
 a {
@@ -92,16 +75,11 @@ main {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2rem;
+  gap: 3rem;
+  max-width: 360px;
   padding: 2rem;
-}
-
-.section {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.8rem 0;
+  margin: 0 auto;
+  white-space: pre-line;
   text-align: center;
 }
 
@@ -115,11 +93,20 @@ main {
 
 .primaryAction {
   color: #fff;
-  background-color: #b0436e;
-  border-color: #b0436e;
+  background-color: #ea5993;
+  border-color: #ea5993;
+
+  @media (prefers-color-scheme: dark) {
+    background-color: #b0436e;
+    border-color: #b0436e;
+  }
 
   &:focus-visible {
-    outline: 2px solid #b0436e;
+    outline: 2px solid #ea5993;
     outline-offset: 2px;
+
+    @media (prefers-color-scheme: dark) {
+      outline: 2px solid #b0436e;
+    }
   }
 }
