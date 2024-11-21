@@ -81,6 +81,12 @@ chrome.runtime.onInstalled.addListener(
           }
         }
 
+        const currentMajorMinor = currentVersion.split('.').slice(0, 2).join('.')
+        const previousMajorMinor = previousVersion.split('.').slice(0, 2).join('.')
+
+        // do not notify on patch updates
+        if (currentMajorMinor === previousMajorMinor) return
+
         chrome.tabs.create({
           url: chrome.runtime.getURL(
             `release-notification.html?previousVersion=${previousVersion}`,
