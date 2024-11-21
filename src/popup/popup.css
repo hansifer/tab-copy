@@ -134,10 +134,6 @@ header {
       font-size: 10px;
       border-radius: 1000px;
       background-color: #ffffffcf;
-
-      @media (prefers-color-scheme: dark) {
-        background-color: #ffffff1c;
-      }
     }
 
     &.single-digit-count::after {
@@ -147,8 +143,14 @@ header {
 
     &:focus::after {
       background-color: #ffffff30;
+    }
 
-      @media (prefers-color-scheme: dark) {
+    @media (prefers-color-scheme: dark) {
+      &::after {
+        background-color: #ffffff1c;
+      }
+
+      &:focus::after {
         background-color: #ffffff1c;
       }
     }
