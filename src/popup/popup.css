@@ -145,6 +145,7 @@ header {
       background-color: #ffffff30;
     }
 
+    /* 2024-11-21 nesting inverted because media query nested in pseudo-element was ignored on macOS */
     @media (prefers-color-scheme: dark) {
       &::after {
         background-color: #ffffff1c;
