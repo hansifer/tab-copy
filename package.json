@@ -1,7 +1,7 @@
 {
   "name": "tab-copy",
   "displayName": "Tab Copy",
-  "version": "4.1.0",
+  "version": "4.1.1",
   "description": "Quickly copy browser tabs to the clipboard in a variety of formats",
   "keywords": [
     "productivity",
