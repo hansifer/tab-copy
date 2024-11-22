@@ -3,11 +3,15 @@ import styles from './styles.module.css'
 
 export type State = 'next-up' | 'in-progress' | 'done'
 
-export default function Status({ state }: { state?: State }): JSX.Element {
+export default function Status({ state, text }: { state?: State; text?: string }): JSX.Element {
   if (!state) return null
 
   return (
-    <span className={clsx(styles.Status, getStateClassName(state))}>{getStateText(state)}</span>
+    <span
+      className={clsx(styles.Status, getStateClassName(state), text ? styles.freeFormText : null)}
+    >
+      {text || getStateText(state)}
+    </span>
   )
 }
 

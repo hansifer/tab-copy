@@ -11,6 +11,10 @@
   text-transform: uppercase;
 }
 
+.Status.freeFormText {
+  text-transform: none;
+}
+
 .Status.nextUp {
   color: #0092d5;
   background-color: #0092d50d;
