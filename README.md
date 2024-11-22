@@ -36,8 +36,6 @@ Tab Copy is currently available for [Chrome](https://chromewebstore.google.com/d
 
 ## Help support this project
 
-We can't do this without you.
-
 Please consider [helping out with a donation](https://tabcopy.com/donate) to enable the continued development and maintenance of this project.
 
 Check out [what's been done so far](https://tabcopy.com/releases) and [what's planned](https://tabcopy.com/roadmap).
@@ -61,10 +59,19 @@ npm run dev
 
 ### Debugging
 
-Access the popup or options page directly with:
+#### Popup
 
-- `chrome-extension://replaceWithExtensionId/popup.html`
-- `chrome-extension://replaceWithExtensionId/options.html`
+Right-click the extension icon, then click **Inspect popup**.
+
+You can also access the popup in a separate tab at:
+
+`chrome-extension://replaceWithExtensionId/popup.html`
+
+#### Options
+
+Open the options page directly at:
+
+`chrome-extension://replaceWithExtensionId/options.html`
 
 ## Known issues
 
@@ -79,7 +86,7 @@ This project was scaffolded with [create-chrome-ext](https://github.com/guocaoyi
 
 ### Direct DOM calls vs React
 
-While this is a React app, the popup itself is implemented with static HTML and vanilla JS using direct DOM calls. The original intent was primarily to optimize load speed, although whether this has any meaningful effect remains an open question. The popup's complexity has grown considerably, shifting the value of the performance/maintainability tradeoff.
+While this is a React app, the popup itself is implemented with HTML and vanilla JS using direct DOM calls. The original intent was primarily to optimize load speed, although whether this has any meaningful effect is an open question. The popup's complexity has grown considerably, shifting the value of the performance/maintainability tradeoff.
 
 ## License
 
