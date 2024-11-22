@@ -47,6 +47,20 @@ const testimonialItems: TestimonialItem[] = [
     text: 'The no 1 extension I install on each Chromium Browser. Essential tool for everyday use.\nThank you!',
   },
   {
+    avatarSrc: '/img/testimonial-avatars/avatar-19.png',
+    name: 'Carolyn Valiquette',
+    rating: 5,
+    date: 'Nov 22, 2024',
+    text: 'Love this extension. I use it dozens of times per day. Thanks!',
+  },
+  {
+    avatarSrc: '/img/testimonial-avatars/avatar-20.png',
+    name: 'S LT',
+    rating: 5,
+    date: 'Nov 20, 2024',
+    text: "One of the best extensions I've ever come across, and continuously gets better",
+  },
+  {
     avatarSrc: '/img/testimonial-avatars/avatar-14.jpeg',
     name: 'Richard Bellemare',
     rating: 5,
