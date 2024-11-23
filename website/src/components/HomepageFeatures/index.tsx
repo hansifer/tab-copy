@@ -24,8 +24,8 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_super_woman.svg').default,
     description: (
       <>
-        Supercharge your workflow with assignable keyboard shortcuts, keyboard navigation, and
-        modifier keys that apply alternate formats.
+        Supercharge your workflow with assignable keyboard shortcuts, modifier keys for secondary
+        formats, and one-click copy.
       </>
     ),
   },
@@ -34,7 +34,7 @@ const FeatureList: FeatureItem[] = [
     Svg: require('@site/static/img/undraw_options.svg').default,
     description: (
       <>
-        Fine-tune your experience by choosing which buttons and formats are shown, personalizing
+        Fine-tune your experience by choosing which buttons and formats are shown, configuring
         formats, and creating your own formats.
       </>
     ),
