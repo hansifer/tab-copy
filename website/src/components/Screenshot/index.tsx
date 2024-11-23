@@ -46,8 +46,8 @@ export default function Screenshot({ className }: { className: string }): JSX.El
         <ThemedImage
           className={styles.screenshotImage}
           sources={{
-            light: useBaseUrl('/img/popup-light.png'),
-            dark: useBaseUrl('/img/popup-dark-lightened.png'),
+            light: useBaseUrl('/img/popup-light.png?v=4-1-0'),
+            dark: useBaseUrl('/img/popup-dark-lightened.png?v=4-1-0'),
           }}
           alt="Popup"
         />
