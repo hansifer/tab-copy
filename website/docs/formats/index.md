@@ -37,7 +37,7 @@ This format can be set by dragging the desired format tile into the third visibl
 
 ## Grouping by window
 
-When copying **All windows and tabs**, tabs are grouped by window. How this is done depends on the format.
+When copying **All tabs by window**, tabs are grouped by window. How this is done depends on the format.
 
 List-based formats such as **Link**, **URL**, or **Markdown** output numbered window headers separating groups of tabs.
 

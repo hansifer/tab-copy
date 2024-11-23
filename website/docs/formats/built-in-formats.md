@@ -64,7 +64,7 @@ This format emits tabs as [comma-separated values](https://en.wikipedia.org/wiki
 
 `Title` cells are blank for tabs without titles.
 
-When copying **All windows and tabs**, the output includes an additional `Window` column.
+When copying **All tabs by window**, the output includes an additional `Window` column.
 
 ### JSON
 
@@ -72,7 +72,7 @@ This format outputs tabs as an array of tab objects in [JavaScript Object Notati
 
 When a tab `title` or `favIconUrl` is missing, the respective property is omitted.
 
-When copying **All windows and tabs**, the output will be an array of window objects with a `title` and `tabs` property.
+When copying **All tabs by window**, the output will be an array of window objects with a `title` and `tabs` property.
 
 #### Properties
 
@@ -98,7 +98,7 @@ This format produces an [HTML table](https://developer.mozilla.org/en-US/docs/We
 
 `Title` cells are blank for tabs without titles.
 
-When copying **All windows and tabs**, the output includes an additional `Window` column.
+When copying **All tabs by window**, the output includes an additional `Window` column.
 
 #### Include header
 

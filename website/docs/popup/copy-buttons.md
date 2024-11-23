@@ -14,7 +14,7 @@ Each button in the Tab Copy popup copies a particular range of tabs.
 
 - **All tabs**: Copies all tabs across all windows, _ungrouped_.
 
-- **All windows and tabs**: Copies all tabs across all windows, _grouped by window_.
+- **All tabs by window**: Copies all tabs across all windows, _grouped by window_.
 
 :::info Selected Tabs
 Some browsers support selecting multiple tabs within a window with _Ctrl+Click_, _Cmd+Click_, or _Shift+Click_. When multiple tabs are selected, the **This tab** button reads **Selected tabs** instead and copies the selected tabs.
