@@ -6,25 +6,25 @@ sidebar_position: 12
 
 ## The effort
 
-We're passionate about developing software and providing folks with tools that truly make a difference in their daily productivity. Every detail matters, and we put significant thought into each design and development decision we make.
+We're passionate about developing software and creating tools that make a difference in people's daily productivity. We believe that details matter and put a lot of thought into every design and development decision.
 
-While we love this work, we do it for free in our spare time, and achieving all this goodness with limited resources has its challenges. Developing and maintaining public software at this scale requires a tremendous amount of time and effort because:
+We love this work. So much so that we do it for free in our spare time. But achieving all this goodness with limited resources is challenging because the development and maintenance of software at this scale requires significant time and effort. Some of the reasons why are:
 
-- Writing robust and resilient code demands thoughtful design decisions and thorough testing. Tab Copy consists of around **8,000 lines of code**, which gives you some idea of the scope of this effort.
+- Creating reliable and user-friendly applications demands careful design decisions and thorough testing. Tab Copy consists of around **10,000 lines of code**, which gives you some idea of the scope of the effort.
 
-- Keeping up with evolving web platform and browser standards requires ongoing maintenance. Things change, break, and new edge cases emerge. Constant adjustments are part of developing web software.
+- Keeping up with evolving web platform and browser standards requires ongoing maintenance. Things change, break, and new edge cases emerge. Constant adjustments are part of developing software for the web.
 
-- With nearly **100,000 users** worldwide, there are always questions, bugs to fix, and feature requests. Satisfying these requests and providing meaningful, timely responses consumes substantial bandwidth.
+- With nearly **100,000 users** worldwide using Tab Copy in many different ways, there are always questions, bugs to fix, and feature requests. Addressing the concerns of our user community promptly and meaningfully takes up a lot of time.
 
 ## How you can help
 
 ### Donate
 
-We'd be grateful if you'd consider supporting our efforts [with a donation](/donate) to help us keep improving and maintaining this project. Every donation makes a big difference.
+We'd be grateful if you'd consider supporting our efforts [with a donation](/donate). Every donation makes a big difference in our ability to keep improving and maintaining this project.
 
 ### Rate
 
-[Rating Tab Copy](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb/reviews) is a free and quick way to provide valuable feedback and motivation.
+[Rating Tab Copy](https://chromewebstore.google.com/detail/tab-copy/micdllihgoppmejpecmkilggmaagfdmb/reviews) is a great way to motivate us and only takes a few seconds.
 
 ### Contribute
 
