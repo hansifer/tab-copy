@@ -19,7 +19,7 @@ Tab Copy provides special handling for the *default*, *secondary*, and *third* f
 
 ### Default format
 
-The default format is applied when copying tabs without explicitly selecting a format, whether through the [popup](../popup/index.mdx), [context menu](../context-menu.mdx), or a [keyboard shortcut](../keyboard-shortcuts.mdx).
+The default format is applied when copying tabs without selecting a format, whether through the [popup](../popup/index.mdx), [one-click copy](../one-click-copy.mdx), [context menu](../context-menu.mdx), or a [keyboard shortcut](../keyboard-shortcuts.mdx).
 
 This format can be set by dragging the desired format tile into the top visible position in the list of formats on the [Tab Copy options page](../options.mdx#formats).
 
