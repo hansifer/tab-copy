@@ -8,7 +8,7 @@ import useBaseUrl from '@docusaurus/useBaseUrl'
 
 # Popup
 
-The Tab Copy popup provides [copy buttons](./copy-buttons.md) and a [format selector](./format-selector.mdx).
+The Tab Copy popup provides [copy buttons](./copy-buttons.mdx) and a [format selector](./format-selector.mdx).
 
 It can be accessed by clicking the Tab Copy icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only) in the browser toolbar.
 
@@ -16,7 +16,7 @@ It can be accessed by clicking the Tab Copy icon ![extension icon](/img/logo-out
   style={{
     width:'232px',
     height:'auto',
-    margin:'20px 26px 0',
+    margin:'20px 26px 40px',
     filter:'drop-shadow(2px 4px 10px #0000005e)',
   }}
   sources={{
@@ -25,3 +25,11 @@ It can be accessed by clicking the Tab Copy icon ![extension icon](/img/logo-out
   }}
   alt="Popup"
 />
+
+The popup [can be disabled](../options.mdx#enable-popup) in options. When disabled, clicking the extension icon copies tabs immediately instead of opening the popup. See [one-click copy](../one-click-copy.mdx) for details.
+
+### Header icons
+
+Icons for quick access to options and docs are normally shown at the top of the popup. If you don't need this, you can hide these icons by unchecking [Show header icons](../options.mdx#show-header-icons) in options.
+
+The popup may also display a heart icon. Clicking on it opens the donation page and hides the icon for 30 days. If you never want to see this icon, uncheck [Show header icons](../options.mdx#show-header-icons) in options.
