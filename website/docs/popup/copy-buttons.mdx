@@ -2,6 +2,9 @@
 sidebar_position: 1
 ---
 
+import ThemedImage from '@theme/ThemedImage'
+import useBaseUrl from '@docusaurus/useBaseUrl'
+
 # Copy buttons
 
 ## Overview
@@ -18,6 +21,28 @@ Each button in the Tab Copy popup copies a particular range of tabs.
 
 :::info Selected Tabs
 Some browsers support selecting multiple tabs within a window with _Ctrl+Click_, _Cmd+Click_, or _Shift+Click_. When multiple tabs are selected, the **This tab** button reads **Selected tabs** instead and copies the selected tabs.
+:::
+
+## Tab counts
+
+To show a count of how many tabs will be copied on each copy button, check [Show tab counts](../options.mdx#show-tab-counts) in options.
+
+<ThemedImage
+  style={{
+    width:'232px',
+    height:'auto',
+    margin:'20px 16px 40px',
+    filter:'drop-shadow(2px 4px 10px #0000005e)',
+  }}
+  sources={{
+    light: useBaseUrl('/img/popup-light-with-counts.png'),
+    dark: useBaseUrl('/img/popup-dark-lightened-with-counts.png'),
+  }}
+  alt="Popup with counts"
+/>
+
+:::info Counts for "This tab"
+**This tab** only shows counts when multiple tabs in the window are selected.
 :::
 
 ## Keyboard navigation
