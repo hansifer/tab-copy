@@ -25,7 +25,7 @@ When unchecked, a click on the extension icon copies tabs immediately without op
 
 Checking this option allows the number of corresponding tabs to appear on each popup copy button indicating how many tabs will be copied.
 
-:::info availability
+:::info Availability
 This option is available only when **Enable popup** is checked.
 :::
 
@@ -35,7 +35,7 @@ Checking this option keeps the [format selector](./popup/format-selector.mdx) of
 
 This can be useful if you frequently switch between a small set of formats.
 
-:::info availability
+:::info Availability
 This option is available only when **Enable popup** is checked.
 :::
 
@@ -43,7 +43,7 @@ This option is available only when **Enable popup** is checked.
 
 By default, the Tab Copy [popup](./popup/index.mdx) shows icons in its header for quick access to options and docs. If you do not need these icons, you can uncheck this option to hide them for a cleaner look.
 
-:::info availability
+:::info Availability
 This option is available only when **Enable popup** is checked.
 :::
 
@@ -79,11 +79,13 @@ Click the **Edit keyboard shortcuts...** button to open the browser's **Keyboard
 
 Read more about [keyboard shortcuts and how to edit them](./keyboard-shortcuts.mdx).
 
-### Copy buttons
+### Ranges
 
 Each [button](./popup/copy-buttons.md) in the Tab Copy [popup](./popup/index.mdx) copies a particular range of tabs.
 
-You can hide buttons you don't use by clicking the corresponding tile in the **Copy buttons** section of the options page.
+You can hide buttons you don't use by unchecking the corresponding tile in the **Ranges** section of the options page.
+
+When the popup is disabled, the top checked range is the default range used for [one-click copy](./one-click-copy.mdx).
 
 <ThemedImage
   style={{
@@ -96,11 +98,11 @@ You can hide buttons you don't use by clicking the corresponding tile in the **C
     light: useBaseUrl('/img/copy-buttons-toggled-light.png'),
     dark: useBaseUrl('/img/copy-buttons-toggled-dark.png'),
   }}
-  alt="Copy buttons"
+  alt="Ranges"
 />
 
-:::info Minimum visible buttons
-At least 1 button must remain visible
+:::info Minimum checked ranges
+At least 1 range must remain checked
 :::
 
 ### Formats
