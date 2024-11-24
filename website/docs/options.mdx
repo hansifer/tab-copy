@@ -11,9 +11,23 @@ To access Tab Copy options, do one of the following:
 
 - Right-click the Tab Copy extension icon ![extension icon](/img/logo-outline-black.png#light-mode-only)![extension icon](/img/logo-outline-white.png#dark-mode-only) in the browser toolbar, then click **Options**
 
-- Click the **Options** icon in the upper-left corner of the Tab Copy [popup](./popup/index.mdx)
+- If available, click the **Options** icon in the upper-left corner of the Tab Copy [popup](./popup/index.mdx)
 
 This will open the Tab Copy options page in a new tab.
+
+### Enable popup
+
+When this option is checked, the Tab Copy [popup](./popup/index.mdx) appears when the extension icon is clicked. This is Tab Copy's default behavior.
+
+When unchecked, a click on the extension icon copies tabs immediately without opening the popup. See [one-click copy](./one-click-copy.mdx) for more details.
+
+### Show tab counts
+
+Checking this option allows the number of corresponding tabs to appear on each popup copy button indicating how many tabs will be copied.
+
+:::info availability
+This option is available only when **Enable popup** is checked.
+:::
 
 ### Keep format selector expanded
 
@@ -21,7 +35,19 @@ Checking this option keeps the [format selector](./popup/format-selector.mdx) of
 
 This can be useful if you frequently switch between a small set of formats.
 
-### Show context menu
+:::info availability
+This option is available only when **Enable popup** is checked.
+:::
+
+### Show header icons
+
+By default, the Tab Copy [popup](./popup/index.mdx) shows icons in its header for quick access to options and docs. If you do not need these icons, you can uncheck this option to hide them for a cleaner look.
+
+:::info availability
+This option is available only when **Enable popup** is checked.
+:::
+
+### Enable context menu
 
 Selecting this option adds a Tab Copy item to the [context menu](./context-menu.mdx) of web pages.
 
