@@ -54,7 +54,7 @@ export default function Home(): JSX.Element {
           text={'4.7 stars on the Chrome Web Store'}
         />
         <HomepageTestimonials
-          text={'Boosting daily productivity for over 94,000 users worldwide'}
+          text={'Boosting daily productivity for over 100,000 users worldwide'}
         />
       </main>
     </Layout>
