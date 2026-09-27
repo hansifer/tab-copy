@@ -17,6 +17,7 @@ import { intl } from '@/intl'
 
 const COPY_TAB_MENU_ID = 'copyTab'
 const COPY_ITEM_MENU_ID = 'copyItem'
+const COPY_TAB_STRIP_MENU_ID = 'copyTabStrip'
 
 const copyMenus = [
   {
@@ -35,6 +36,11 @@ const copyMenus = [
       'video',
       'audio',
     ],
+  },
+  {
+    // right-click menu of a tab in the tab strip (Chrome 123+)
+    id: COPY_TAB_STRIP_MENU_ID,
+    contexts: ['tab'],
   },
 ] as const satisfies { id: string; contexts: Context[] }[]
 
@@ -94,24 +100,27 @@ export async function handleMenuAction(
 ) {
   // console.log('menu click', JSON.stringify({ menuItemId, linkUrl, srcUrl, tab }, undefined, 2))
 
-  const { copySubject, formatId } =
-    menuItemId === COPY_TAB_MENU_ID
+  const { copyMenuId, copySubject, formatId } =
+    menuItemId === COPY_TAB_MENU_ID || menuItemId === COPY_TAB_STRIP_MENU_ID
       ? {
+          copyMenuId: menuItemId as CopyMenuId,
           copySubject: 'tab' as const,
           formatId: await getDefaultFormatId(),
         }
       : parseActionMenuId(`${menuItemId}`)
 
-  const tabToCopy =
+  const tabsToCopy =
     copySubject === 'tab'
-      ? tab
-      : getCopyItemTab({
+      ? copyMenuId === COPY_TAB_STRIP_MENU_ID
+        ? await getTabStripTabs(tab)
+        : tab && [tab]
+      : getCopyItemTabs({
           copyItem: copySubject,
           linkUrl,
           srcUrl,
         })
 
-  if (!tabToCopy) {
+  if (!tabsToCopy?.length) {
     throw new Error(`invalid copy subject "${copySubject}" or corresponding data`)
   }
 
@@ -123,7 +132,7 @@ export async function handleMenuAction(
 
   const copyStatusProps = {
     type: copySubject,
-    count: 1,
+    count: tabsToCopy.length,
     formatId: format.id,
   } as const
 
@@ -131,7 +140,7 @@ export async function handleMenuAction(
     // use offscreen action because extension service workers do not have direct access to the Clipboard API
     const success = await offscreenActions.copyToClipboard(
       getRepresentationsForTabs({
-        tabs: [tabToCopy],
+        tabs: tabsToCopy,
         format,
       }),
     )
@@ -149,8 +158,20 @@ export async function handleMenuAction(
     })
   }
 
+  // right-clicking a tab that is part of a multi-tab selection targets all selected tabs in its window, consistent with the browser's own tab actions
+  async function getTabStripTabs(tab?: chrome.tabs.Tab) {
+    if (!tab?.highlighted) return tab && [tab]
+
+    const highlightedTabs = await chrome.tabs.query({
+      windowId: tab.windowId,
+      highlighted: true,
+    })
+
+    return highlightedTabs.length ? highlightedTabs : [tab]
+  }
+
   // get copy item in tab form
-  function getCopyItemTab({
+  function getCopyItemTabs({
     copyItem,
     linkUrl,
     srcUrl,
@@ -158,17 +179,21 @@ export async function handleMenuAction(
     copyItem: CopyItem
     linkUrl?: string
     srcUrl?: string
-  }): chrome.tabs.Tab | undefined {
+  }): chrome.tabs.Tab[] | undefined {
     if (copyItem === 'link' && linkUrl) {
-      return getDummyTab({
-        url: linkUrl,
-      })
+      return [
+        getDummyTab({
+          url: linkUrl,
+        }),
+      ]
     }
 
     if (['image', 'video', 'audio'].includes(copyItem) && srcUrl) {
-      return getDummyTab({
-        url: srcUrl,
-      })
+      return [
+        getDummyTab({
+          url: srcUrl,
+        }),
+      ]
     }
   }
 }
@@ -176,6 +201,46 @@ export async function handleMenuAction(
 // --- menu refresh ---
 
 export async function refreshMenus() {
+  await refreshTabStripMenu()
+  await refreshPageMenus()
+}
+
+async function refreshTabStripMenu() {
+  const { copyTabStrip: copyTabStripMenu } = getCopyMenus()
+
+  const enableTabContextMenu = (await getOption('showTabContextMenu')).value
+
+  if (!enableTabContextMenu) {
+    await copyTabStripMenu.menu.remove()
+    return
+  }
+
+  const provideFormatSelection = (await getOption('provideTabContextMenuFormatSelection')).value
+
+  try {
+    if (provideFormatSelection) {
+      await copyTabStripMenu.menu.refresh({
+        title: sentenceCase(intl.copyTabAs()),
+        contexts: copyTabStripMenu.contexts,
+        items: getFormatMenuItems({
+          formats: await getConfiguredFormats({ visibleOnly: true }),
+          copyMenuId: copyTabStripMenu.id,
+          copySubject: 'tab',
+        }),
+      })
+    } else {
+      await copyTabStripMenu.menu.refresh({
+        title: sentenceCase(intl.copyTab()),
+        contexts: copyTabStripMenu.contexts,
+      })
+    }
+  } catch (ex) {
+    // browsers that don't support the 'tab' context reject menu creation
+    console.warn('failed to create tab context menu.', ex)
+  }
+}
+
+async function refreshPageMenus() {
   const {
     // wrap
     copyTab: copyTabMenu,
@@ -311,25 +376,25 @@ export async function refreshMenus() {
       ],
     })
   }
+}
 
-  function getFormatMenuItems({
-    formats,
-    copyMenuId,
-    copySubject,
-  }: {
-    formats: ConfiguredFormat[]
-    copyMenuId: CopyMenuId
-    copySubject: CopySubject
-  }): MenuNode[] {
-    return formats.map((format) => ({
-      id: createActionMenuId({
-        copyMenuId,
-        copySubject,
-        formatId: format.id,
-      }),
-      title: format.label.replace(/&/g, '&&'), // escape ampersand to avoid Windows interpreting it as an accelerator key. ok to keep for MacOS. todo: interestingly, while this renders correctly it still creates an accelerator for the character following the &; is this a chrome bug or are we escaping it incorrectly?
-    }))
-  }
+function getFormatMenuItems({
+  formats,
+  copyMenuId,
+  copySubject,
+}: {
+  formats: ConfiguredFormat[]
+  copyMenuId: CopyMenuId
+  copySubject: CopySubject
+}): MenuNode[] {
+  return formats.map((format) => ({
+    id: createActionMenuId({
+      copyMenuId,
+      copySubject,
+      formatId: format.id,
+    }),
+    title: format.label.replace(/&/g, '&&'), // escape ampersand to avoid Windows interpreting it as an accelerator key. ok to keep for MacOS. todo: interestingly, while this renders correctly it still creates an accelerator for the character following the &; is this a chrome bug or are we escaping it incorrectly?
+  }))
 }
 
 // --- action menu id helpers ---

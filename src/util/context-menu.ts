@@ -14,7 +14,8 @@ const allContexts = [
   'audio',
 ] as const satisfies chrome.contextMenus.ContextType[]
 
-export type Context = (typeof allContexts)[number]
+// 'tab' (the tab strip context menu, Chrome 123+) is opt-in only; it is excluded from the default contexts and missing from `@types/chrome`
+export type Context = (typeof allContexts)[number] | 'tab'
 
 type MenuNodeBase = {
   title: string
@@ -63,17 +64,22 @@ export function contextMenu(id: string) {
     // wrap
     node,
     parentId,
+    parentContexts,
   }: {
     node: MenuNode
     parentId?: string
+    parentContexts?: Context[]
   }) {
     const id = ('id' in node && node.id) || `${idIncrement++}`
+
+    // child nodes inherit contexts so that menus in opt-in contexts (eg 'tab') show their submenus
+    const contexts = node.contexts || parentContexts || allContexts
 
     await createContextMenu({
       id,
       ...(parentId ? { parentId } : null), // firefox doesn't allow setting undefined parentId
       title: node.title,
-      contexts: node.contexts || allContexts,
+      contexts: contexts as chrome.contextMenus.ContextType[],
     })
 
     if ('items' in node) {
@@ -81,6 +87,7 @@ export function contextMenu(id: string) {
         await create({
           node: childNode,
           parentId: id,
+          parentContexts: contexts,
         })
       }
     }

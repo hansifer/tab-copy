@@ -58,6 +58,19 @@ const options = [
     requires: 'showContextMenu',
   },
   {
+    id: 'showTabContextMenu',
+    def: true as boolean,
+    label: () => intl.enableTabContextMenu(),
+    description: () => intl.enableTabContextMenuDescription(),
+  },
+  {
+    id: 'provideTabContextMenuFormatSelection',
+    def: true as boolean,
+    label: () => intl.provideContextMenuFormatSelection(),
+    description: () => intl.provideContextMenuFormatSelectionDescription(),
+    requires: 'showTabContextMenu',
+  },
+  {
     id: 'ignorePinnedTabs',
     def: false as boolean,
     label: () => intl.ignorePinnedTabs(),
